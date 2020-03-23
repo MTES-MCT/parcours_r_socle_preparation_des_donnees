@@ -3,7 +3,7 @@ Code source du [module 2](https://mtes-mct.github.io/parcours-r/m2/index.html) d
 Objectifs du module : 
 
 
-- Être en capacité d’explorer les données, de les comprendre, de les structurer, de les croiser et les enrichir avec des données externes pour les préparer à des traitements statistiques
+- Être en capacité d’explorer les données, de les comprendre, de les structurer, de les croiser et les enrichir avec des données externes pour les préparer à des traitements statistiques.
 
 
-La préparation des données est une étape fondamentale pour faciliter la réalisation des analyses statistiques
+La préparation des données est une étape fondamentale pour faciliter la réalisation des analyses statistiques.
