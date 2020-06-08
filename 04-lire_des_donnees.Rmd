@@ -112,20 +112,20 @@ Ici la table *analyse* n'est pas chargée dans l'environnement R, R s'est juste 
 On peut réaliser des opérations sur la table *analyse* avec du code R très simplement. Par exemple pour filtrer sur les analyses relatives au Glyphosate : 
 
 ```{r lire_6, eval=FALSE, message=FALSE, warning=FALSE}
-analyse_db <-  filter(analyse_db, code_parametre == 1506)
+analyse_db <- filter(analyse_db, code_parametre == 1506)
 ```
 
 >Attention, ce code ne touche pas la base de donnée, il n'est pas exécuté.
 >Pour l'exécuter, il faut par exemple afficher la table.
 
-```{r lire_7, eval=FALSE}
+```{r lire_7, eval = FALSE}
 analyse_db
 ```
 
 Même une fois le code exécuté, cette base n'est pas encore un dataframe.
 Pour importer la table, on utilise la fonction `collect()`
 
-```{r lire_8, eval=FALSE}
+```{r lire_8, eval = FALSE}
 analyse_db <- collect(analyse_db)
 ```
 
@@ -133,8 +133,8 @@ Cette approche est à conseiller sur d'importantes bases de données, et sans di
 
 ## Lire des données du webservice Insee
 
-L'Insee met à disposition un webservice d'accès à des données de référence sous un format appelé [sdmx](https://sdmx.org/).
-Un package R, [rsdmx](https://github.com/opensdmx/rsdmx) permet de se connecter directement à ces données. 
+L'Insee met à disposition un webservice d'accès (API) à des données de référence sous le format [sdmx](https://sdmx.org/).
+Le package [{rsdmx}](https://github.com/opensdmx/rsdmx) permet de se connecter directement à ces données. 
 Deux approches sont possibles. La première permet d'accéder à une série particulière.
 
 ```{r lire_9, eval=FALSE}
@@ -143,14 +143,14 @@ datainsee <- as.data.frame(readSDMX(url))
 # Encoding(levels(datainsee$TITLE_FR)) <- "UTF-8"
 ```
 
-Cette approche peut être utilisée pour télécharger plusieurs séries en même temps. Ici par exemple nous téléchargeons l'ensemble des données sur les créations et défaillances d'entreprises pour les secteurs de la construction et de l'immobilier sur les Pays de la Loire.
+Cette approche permet également de télécharger plusieurs séries en une seule requête. Par exemple : nous téléchargeons l'ensemble des données sur les créations et défaillances d'entreprises pour les secteurs de la construction et de l'immobilier sur les Pays de la Loire.
 
 ```{r lire_10, eval=FALSE}
 url <- "https://bdm.insee.fr/series/sdmx/data/SERIES_BDM/001564471+001564503+001564799+001564823+001582441+001582578+001582597+001582745+001656155+001656161+001655989+001655995"
 datainsee <- as.data.frame(readSDMX(url))
 ```
 
-L'autre approche permet de télécharger un ensemble de données d'une thématique appelé *dataflow.* Ici, par exemple, on va télécharger l'ensemble des données relatives à la construction neuve :
+L'autre approche permet de télécharger un ensemble de données d'une thématique appelé *dataflow.* Ici, par exemple, on télécharge l'ensemble des données relatives à la construction neuve :
 
 ```{r lire_11, eval=FALSE}
 url <- "https://bdm.insee.fr/series/sdmx/data/CONSTRUCTION-LOGEMENTS"
