@@ -1,3 +1,409 @@
+--- 
+title: "Préparer ses données avec R et le Tidyverse"
+author: "Maël Theulière & Bruno Terseur"
+date: '`r format(Sys.time(), "%d %B %Y")`'
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+description: "Préparation des données avec R et le Tidyverse (module 2)"
+---
+
+<style> 
+  body {text-align: justify;}
+</style>
+
+```{r setup, include=FALSE}
+rm(list=ls())
+knitr::opts_chunk$set(echo = TRUE, message=FALSE, error=FALSE, warning=FALSE, fig.width=4, fig.height=4)
+```
+
+# Introduction
+
+![](images/cover.jpg)
+
+<font size="2"> 
+*Crédit photographique Sébastien Colas*
+</font> 
+
+## Le parcours de formation
+
+Ce dispositif de formation vise à faire monter en compétence les agents du MTES (Ministère de la transition écologique et solidaire) et du MCT (Ministère de la cohésion des territoires) dans le domaine de la science de la donnée avec le logiciel R. Il est conçu pour être déployé à l'échelle nationale par le réseau des CVRH (Centre de Valorisation des Ressources Humaines).
+
+Le parcours proposé est structuré en modules de 2 jours chacun. Les deux premiers (ou un niveau équivalent) sont des pré-requis pour suivre les suivants qui sont proposés "à la carte" :
+
+1. Socle : Premier programme en R
+2. Socle : Préparation des données
+3. Statistiques descriptives
+4. Analyses multivariées
+5. Datavisualisation : Produire des graphiques, des cartes et des tableaux
+6. Documents reproductibles avec RMarkdown (2^ème^ semestre 2019)
+
+... et en perspective : analyse spatiale, applis interactives avec Shiny, big data, etc.
+
+La mise à disposition des supports de formation se fait désormais par la [page d'accueil du parcours de formation](https://mtes-mct.github.io/parcours-r/). Ces supports sont en [licence ouverte](https://www.etalab.gouv.fr/wp-content/uploads/2017/04/ETALAB-Licence-Ouverte-v2.0.pdf).
+
+Si vous souhaitez accéder aux sources, données mobilisées pendant les formations, il faut directement les télécharger depuis le [Github du ministère](https://github.com/MTES-MCT/parcours_r_socle_preparation_des_donnees).
+
+Un package d'exercices, [savoirfR](https://github.com/MTES-MCT/savoirfR) rassemble toutes les données et les consignes d'exercices de ce support de formation
+
+Pour vous tenir au courant de l'offre de formation proposée par le réseau des CVRH, [consultez la plateforme OUPS](http://oups-cmvrh.e2.rie.gouv.fr/). Vous pouvez vous y abonner pour recevoir les annonces qui vous intéressent.
+
+Il existe une liste pour diffuser de l'information, échanger autour de R ou lever des points de blocage. Pour s'insrire, envoyer un message vide avec le titre "subscribe labo.communaute-r" à l'adresse sympa@developpement-durable.gouv.fr.   
+
+Il existe également un canal Ariane #utilisateurs_r et une faq http://pne.metier.e2.rie.gouv.fr/la-faq-de-r-r1028.html
+
+
+## Objectifs du module 2
+
+Ce module va vous permettre de découvrir un ensemble de méthodes sous R afin de préparer ses données. 
+Préparer ses données sous R, cela veut dire : 
+
+- Savoir les importer dans un environnement R,
+- Mettre ses données dans de bons formats (date, catégorielle) et gérer les données manquantes,
+- Rajouter des variables en fonction de variables existantes,
+- Regrouper des modalités de variables,
+- Joindre des tables entre elles pour obtenir des informations de plusieurs sources,
+- Aggréger des données,
+- Bien définir notre table de travail en fonction des indicateurs à analyser et à leurs dimensions d'analyse.
+...
+
+Bref, tout le travail technique préalable entre la collecte de la donnée et la valorisation proprement dite de ces sources.
+On estime qu'un scientifique de la donnée passe en général ***la moitié de son temps*** à cela.
+
+![](images/cover.png)
+
+Sous R, comme souvent, il y a plusieurs façons d'aborder cette question. Ce module de formation privilègie l'exploration des packages du framework *tidyverse*, qui ont l'avantage d'aborder les différentes phases de préparation des données d'une façon intégrée et cohérente, que ce soit entre elles, ou avec d'autres.
+
+<!--chapter:end:index.Rmd-->
+
+# Le tidyverse
+
+Le `tidyverse` est un ensemble de packages proposant une syntaxe cohérente pour remplir l'essentiel des traitements propres à la science de la données, de la lecture des données à la valorisation, en passant par la modélisation. Le manifeste du `tidyverse` comprend 4 principes clefs pour les packages : 
+
+- Utiliser les structures de données existantes : ne pas créer des objets ad hoc ;
+
+- Utiliser l'opérateur pipe ;
+
+- S'intègrer dans l'approche de programmation fonctionnelle de R ;
+
+- Designé pour les être humains : favoriser la facilité d'usage à la performance machine.
+
+![](images/tidyverse.png)
+
+
+## Présentation des packages
+
+### Des packages pour lire des données
+#### tidyverse
+- [readr](http://readr.tidyverse.org/) pour les fichiers plats
+- [readxl](http://readxl.tidyverse.org/) pour les fichiers tableur Excel
+- [haven](http://haven.tidyverse.org/) pour les données stockées sous des formats propriétaires (SAS, SPSS, ...)
+
+#### Hors tidyverse
+- [odbc](http://db.rstudio.com/odbc/) / [Rposgresql](https://cran.r-project.org/web/packages/RPostgreSQL/index.html)  pour accéder à des données stockées sous forme de base de données
+- [sf](https://r-spatial.github.io/sf/) pour lire des données spatiales
+- [rsdmx](https://github.com/opensdmx/rsdmx) pour lire des données sdmx
+
+### Des packages pour manipuler des données
+#### tidyverse
+- [dplyr](http://dplyr.tidyverse.org/) fonctions correspondant à des "verbes" pour manipuler ses données
+- [tidyr](http://tidyr.tidyverse.org/) fonctions pour  modifier l'agencement de nos tables entre les lignes et les colonnes
+
+### Des packages pour nettoyer des données
+#### tidyverse
+- [forcats](http://forcats.tidyverse.org/) permet de manipuler les variables de type catégoriel (ou factor en R)
+- [stringr](http://stringr.tidyverse.org/) permet de manipuler des chaînes de caractères
+- [lubridate](http://lubridate.tidyverse.org/) permet de manipuler des dates
+
+#### Hors tidyverse
+- [stringi](http://www.gagolewski.com/software/stringi/) permet de manipuler des chaînes de caractères
+- [RcppRoll](https://cran.r-project.org/web/packages/RcppRoll/index.html) qui regroupe des opérations fenêtrées ou glissantes
+
+
+## Les spécificités du tidyverse
+
+Quelques spécificités des fonctions de ce framework : 
+
+- Ces packages sont orientés manipulation de *dataframes* et non de *vecteurs*   
+- En conséquence, on utilise jamais l'indexation des colonnes de tables (le "$") pour appeler une variable   
+- Chaque fonction ne fait qu'une chose et une seule (c'est une opération élémentaire)   
+- L'ensemble des fonctions obéissent à la même logique, ce qui permet de simplifier l'apprentissage   
+- L'ensemble de ces opérations élémentaires peuvent s'enchaîner à la manière d'un ETL avec le pipe  
+
+## D'autres approches possibles 
+
+Les fonctions que nous allons voir obéissent à une logique intégrée et simple, qui permet des manipulations complexes, à partir du moment ou l'on est capable d'identifier et de sérier chaque *opération élémentaire* à réaliser.  
+D'autres packages permettent également de réaliser ce type de manipulations. La différence est qu'ils sont souvent dédiés à une tâche spécifique, ce qui rend la cohérence moins évidente lorsque l'on doit réaliser plusieurs opérations.   
+Un autre package propose toutefois une vision intégrée de la sorte : [data.table](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html).
+Plusieurs différences sont à noter : 
+
+- *data.table* est plus rapide sur d'importants volumes de données, le code est très succinct.  
+- *dplyr* est plus simple à apprendre, le code est plus lisible, il peut s'appliquer à des formats de données multiples, il s'intègre dans un framework global qui va de la lecture des données (*readr*, *readxl*, *haven...*) à leur valorisation (*ggplot2*).  
+
+<!--chapter:end:02-presentation_tidyverse.Rmd-->
+
+# Bien commencer
+
+
+
+## Créer un projet sous Rstudio pour vous permettre de recencer vos travaux.
+
+Pourquoi travailler avec les projets Rstudio plutôt que les scripts R ?
+
+- Cela permet la portabilité : le répertoire de travail par défaut d'un projet est le répertoire où est ce projet. Si vous transmettez celui-ci à un collègue, le fait de lancer un programme ne dépend pas de l'arborescence de votre machine.
+
+> **Fini les `setwd("chemin/qui/marche/uniquement/sur/mon/poste")` !** 
+
+- Toujours sur la portabilité, un projet peut être utilisé avec un outil comme `packrat` qui va vous intégrer en interne au projet l'ensemble des packages nécessaires au projet. Cela permet donc à votre collègue à qui vous passez votre projet de ne pas avoir à les installer et, surtout, si vous mettez à jour votre environnement R, votre projet restera toujours avec les versions des packages avec lesquelles vous avez fait tourner votre projet à l'époque. Cela évite d'avoir à subir les effets d'une mise à jour importante d'un package qui casserait votre code.
+
+Pour activer `packrat` sur un projet, aller dans `Tools/Project Options->Packrat`
+
+[En savoir plus sur Packrat](https://www.rstudio.com/resources/webinars/managing-package-dependencies-in-r-with-packrat/)
+
+![](images/creerprojet4.png){#id .class width=500}
+
+
+- Cela permet de se forcer à travailler en mode projet : on intègre à un seul endroit tout ce qui est lié à un projet : données brutes, données retravaillées, scripts, illustrations, documentations, publications... et donc y compris les packages avec `packrat`.
+
+- On peut travailler sur plusieurs projets en même temps, Rstudio ouvre autant de sessions que de projets dans ce cas.
+
+- Les projets Rstudio intègrent une interface avec les outils de gestion de version Git et SVN. Cela veut dire que vous pouvez versionner votre projet et l'héberger simplement comme répertoire sur des plateformes de gestion de code telle que Github ou Gitlab.
+
+**Pour créer un projet : **
+
+- Cliquez sur *Project* en haut à droite puis *New Project*.
+
+![](images/creerprojet1.png){#id .class width=500}
+
+- Cliquez sur *New Directory*.
+
+![](images/creerprojet2.png){#id .class width=500}
+
+
+## Intégrer vos données
+
+Une bonne pratique est de créer un sous répertoire `/data` pour stocker les données sur lesquelles vous aurez à travailler. 
+
+Vous pouvez le faire depuis l'explorateur de fichier de votre système d'exploitation ou directement à partir de l'explorateur de fichier de RStudio.
+
+![](images/creerprojet3.png){#id .class width=500}
+
+Cela marche bien quand on a un seul type de données, mais en général on va avoir à travailler sur des données brutes que l'on va retravailler ensuite et vouloir stocker à part. Si par la suite vous souhaitez avoir des exemples de bonnes pratiques sur comment structurer vos données, vous pouvez vous référer au [chapitre data](http://r-pkgs.had.co.nz/data.html) du livre d'Hadley Wickham sur la construction de packages R (tout package R étant aussi un projet !).
+
+## Créer votre arborescence de projet
+
+- Créer un répertoire `/src` ou vous mettrez vos scripts R.
+- Créer un répertoire `/figures` ou vous mettrez vos illustrations issues de R.
+
+## Activer les packages nécessaires
+
+Commencer par rajouter un script dans le répertoire `/src` à votre projet qui commencera par : 
+
+- activer l'ensemble des packages nécessaires,
+
+- charger les données dont vous aurez besoin.
+
+
+```{r lib, eval=TRUE, message=FALSE, warning=FALSE}
+
+library(tidyverse)
+library(lubridate)
+library(RcppRoll)
+library(DT)
+library(readxl)
+library(dbplyr)
+library(RPostgreSQL)
+library(rsdmx)
+library(sf)
+library(stringi)
+
+sitadel <- read_excel("data/ROES_201702.xls", sheet = "AUT_REG",
+                      col_types = c ("text","text","numeric","numeric","numeric","numeric"))
+load(file = "data/FormationPreparationDesDonnees.RData")
+
+```
+
+
+## Bien structurer ses projets data
+
+Plusieurs documents peuvent vous inspirer sur la structuration de vos projets data par la suite.
+
+En voici quelques-uns : 
+
+- https://github.com/pavopax/new-project-template
+- https://nicercode.github.io/blog/2013-04-05-projects/
+- https://www.inwt-statistics.com/read-blog/a-meaningful-file-structure-for-r-projects.html
+- http://projecttemplate.net/architecture.html
+
+À partir du moment où quelques grands principes sont respectés (un répertoire pour les données brutes en lecture seule par exemple), le reste est surtout une question d'attirance plus forte pour l'une ou l'autre solution. L'important est de vous tenir ensuite à conserver toujours la même arborescence dans vos projets afin de vous y retrouver plus simplement.
+
+
+
+<!--chapter:end:03-get_started.Rmd-->
+
+# Lire des données
+
+## readxl : lire des données Excel 
+La fonction `read_excel()` permet d'importer les données d'un fichier Excel. On peut spécifier : 
+
+- la feuille, les colonnes, les lignes ou la zone à importer,  
+- les lignes à supprimer avant importation,  
+- si on souhaite importer la première ligne comme des noms de variables ou non,  
+- le format des variables importées,  
+- la valeur qui sera interprétée comme étant la valeur manquante.
+
+```{r lire_1}
+library(readxl)
+sitadel <- read_excel("data/ROES_201702.xls", sheet = "AUT_REG",
+                      col_types = c ("text","text","numeric","numeric","numeric","numeric"))
+datatable(sitadel)
+```
+
+## read_delim : lire des fichiers plats 
+
+La fonction `read_delim()` permet d'importer les données d'un fichier csv. Elle fonctionne de la même façon que `read_excel()`. On peut spécifier : 
+
+- le délimiteur de colonne,  
+- les lignes à supprimer avant importation,  
+- si on souhaite importer la première ligne comme des noms de variables ou non,  
+- le `locale` du fichier,  
+- la valeur qui sera interprétée comme étant la valeur manquante.
+
+`read_csv()`, `read_csv2()` et `read_tsv()` sont des implémentations prérenseignées de `read_delim` pour lire des fichiers plats avec séparateurs **,** **;** et **tabulaire**.
+
+## Télécharger des données disponibles sur le web
+
+Parfois, les données que nous exploitons sont disponibles sur le web.
+Il est possible, directement depuis R, de télécharger ces données et, si nécessaire, de les décompresser (dans le répertoire de travail).
+Exemple sur les données SEQUOIA de l'ACOSS :
+
+```{r lire_2, eval=FALSE}
+url <- "http://www.acoss.fr/files/Donnees_statistiques/SEQUOIA_TRIM_REGION.zip"
+download.file(url, destfile = "data/SEQUOIA_TRIM_REGION.zip", method = "auto")
+unzip(zipfile = "data/SEQUOIA_TRIM_REGION.zip", exdir = "data")
+SEQUOIA <- read_excel("data/SEQUOIA_TRIM_REGION_BRUT.xlsx", sheet = "PAYS_DE_LA_LOIRE")
+datatable(SEQUOIA)
+```
+
+## Lire des fichiers avec une dimension spatiale
+
+Le package `sf` (pour simple feature) permet d'importer dans R un fichier ayant une dimension spatiale. Après importation, le fichier est un dataframe avec une variable d'un type nouveau : la géométrie. Deux exemples ici pour lire des données au format shape et geojson.
+
+```{r lire_3, eval = FALSE, message = FALSE, warning = FALSE}
+Carte_EPCI_France <- st_read(dsn = "data/refgeo2017", layer = "Contour_epci_2017_region")
+plot(Carte_EPCI_France)
+
+communes2017 <- st_read(dsn = "data/refgeo2017/communes2017.geojson")
+plot(communes2017)
+```
+
+Le package `sf` contient l'ensemble des fonctions permettant des manipulations sur fichiers géomatiques.
+On ne traitera pas ici de toutes ces fonctions en détail, se référer pour cela à la [documentation du package](https://r-spatial.github.io/sf/).
+
+A noter que `sf` étant complètement compatible avec les packages du `tidyverse`, la géométrie se conçoit comme une une donnée comme une autre, sur laquelle par exemple on peut réaliser des aggrégations.
+
+
+## Lire des données sous PostgreSQL
+
+Deux approches possibles pour utiliser des données stockées dans une base de données PostgreSQL. 
+
+- *Importer* toutes ces données dans l'environnement R
+- se *connecter* à ces données et utiliser un interpréteur permettant de traduire du code R comme une requête SQL. 
+
+### Lire des données sous PostgreSQL : première approche
+
+```{r lire_4, eval=FALSE}
+#Définition du driver
+drv <- dbDriver("PostgreSQL") 
+
+#Définition de la base de données
+con <- dbConnect(drv, dbname = "dbname", host = "ip", port = numero_du_port,
+                  user = "user_name", password = "pwd") 
+
+#Spécification de l'encodage, obligatoire avec Windows
+postgresqlpqExec(con, "SET client_encoding = 'windows-1252'") 
+
+#Téléchargement de la table analyse du schéma pesticide
+parametre <- dbGetQuery(con, "SELECT * FROM pesticides.parametre") 
+
+#Téléchargement de données avec dimension spatiale via la fonction st_read du package simple feature
+station = st_read(con, query = "SELECT * FROM pesticides.station")
+```
+
+On voit que pour importer notre table analyse, on a simplement lancé une requête SQL.
+On peut bien sûr avec la même fonction lancer n'importe quelle requête sur la base et recueillir le résultat.
+
+### Lire des données sous PostgreSQL : seconde approche
+
+```{r lire_5, eval=FALSE, message=FALSE, warning=FALSE}
+#définition du driver
+drv <- dbDriver("PostgreSQL") 
+
+#définition de la base de données
+con <- dbConnect(drv, dbname = "dbname", host = "ip", port = numero_du_port, 
+                 user = "user_name", password = "pwd") 
+
+#spécification de l'encodage, obligatoire avec windows
+postgresqlpqExec(con, "SET client_encoding = 'windows-1252'") 
+
+#téléchargement de la table analyse du schéma pesticide
+analyse_db <- tbl(con, in_schema ("pesticides", "analyse"))
+```
+
+Ici la table *analyse* n'est pas chargée dans l'environnement R, R s'est juste *connecté* à la base de données.
+
+On peut réaliser des opérations sur la table *analyse* avec du code R très simplement. Par exemple pour filtrer sur les analyses relatives au Glyphosate : 
+
+```{r lire_6, eval=FALSE, message=FALSE, warning=FALSE}
+analyse_db <- filter(analyse_db, code_parametre == 1506)
+```
+
+>Attention, ce code ne touche pas la base de donnée, il n'est pas exécuté.
+>Pour l'exécuter, il faut par exemple afficher la table.
+
+```{r lire_7, eval = FALSE}
+analyse_db
+```
+
+Même une fois le code exécuté, cette base n'est pas encore un dataframe.
+Pour importer la table, on utilise la fonction `collect()`
+
+```{r lire_8, eval = FALSE}
+analyse_db <- collect(analyse_db)
+```
+
+Cette approche est à conseiller sur d'importantes bases de données, et sans dimension spatiale, car `dbplyr` ne sait pas encore lire ce type de variable (ce qui ne saurait tarder).
+
+## Lire des données du webservice Insee
+
+L'Insee met à disposition un webservice d'accès (API) à des données de référence sous le format [sdmx](https://sdmx.org/).
+Le package [{rsdmx}](https://github.com/opensdmx/rsdmx) permet de se connecter directement à ces données. 
+Deux approches sont possibles. La première permet d'accéder à une série particulière.
+
+```{r lire_9, eval=FALSE}
+url <- "https://bdm.insee.fr/series/sdmx/data/SERIES_BDM/001564471"
+datainsee <- as.data.frame(readSDMX(url))
+# Encoding(levels(datainsee$TITLE_FR)) <- "UTF-8"
+```
+
+Cette approche permet également de télécharger plusieurs séries en une seule requête. Par exemple : nous téléchargeons l'ensemble des données sur les créations et défaillances d'entreprises pour les secteurs de la construction et de l'immobilier sur les Pays de la Loire.
+
+```{r lire_10, eval=FALSE}
+url <- "https://bdm.insee.fr/series/sdmx/data/SERIES_BDM/001564471+001564503+001564799+001564823+001582441+001582578+001582597+001582745+001656155+001656161+001655989+001655995"
+datainsee <- as.data.frame(readSDMX(url))
+```
+
+L'autre approche permet de télécharger un ensemble de données d'une thématique appelé *dataflow.* Ici, par exemple, on télécharge l'ensemble des données relatives à la construction neuve :
+
+```{r lire_11, eval=FALSE}
+url <- "https://bdm.insee.fr/series/sdmx/data/CONSTRUCTION-LOGEMENTS"
+datainsee <- as.data.frame(readSDMX(url))
+```
+
+<!--chapter:end:04-lire_des_donnees.Rmd-->
+
 # Manipuler des données
 
 ## Les principes des fonctions de `{dplyr}`
@@ -492,8 +898,8 @@ Elles permettent notamment :
 Exemple : ordonner les modalités d'un facteur pour améliorer l'aspect d'un graphique
 
 ```{r, echo = TRUE}
-library(ggplot2)
-library(forcats)
+library (ggplot2)
+library (forcats)
 
 data <- data.frame(num = c(1, 8, 4, 3, 6, 7, 5, 2, 11, 3),
                    cat = c(letters[1:10])) 
@@ -763,4 +1169,188 @@ sitadel <- read_excel("data/ROES_201702.xls", "AUT_REG") %>%
 
 
 
+
+
+<!--chapter:end:05-manipuler_des_donnees.Rmd-->
+
+# Manipuler plusieurs tables
+
+Le package `{dplyr}` possède également plusieurs fonctions permettant de travailler sur deux tables.
+On va pouvoir regrouper ces fonctions en plusieurs catégories de manipulations : 
+
+- pour fusionner des informations de deux tables entre elles : jointures transformantes,  
+- pour sélectionner des observations d'une table en fonction de celles présentes dans une autre table : jointures filtrantes,   
+- pour traiter deux tables ayant les mêmes colonnes et sélectionner sur celles-ci des observations de l'une et l'autre : opérations ensemblistes,  
+- des manipulations visant à additionner deux tables ensembles : assemblages.
+
+<center>![](images/cheatsheetv2.png)</center>
+
+## Exercice 5
+
+- reconstituer le dataframe "exercice" à partir des données contenues dans les tables "analyse", "prelevement" et "station" (jointures)  
+
+![](images/MCD_pesticides.png)
+
+- calculer le nombre d’analyses réalisées sur des molécules (code_parametre) présentes dans le référentiel `parametre`   
+
+- produire une liste des **code_parametre** associés à des analyses mais absents du référentiel     
+
+- produire une table des analyses "orphelines", c'est-à-dire qui ne correspondent pas à un prélèvement  
+
+
+
+<!--chapter:end:06-manipuler_plusieurs_tables.Rmd-->
+
+# Structurer ses tables
+
+## Pourquoi se pencher sur la structuration des tables ?
+
+Pour bien manipuler des données, leur structuration est fondamentale. Il faut bien savoir ce qu'est :
+
+- Une ligne de notre table.
+- Une colonne de notre table.
+
+Sur une table non aggrégée (un répertoire, une table d'enquête...), la structuration naturelle est une ligne par observation (un individu, une entreprise...), une colonne par variable (âge, taille...) sur cette observation. 
+
+Mais dès qu'on aggrège une telle table pour construire des tables structurées par dimensions d'analyse et indicateurs, se pose toujours la question de savoir ce qu'on va considérer comme des dimensions et comme des indicateurs. Le standard *tidy data* définit 3 principes pour des données *propres* :  
+
+- chaque variable est une colonne,  
+- chaque observation est une ligne,  
+- les unités d'observations différentes sont stockées dans des tables différentes.     
+
+Le respect de ces règles va nous amener parfois à devoir changer la définition des lignes et colonnes de nos tables en entrée.
+
+Ci-dessous un exemple simple : la population estimée par département et genre en 2019. Ce fichier est un extrait d'un tableur [mis à disposition par l'Insee](https://www.insee.fr/fr/statistiques/1893198).   
+
+```{r tidyr_intr, paged.print=TRUE}
+estim_pop <- read_excel('data/estim-pop-dep-sexe-gca-2019.xls')
+estim_pop
+```
+
+En quoi ce fichier n'est pas *tidy* ?
+
+On retrouve 4 variables dans notre fichier : le territoire, le genre, l'âge et la population, et nos colonnes ne correspondent pas à ces variables.
+
+Quel serait la version *tidy* de notre fichier ?
+
+```{r tidyr_intr_deux, echo=FALSE}
+estim_pop_tidy <- read_excel('data/estim-pop-dep-sexe-gca-2019.xls') %>% 
+  pivot_longer(-c(dep,lib_dep), names_pattern="(.*)_(.*)", names_to = c("genre", "age"), values_to = "nombre_individus")
+```
+
+
+```{r tidyr_intr_trois, echo=FALSE}
+estim_pop_tidy
+```
+
+
+Comment passer facilement d'un format *non tidy* à un format *tidy* ? C'est là qu'intervient le package `{tidyr}`.
+
+## Les deux fonctions clefs de `{tidyr}`
+
+
+- `pivot.longer()` permet d'empiler plusieurs colonnes (correspondant à des variables quantitatives). Elles sont repérées par création d'une variable qualitative, à partir de leurs noms. Le résultat est une table au format *long*.
+
+<center>![](images/gather.png)</center>
+
+
+- `pivot.wider()` fait l'inverse. Cette fonction crée autant de colonnes qu'il y a de modalités d'une variable qualitative, en remplissant chacune par le contenu d'une variable numérique. Le résultat est une table au format *large*.
+
+<center>![](images/spread.png)</center>
+
+Pour avoir un apperçu illustré de ces fonctions, voir [cette animation](https://www.dropbox.com/s/a6o75zj443b2rv3/tidyr-longer-wider-modified.gif?dl=0)
+
+Reprenons notre table Insee d'estimation de population. Comment faire pour passer cette table dans le format *tidy* ?
+
+Première étape, retrouvons notre colonne `population`. Pour cela, il nous faut passer notre table au *format long*, grace à `pivot_longer()`.
+
+```{r, echo = TRUE, eval = TRUE}
+estim_pop_tidy <- read_excel('data/estim-pop-dep-sexe-gca-2019.xls') %>% 
+  pivot_longer(-c(dep,lib_dep), values_to = "nombre_individus", names_to = "genre_age")
+```
+
+Si nous voulions retrouver le format *large*, nous pourrions utiliser `pivot_wider()`  
+
+```{r}
+estim_pop_nontidy <- estim_pop_tidy %>% 
+  pivot_wider(names_from = genre_age, values_from = nombre_individus)
+```
+
+Nous n'avons pas encore retrouvé nos deux variables `genre` et `age`, mais une seule variable mélange les deux.
+Pour cela, nous pouvons utiliser `separate()` du package `{tidyr}`.
+
+```{r}
+estim_pop_tidy <- estim_pop_tidy %>% 
+  separate(genre_age, sep = "_", into = c("genre","age"))
+```
+
+Mais `pivot_longer()` permet d'aller encore plus loin en spécifiant sur nos colonnes un moyen de distinguer nos deux variables directement avec l'argument `names_sep`.
+
+```{r}
+estim_pop_tidy <- read_excel('data/estim-pop-dep-sexe-gca-2019.xls') %>% 
+  pivot_longer(-c(dep, lib_dep), names_sep = "_", names_to = c("genre", "age"), 
+               values_to = "nombre_individus")
+```
+
+Et `pivot_wider()` permet également d'utiliser deux variables pour définir les modalités à *convertir* en colonnes.
+
+```{r}
+estim_pop_nontidy <- estim_pop_tidy %>% 
+  pivot_wider(names_from = c(genre,age), values_from = nombre_individus)
+```
+
+
+Vous retrouverez une introduction complète à `{tidyr}` dans un [article très bien fait](https://tidyr.tidyverse.org/articles/pivot.html) de la documentation du package (en anglais). 
+`{tidyr}` permet également de transformer des données sous forme de listes en dataframe *tidy* très simplement.
+
+
+<!--chapter:end:07-structurer_ses_tables.Rmd-->
+
+# Exercice 6 : les données majic
+
+A partir des tables fournies dans le fichier *majic.RData* issues des [fichiers fonciers](http://piece-jointe-carto.developpement-durable.gouv.fr/NAT004/DTerNP/html3/_ff_descriptif_tables_image.html#pnb10) et du recensement de la population, calculer un indicateur d’étalement urbain entre 2009 et 2014 à la commune et à l’epci sur la région Pays de la Loire. La méthode utilisée sera celle du CEREMA. On peut consulter le rapport [ici](https://www.cerema.fr/system/files/documents/2017/07/Rapport_final_SOeS_phase_2_v8_cle01f492.pdf).
+
+Le référentiel des communes a changé sur la période, dans un seul sens : il y a eu des fusions.
+
+La table *com2017* permet de rattacher toute commune ayant existé sur la région à sa commune de rattachement dans la carte communale 2017.
+
+Les surfaces artificialisées se calculent comme cela à partir de la typologie d'occupation du sol de majic :
+
+$SA=dcnt07+dcnt09+ dcnt10+dcnt11+dcnt12+dcnt13$
+
+Deux indices à calculer : 
+
+- un indice d’étalement urbain simple $I_e = \dfrac{Evolution\;de\;la\;surface\;artificialisée} {Evolution\;de\;la\;population}$
+
+- un indice d’étalement urbain avancé en classes
+
+<center>![](images/etalementurbain.png)</center>
+
+
+
+
+
+<!--chapter:end:08-exercice.Rmd-->
+
+# Aller plus loin 
+
+Quelques références : 
+  
+- R for data science : http://r4ds.had.co.nz/transform.html
+  
+- {dplyr}, Introduction : https://dplyr.tidyverse.org/articles/dplyr.html
+
+- {dplyr}, manipulation de deux tables : https://dplyr.tidyverse.org/articles/two-table.html
+
+- {tidyr} : https://tidyr.tidyverse.org/
+
+- {tidyr, fonctions pivot} : https://tidyr.tidyverse.org/articles/pivot.html
+
+
+- Aide mémoire de Rstudio sur {dplyr} et {tidyr} (assez ancien) : https://www.rstudio.com/wp-content/uploads/2016/01/data-wrangling-french.pdf
+
+- Si vous préférez vous mettre à data.table https://s3.amazonaws.com/assets.datacamp.com/img/blog/data+table+cheat+sheet.pdf
+
+
+<!--chapter:end:09-aller_plus_loin.Rmd-->
 

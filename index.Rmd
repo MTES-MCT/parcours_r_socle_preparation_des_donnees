@@ -38,7 +38,7 @@ Le parcours proposé est structuré en modules de 2 jours chacun. Les deux premi
 3. Statistiques descriptives
 4. Analyses multivariées
 5. Datavisualisation : Produire des graphiques, des cartes et des tableaux
-6. Documents reproductibles avec RMarkdown (2^ème^ semestre 2019)
+6. Documents reproductibles avec RMarkdown 
 
 ... et en perspective : analyse spatiale, applis interactives avec Shiny, big data, etc.
 
@@ -46,7 +46,7 @@ La mise à disposition des supports de formation se fait désormais par la [page
 
 Si vous souhaitez accéder aux sources, données mobilisées pendant les formations, il faut directement les télécharger depuis le [Github du ministère](https://github.com/MTES-MCT/parcours_r_socle_preparation_des_donnees).
 
-Un package d'exercices, [savoirfR](https://github.com/MTES-MCT/savoirfR) rassemble toutes les données et les consignes d'exercices de ce support de formation
+Un package d'exercices, [{savoirfR}](https://github.com/MTES-MCT/savoirfR) rassemble toutes les données et les consignes d'exercices de ce support de formation
 
 Pour vous tenir au courant de l'offre de formation proposée par le réseau des CVRH, [consultez la plateforme OUPS](http://oups-cmvrh.e2.rie.gouv.fr/). Vous pouvez vous y abonner pour recevoir les annonces qui vous intéressent.
 
