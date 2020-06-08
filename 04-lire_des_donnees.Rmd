@@ -44,7 +44,7 @@ datatable(SEQUOIA)
 
 ## Lire des fichiers avec une dimension spatiale
 
-Le package `sf` (pour simple feature) permet d'importer dans R un fichier ayant une dimension spatiale. Après importation, le fichier est un dataframe avec une variable d'un type nouveau : la géométrie. Deux exemples ici pour lire des données au format shape et geojson.
+Le package `{sf}` (pour simple feature) permet d'importer dans R un fichier ayant une dimension spatiale. Après importation, le fichier est un dataframe avec une variable d'un type nouveau : la géométrie. Deux exemples ici pour lire des données au format shape et geojson.
 
 ```{r lire_3, eval = FALSE, message = FALSE, warning = FALSE}
 Carte_EPCI_France <- st_read(dsn = "data/refgeo2017", layer = "Contour_epci_2017_region")
@@ -54,10 +54,10 @@ communes2017 <- st_read(dsn = "data/refgeo2017/communes2017.geojson")
 plot(communes2017)
 ```
 
-Le package `sf` contient l'ensemble des fonctions permettant des manipulations sur fichiers géomatiques.
+Le package `{sf}` contient l'ensemble des fonctions permettant des manipulations sur fichiers géomatiques.
 On ne traitera pas ici de toutes ces fonctions en détail, se référer pour cela à la [documentation du package](https://r-spatial.github.io/sf/).
 
-A noter que `sf` étant complètement compatible avec les packages du `tidyverse`, la géométrie se conçoit comme une une donnée comme une autre, sur laquelle par exemple on peut réaliser des aggrégations.
+A noter que `{sf}` étant complètement compatible avec les packages du `tidyverse`, la géométrie se conçoit comme une une donnée comme une autre, sur laquelle par exemple on peut réaliser des aggrégations.
 
 
 ## Lire des données sous PostgreSQL
@@ -129,12 +129,12 @@ Pour importer la table, on utilise la fonction `collect()`
 analyse_db <- collect(analyse_db)
 ```
 
-Cette approche est à conseiller sur d'importantes bases de données, et sans dimension spatiale, car `dbplyr` ne sait pas encore lire ce type de variable (ce qui ne saurait tarder).
+Cette approche est à conseiller sur d'importantes bases de données, et sans dimension spatiale, car `{dbplyr}` ne sait pas encore lire ce type de variable (ce qui ne saurait tarder).
 
 ## Lire des données du webservice Insee
 
 L'Insee met à disposition un webservice d'accès (API) à des données de référence sous le format [sdmx](https://sdmx.org/).
-Le package [{rsdmx}](https://github.com/opensdmx/rsdmx) permet de se connecter directement à ces données. 
+Le package [`{rsdmx}`](https://github.com/opensdmx/rsdmx) permet de se connecter directement à ces données. 
 Deux approches sont possibles. La première permet d'accéder à une série particulière.
 
 ```{r lire_9, eval=FALSE}

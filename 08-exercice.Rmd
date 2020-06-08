@@ -4,7 +4,7 @@ A partir des tables fournies dans le fichier *majic.RData* issues des [fichiers 
 
 Le référentiel des communes a changé sur la période, dans un seul sens : il y a eu des fusions.
 
-La table *com2017* permet de rattacher toute commune ayant existé sur la région à sa commune de rattachement dans la carte communale 2017.
+La table `com2017` permet de rattacher toute commune ayant existé sur la région à sa commune de rattachement dans la carte communale 2017.
 
 Les surfaces artificialisées se calculent comme cela à partir de la typologie d'occupation du sol de majic :
 
@@ -14,7 +14,7 @@ Deux indices à calculer :
 
 - un indice d’étalement urbain simple $I_e = \dfrac{Evolution\;de\;la\;surface\;artificialisée} {Evolution\;de\;la\;population}$
 
-- un indice d’étalement urbain avancé en classes
+- un indice d’étalement urbain avancé en classes :
 
 <center>![](images/etalementurbain.png)</center>
 

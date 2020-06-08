@@ -4,12 +4,12 @@
 
 Pour bien manipuler des données, leur structuration est fondamentale. Il faut bien savoir ce qu'est :
 
-- Une ligne de notre table.
-- Une colonne de notre table.
+- une ligne de notre table,  
+- une colonne de notre table.
 
 Sur une table non aggrégée (un répertoire, une table d'enquête...), la structuration naturelle est une ligne par observation (un individu, une entreprise...), une colonne par variable (âge, taille...) sur cette observation. 
 
-Mais dès qu'on aggrège une telle table pour construire des tables structurées par dimensions d'analyse et indicateurs, se pose toujours la question de savoir ce qu'on va considérer comme des dimensions et comme des indicateurs. Le standard *tidy data* définit 3 principes pour des données *propres* :  
+Mais dès qu'on aggrège une telle table pour construire des tables structurées par dimensions d'analyse et indicateurs, se pose toujours la question de savoir ce qu'on va considérer comme des dimensions et comme des indicateurs. Le standard **tidy data** définit 3 principes pour des données **propres** :  
 
 - chaque variable est une colonne,  
 - chaque observation est une ligne,  
@@ -19,12 +19,12 @@ Le respect de ces règles va nous amener parfois à devoir changer la définitio
 
 Ci-dessous un exemple simple : la population estimée par département et genre en 2019. Ce fichier est un extrait d'un tableur [mis à disposition par l'Insee](https://www.insee.fr/fr/statistiques/1893198).   
 
-```{r tidyr_intr, paged.print=TRUE}
+```{r tidyr_intr, paged.print = TRUE}
 estim_pop <- read_excel('data/estim-pop-dep-sexe-gca-2019.xls')
 estim_pop
 ```
 
-En quoi ce fichier n'est pas *tidy* ?
+En quoi ce fichier n'est pas **tidy** ?
 
 On retrouve 4 variables dans notre fichier : le territoire, le genre, l'âge et la population, et nos colonnes ne correspondent pas à ces variables.
 
@@ -41,17 +41,17 @@ estim_pop_tidy
 ```
 
 
-Comment passer facilement d'un format *non tidy* à un format *tidy* ? C'est là qu'intervient le package `{tidyr}`.
+Comment passer facilement d'un format **non tidy** à un format **tidy** ? C'est là qu'intervient le package `{tidyr}`.
 
 ## Les deux fonctions clefs de `{tidyr}`
 
 
-- `pivot.longer()` permet d'empiler plusieurs colonnes (correspondant à des variables quantitatives). Elles sont repérées par création d'une variable qualitative, à partir de leurs noms. Le résultat est une table au format *long*.
+- `pivot.longer()` permet d'empiler plusieurs colonnes (correspondant à des variables quantitatives). Elles sont repérées par création d'une variable qualitative, à partir de leurs noms. Le résultat est une table au **format long**.
 
 <center>![](images/gather.png)</center>
 
 
-- `pivot.wider()` fait l'inverse. Cette fonction crée autant de colonnes qu'il y a de modalités d'une variable qualitative, en remplissant chacune par le contenu d'une variable numérique. Le résultat est une table au format *large*.
+- `pivot.wider()` fait l'inverse. Cette fonction crée autant de colonnes qu'il y a de modalités d'une variable qualitative, en remplissant chacune par le contenu d'une variable numérique. Le résultat est une table au **format large**.
 
 <center>![](images/spread.png)</center>
 
@@ -97,6 +97,7 @@ estim_pop_nontidy <- estim_pop_tidy %>%
 ```
 
 
-Vous retrouverez une introduction complète à `{tidyr}` dans un [article très bien fait](https://tidyr.tidyverse.org/articles/pivot.html) de la documentation du package (en anglais). 
-`{tidyr}` permet également de transformer des données sous forme de listes en dataframe *tidy* très simplement.
+Vous retrouverez une introduction complète à `{tidyr}` dans un [article très bien fait](https://tidyr.tidyverse.org/articles/pivot.html) de la documentation du package (en anglais).   
+
+`{tidyr}` permet également de transformer des données sous forme de listes en dataframe **tidy** très simplement.
 

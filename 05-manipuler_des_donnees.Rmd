@@ -177,7 +177,7 @@ Vous pouvez utiliser beaucoup de fonctions pour créer des variables avec `mutat
 
 - les opérations arithmétiques : `+`,`-`,`*`,`/`,`^` ;
 
-- arithmétique modulaire : `%/%` (division entière) et `%%` (le reste), où x == y * (x %/% y) + (x %% y) ;
+- arithmétique modulaire : `%/%` (division entière) et `%%` (le reste), où `x == y * (x %/% y) + (x %% y)` ;
 
 - logarithmes : `log()`, `log2()`, `log10()` ; 
 
@@ -191,7 +191,7 @@ b <- mutate(a, lagx = lag(x),
                leadx = lead(x),
                lag2x = lag(x, n = 2),
                lead2x = lead(x, n = 2))
-b
+datatable(b)
 ```
 
 - opérations cumulatives ou glissantes : 
@@ -204,12 +204,12 @@ Exemple de somme glissante sur un pas de 2 observations.
 
 ```{r manip_16, eval=TRUE}
 
-a <- data.frame(x=sample(1:10))
+a <- data.frame(x = sample(1:10))
 
 b <- mutate(a, cumsumx = cumsum(x),
-               rollsumrx = roll_sumr(x, n=2))
+               rollsumrx = roll_sumr(x, n = 2))
                
-b
+datatable(b)
 ```
 
 Attention aux différences entre `roll_sum()` et `roll_sumr()`. Contrairement à `roll_sum()`, la fonction `roll_sumr()` fait en sorte d'obtenir un vecteur de même dimension que l'entrée :
@@ -233,13 +233,13 @@ b <- mutate(a, cumsumx = cumsum(x),
 ```
 
 
-- Comparaisons logiques : *<*, *<=*, *>*, *>=*, *!=*
+- Comparaisons logiques : `<`, `<=`, `>`, `>=`, `!=`
 
 - Rangs : `min_rank()` devrait être la plus utile, il existe aussi notamment `row_number()`, `dense_rank()`, `percent_rank()`, `cume_dist()`, `ntile()`.
 
 - `coalesce(x, y)` : permet de remplacer les valeurs manquantes de x par celle de y
 
-- `variable = ifelse(condition(x), valeursi, valeursinon)` permet d'affecter *valeursi* ou  *valeursinon* à *variable* en fonction du fait que *x* répond à *condition*.
+- `variable = ifelse(condition(x), valeursioui, valeursinon)` permet d'affecter *valeursi* ou  *valeursinon* à *variable* en fonction du fait que *x* répond à *condition*.
 Exemple : création d'une variable résultat pour savoir si les résultats de nos analyses sont bons, ou non.
 
 ```{r manip_19}
@@ -247,7 +247,7 @@ analyseb <- mutate(analyse, resultat_ok = ifelse(code_remarque %in% c(1, 2, 7, 1
                                                  yes = TRUE, no = FALSE))
 ```
 
-qui peut se résumer, lorsque `yes=TRUE` et `no=FALSE`, à :
+qui peut se résumer, lorsque `yes = TRUE` et `no = FALSE`, à :
 ```{r manip_19b}
 analyseb <- mutate(analyse, resultat_ok = code_remarque %in% c(1, 2, 7, 10))
 ```
@@ -358,7 +358,7 @@ Les positions peuvent être positives, et dans ce cas, on compte à partir de la
 a <- data.frame(x = c(" libeatg", "delivo y"))
 b <- mutate(a, pos3a4 = str_sub(string = x, start = 3, end = 4),
                pos3a2avtlafin = str_sub(string = x, start = 3, end = -2))
-b
+datatable(b)
 ```
 
 `str_sub()` peut être utilisé pour remplacer un caractère
@@ -377,7 +377,8 @@ une fonction dite "pipe-operator-friendly", par exemple `stri_sub_replace()` du 
 library(stringi)
 
 a <- data.frame(x = c(" libeatg", "delivo y"))
-mutate(a, y=stri_sub_replace(str=x, from=6, to=9, value = "rer"))
+b <- mutate(a, y=stri_sub_replace(str=x, from=6, to=9, value = "rer"))
+datatable(b)
 ```
 
 
@@ -410,6 +411,7 @@ a <- data.frame(txt = c("vélo", "train", "voilier", "bus", "avion", "tram", "tr
 
 b <- mutate(a, tr_au_debut = str_detect(string = txt, pattern = "^tr"))
 b
+
 filter(b, tr_au_debut)
 
 filter(a, str_detect(string = txt, pattern = "n$"))
@@ -535,14 +537,14 @@ summarise(exercice,
 
 ### Quelques fonctions d'aggrégations utiles
 
-- compter : *n()*
-- sommer : *sum()*
-- compter des valeurs non manquantes *sum(!is.na())*
-- moyenne : *mean()*, moyenne pondérée : *weighted.mean()*
-- écart-type : *sd()*
-- médiane : *median()*, quantile : *quantile(.,quantile)*
-- minimum : *min()*, maximum : *max()*
-- position : *first()*, *nth(., position)*, *last()*
+- compter : `n()`
+- sommer : `sum()`
+- compter des valeurs non manquantes `sum(!is.na())`
+- moyenne : `mean()`, moyenne pondérée : `weighted.mean()`
+- écart-type : `sd()`
+- médiane : `median()`, quantile : `quantile(.,quantile)`
+- minimum : `min()`, maximum : `max()`
+- position : `first()`, `nth(., position)`, `last()`
 
 
 ## Aggréger des données par dimension : `group_by()`
@@ -656,10 +658,10 @@ Nous venons de voir les principaux verbes de manipulation d'une table de dplyr. 
 
 ### Les select helpers
 
-Repéter des opérations de nettoyage ou de typage sur les différentes variables d'un jeu de données peuvent s'avérer fastidieuses lorsque l'on a à écrire les opérations variable par variable.
+Repéter des opérations de nettoyage ou de typage sur les différentes variables d'un jeu de données peut s'avérer fastidieux lorsque l'on a à écrire les opérations variable par variable.
 
-La fonctions select() proposent cinq manières différentes de désigner les variables à sélectionner.
-Nous avons vu la première et la plus courante, qui est de **nommer** les variables une à une. 
+La fonction select() propose cinq manières différentes de désigner les variables à sélectionner.
+Nous avons vu la première et la plus intuitive, qui est de **nommer** les variables une à une. 
 On peut également utiliser les `:` qui permettent de sélectionner une liste de variables consécutives. On peut également désigner les variables à sélectionner en fonction de leur **position** :
 
 ```{r select1}
@@ -686,11 +688,11 @@ select(exercice, contains("prel")) %>% names()
 select(exercice, matches("m.n")) %>% names()
 ```
 
-On peut également sélectionner des variables selon des **conditions sur leur type**. Par exemple, sélectionner toutes les variables numériques ou toutes les variables de type caractères.
+On peut également sélectionner des variables selon des **conditions sur leur type**, avec la fonction `where()`. Par exemple, sélectionner toutes les variables numériques ou toutes les variables de type caractère.
 
 ```{r select3}
-select(exercice, where(is.numeric)) %>% names
-select(exercice, where(is.character)) %>% names
+select(exercice, where(is.numeric)) %>% names()
+select(exercice, where(is.character)) %>% names()
 ```
 On peut enfin sélectionner des variables en **combinant** les moyens détaillés ci-avant et en recourant aux opérateurs boléens : `!` (negation), `&` (et), `|` (ou).
 
@@ -699,8 +701,6 @@ select(exercice, 1:7 & starts_with("code")) %>% names()
 select(exercice, starts_with("date") & !where(is.Date)) %>% names()
 ```
 
-<!-- one_of et all_of ? -->
-
 
 ### Utiliser les select helpers avec les autres verbes du tidyverse
 
@@ -708,7 +708,7 @@ select(exercice, starts_with("date") & !where(is.Date)) %>% names()
 Lorsqu'on souhaite renommer les variable une à une, la fonction `rename()` fonctionne de la même manière que `select()` :     
 ` mon_df_renomme <- rename(mon_dataframe, nouveau_nom1 = ancien_nom1, nouveau_nom2 = ancien_nom2)`
 
-Si l'on souhaite recourir aux select helpers, il faut utiliser `rename_with()`, avec la synthaxe `rename_with(.data= mon_df, .fn= ma_fonction_de_renommage, .cols= ma_selection_de_variable_a_renommer)`. Exemple avec la fonction toupper() qui passe les chaînes de caractères en majuscules.
+Si l'on souhaite recourir aux select helpers, il faut utiliser `rename_with()`, avec la synthaxe `rename_with(.data= mon_df, .fn= ma_fonction_de_renommage, .cols= les_variables_a_renommer)`. Exemple avec la fonction toupper() qui passe les chaînes de caractères en majuscules.
 
 ```{r rename_with1}
 rename_with(station, toupper, starts_with("code")) %>% names()
@@ -718,15 +718,14 @@ rename_with(station, toupper, starts_with("code")) %>% names()
 Si la fonction de renommage est plus complexe qu'un simple mot, il faut recourir au pronom `.x` et au `~` pour la définir. Exemple avec la fonction `str_sub()` de `{stringr}` vue précédemment :
 
 ```{r rename_with2}
-rename_with(exercice, ~ str_sub(.x, start=5, end=str_length(.x)), 
+rename_with(exercice, ~ str_sub(.x, start = 5, end = str_length(.x)), 
             starts_with("code")) %>% names()
 
 ```
 
 ###  filter(), mutate(), group_by(), summarise(), arrange(), transmute()...  
 
-Les autres verbes de `{dplyr}` ont besoin de la fonction `across()` pour fonctionner avec les select helpers. Comme pour rename_with(), les fonctions complexes sont à déclarer avec le ~ et le
-le pronom .x. On peut en désigner plusieurs ou leur fournir un nom qui servira de suffixe aux noms des variables calculées, en passant la ou les fonctions dans une liste : `.fn=list(suffixe1=ma_fonction1, suffixe2=ma_fonction2)`.   
+Les autres verbes de `{dplyr}` ont besoin de la fonction `across()` pour fonctionner avec les select helpers. Comme pour `rename_with()`, les fonctions complexes sont à déclarer avec le `~` et le pronom `.x`. On peut en désigner plusieurs ou leur fournir un nom qui servira de suffixe aux noms des variables calculées, en passant la ou les fonctions dans une liste : `.fn=list(suffixe1 = ma_fonction1, suffixe2 = ma_fonction2)`.   
 
 La syntaxe générale devient :   
 ```
@@ -736,10 +735,12 @@ monverbe(.data, across(mesvariables, malistedefonctions),
 
 ```{r scoped variants}
 
-filter(parametre, across(starts_with("date"), ~ .x > "2015-01-01"))
+filter(parametre, across(starts_with("date"), ~ .x > "2015-01-01")) %>%
+  select(1:7)
 
 mutate(exercice, across(starts_with("code") & where(is.numeric), as.factor),
-                 across(starts_with("date"), as.Date))
+                 across(starts_with("date"), as.Date)) %>%
+  datatable()
 
 summarise(parametre, across(starts_with("code"), n_distinct))
 
@@ -759,6 +760,7 @@ sitadel <- read_excel("data/ROES_201702.xls", "AUT_REG") %>%
   mutate(across(where(is.numeric), list(cumul12 = ~ roll_sumr(.x, n = 12))),
          across(ends_with("cumul12"), list(evo = ~ 100 * .x / lag (.x, 12) - 100,
                                            part = ~ 100 *.x / log_AUT_cumul12)))
+datatable(sitadel)
 ```
 
 

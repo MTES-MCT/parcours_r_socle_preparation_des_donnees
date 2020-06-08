@@ -17,29 +17,29 @@ Le `tidyverse` est un ensemble de packages proposant une syntaxe cohérente pour
 
 ### Des packages pour lire des données
 #### tidyverse
-- [readr](http://readr.tidyverse.org/) pour les fichiers plats
-- [readxl](http://readxl.tidyverse.org/) pour les fichiers tableur Excel
-- [haven](http://haven.tidyverse.org/) pour les données stockées sous des formats propriétaires (SAS, SPSS, ...)
+- [`{readr}`](http://readr.tidyverse.org/) pour les fichiers plats
+- [`{readxl}`](http://readxl.tidyverse.org/) pour les fichiers tableur Excel
+- [`{haven}`](http://haven.tidyverse.org/) pour les données stockées sous des formats propriétaires (SAS, SPSS, ...)
 
 #### Hors tidyverse
-- [odbc](http://db.rstudio.com/odbc/) / [Rposgresql](https://cran.r-project.org/web/packages/RPostgreSQL/index.html)  pour accéder à des données stockées sous forme de base de données
-- [sf](https://r-spatial.github.io/sf/) pour lire des données spatiales
-- [rsdmx](https://github.com/opensdmx/rsdmx) pour lire des données sdmx
+- [`{odbc}`](http://db.rstudio.com/odbc/) / [`{Rposgresql}`](https://cran.r-project.org/web/packages/RPostgreSQL/index.html)  pour accéder à des données stockées sous forme de base de données
+- [`{sf}`](https://r-spatial.github.io/sf/) pour lire des données spatiales
+- [`{rsdmx}`](https://github.com/opensdmx/rsdmx) pour lire des données sdmx
 
 ### Des packages pour manipuler des données
 #### tidyverse
-- [dplyr](http://dplyr.tidyverse.org/) fonctions correspondant à des "verbes" pour manipuler ses données
-- [tidyr](http://tidyr.tidyverse.org/) fonctions pour  modifier l'agencement de nos tables entre les lignes et les colonnes
+- [`{dplyr}`](http://dplyr.tidyverse.org/) fonctions correspondant à des "verbes" pour manipuler ses données
+- [`{tidyr}`](http://tidyr.tidyverse.org/) fonctions pour  modifier l'agencement de nos tables entre les lignes et les colonnes
 
 ### Des packages pour nettoyer des données
 #### tidyverse
-- [forcats](http://forcats.tidyverse.org/) permet de manipuler les variables de type catégoriel (ou factor en R)
-- [stringr](http://stringr.tidyverse.org/) permet de manipuler des chaînes de caractères
-- [lubridate](http://lubridate.tidyverse.org/) permet de manipuler des dates
+- [`{forcats}`](http://forcats.tidyverse.org/) permet de manipuler les variables de type catégoriel (ou factor en R)
+- [`{stringr}`](http://stringr.tidyverse.org/) permet de manipuler des chaînes de caractères
+- [`{lubridate}`](http://lubridate.tidyverse.org/) permet de manipuler des dates
 
 #### Hors tidyverse
-- [stringi](http://www.gagolewski.com/software/stringi/) permet de manipuler des chaînes de caractères
-- [RcppRoll](https://cran.r-project.org/web/packages/RcppRoll/index.html) qui regroupe des opérations fenêtrées ou glissantes
+- [`{stringi}`](http://www.gagolewski.com/software/stringi/) permet de manipuler des chaînes de caractères
+- [`{RcppRoll}`](https://cran.r-project.org/web/packages/RcppRoll/index.html) qui regroupe des opérations fenêtrées ou glissantes
 
 
 ## Les spécificités du tidyverse
@@ -56,8 +56,8 @@ Quelques spécificités des fonctions de ce framework :
 
 Les fonctions que nous allons voir obéissent à une logique intégrée et simple, qui permet des manipulations complexes, à partir du moment ou l'on est capable d'identifier et de sérier chaque *opération élémentaire* à réaliser.  
 D'autres packages permettent également de réaliser ce type de manipulations. La différence est qu'ils sont souvent dédiés à une tâche spécifique, ce qui rend la cohérence moins évidente lorsque l'on doit réaliser plusieurs opérations.   
-Un autre package propose toutefois une vision intégrée de la sorte : [data.table](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html).
+Un autre package propose toutefois une vision intégrée de la sorte : [`{data.table}`](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html).
 Plusieurs différences sont à noter : 
 
-- *data.table* est plus rapide sur d'importants volumes de données, le code est très succinct.  
-- *dplyr* est plus simple à apprendre, le code est plus lisible, il peut s'appliquer à des formats de données multiples, il s'intègre dans un framework global qui va de la lecture des données (*readr*, *readxl*, *haven...*) à leur valorisation (*ggplot2*).  
+- `{data.table}` est plus rapide sur d'importants volumes de données, le code est très succinct.  
+- `{dplyr}` est plus simple à apprendre, le code est plus lisible, il peut s'appliquer à des formats de données multiples, il s'intègre dans un framework global qui va de la lecture des données (`{readr}`, `{readxl}`, `{haven}`...) à leur valorisation (`{ggplot2}`).  
