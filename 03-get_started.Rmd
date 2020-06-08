@@ -23,7 +23,7 @@ Pour activer `packrat` sur un projet, aller dans `Tools/Project Options->Packrat
 
 - On peut travailler sur plusieurs projets en même temps, Rstudio ouvre autant de sessions que de projets dans ce cas.
 
-- Les projets Rstudio intègrent une interface avec les outils de gestion de version Git et SVN. Cela veut dire que vous pouvez versionniser votre projet et l'héberger simplement comme répertoire sur des plateformes de gestion de code telle que Github ou Gitlab.
+- Les projets Rstudio intègrent une interface avec les outils de gestion de version Git et SVN. Cela veut dire que vous pouvez versionner votre projet et l'héberger simplement comme répertoire sur des plateformes de gestion de code telle que Github ou Gitlab.
 
 **Pour créer un projet : **
 
@@ -55,25 +55,27 @@ Cela marche bien quand on a un seul type de données, mais en général on va av
 
 Commencer par rajouter un script dans le répertoire `/src` à votre projet qui commencera par : 
 
-- activer l'ensemble des packages nécessaires
+- activer l'ensemble des packages nécessaires,
 
 - charger les données dont vous aurez besoin.
 
 
-```{r lib, eval=T}
-library (tidyverse)
-library (lubridate)
-library (RcppRoll)
-library (DT)
-library (readxl)
-library (dbplyr)
-library (RPostgreSQL)
-library (rsdmx)
-library (sf)
+```{r lib, eval=TRUE, message=FALSE, warning=FALSE}
 
-sitadel <- read_excel ("data/ROES_201702.xls", sheet = "AUT_REG",
-                    col_types = c ("text","text","numeric","numeric","numeric","numeric"))
-load (file = "data/FormationPreparationDesDonnées.RData")
+library(tidyverse)
+library(lubridate)
+library(RcppRoll)
+library(DT)
+library(readxl)
+library(dbplyr)
+library(RPostgreSQL)
+library(rsdmx)
+library(sf)
+library(stringi)
+
+sitadel <- read_excel("data/ROES_201702.xls", sheet = "AUT_REG",
+                      col_types = c ("text","text","numeric","numeric","numeric","numeric"))
+load(file = "data/FormationPreparationDesDonnees.RData")
 
 ```
 

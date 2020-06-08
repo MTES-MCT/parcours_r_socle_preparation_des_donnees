@@ -16,7 +16,7 @@ description: "Préparation des données avec R et le Tidyverse (module 2)"
 
 ```{r setup, include=FALSE}
 rm(list=ls())
-knitr::opts_chunk$set(echo = T, message=F, error=F,warning=F,fig.width=4, fig.height=4)
+knitr::opts_chunk$set(echo = TRUE, message=FALSE, error=FALSE, warning=FALSE, fig.width=4, fig.height=4)
 ```
 
 # Introduction
@@ -44,11 +44,15 @@ Le parcours proposé est structuré en modules de 2 jours chacun. Les deux premi
 
 La mise à disposition des supports de formation se fait désormais par la [page d'accueil du parcours de formation](https://mtes-mct.github.io/parcours-r/). Ces supports sont en [licence ouverte](https://www.etalab.gouv.fr/wp-content/uploads/2017/04/ETALAB-Licence-Ouverte-v2.0.pdf).
 
-Si vous souhaitez accéder aux sources, données mobilisées pendant les formations, il faut directement les télécharger depuis le [Github du ministère](https://github.com/MTES-MCT/parcours-r/tree/master/Supports_formations).
+Si vous souhaitez accéder aux sources, données mobilisées pendant les formations, il faut directement les télécharger depuis le [Github du ministère](https://github.com/MTES-MCT/parcours_r_socle_preparation_des_donnees).
+
+Un package d'exercices, [savoirfR](https://github.com/MTES-MCT/savoirfR) rassemble toutes les données et les consignes d'exercices de ce support de formation
 
 Pour vous tenir au courant de l'offre de formation proposée par le réseau des CVRH, [consultez la plateforme OUPS](http://oups-cmvrh.e2.rie.gouv.fr/). Vous pouvez vous y abonner pour recevoir les annonces qui vous intéressent.
 
-Il existe une liste pour diffuser de l'information, échanger autour de R ou lever des points de blocage. Pour s'insrire, envoyer un message vide avec le titre "subscribe labo.communaute-r" à l'adresse sympa@developpement-durable.gouv.fr.
+Il existe une liste pour diffuser de l'information, échanger autour de R ou lever des points de blocage. Pour s'insrire, envoyer un message vide avec le titre "subscribe labo.communaute-r" à l'adresse sympa@developpement-durable.gouv.fr.   
+
+Il existe également un canal Ariane #utilisateurs_r et une faq http://pne.metier.e2.rie.gouv.fr/la-faq-de-r-r1028.html
 
 
 ## Objectifs du module 2
@@ -56,13 +60,13 @@ Il existe une liste pour diffuser de l'information, échanger autour de R ou lev
 Ce module va vous permettre de découvrir un ensemble de méthodes sous R afin de préparer ses données. 
 Préparer ses données sous R, cela veut dire : 
 
-- Savoir les importer dans un environnement R
-- Mettre ses données dans de bons formats (date, catégorielle) et gérer les données manquantes
-- Rajouter des variables en fonction de variables existantes
-- Regrouper des modalités de variables
-- Joindre des tables entre elles pour obtenir des informations de plusieurs sources
-- Aggréger des données
-- Bien définir notre table de travail en fonction des indicateurs à analyser et à leurs dimensions d'analyse 
+- Savoir les importer dans un environnement R,
+- Mettre ses données dans de bons formats (date, catégorielle) et gérer les données manquantes,
+- Rajouter des variables en fonction de variables existantes,
+- Regrouper des modalités de variables,
+- Joindre des tables entre elles pour obtenir des informations de plusieurs sources,
+- Aggréger des données,
+- Bien définir notre table de travail en fonction des indicateurs à analyser et à leurs dimensions d'analyse.
 ...
 
 Bref, tout le travail technique préalable entre la collecte de la donnée et la valorisation proprement dite de ces sources.
