@@ -20,16 +20,5 @@ Authors@R:
              role = "aut",
              email = "mael.theuliere@gmail.com"))
 
-Imports: 
-    bookdown,
-    dbplyr,
-    DT, 
-    lubridate,
-    RcppRoll, 
-    readxl
-    rmarkdown, 
-    RPostgreSQL, 
-    rsdmx,
-    sf, 
-    tidyverse
+Imports: bookdown, dbplyr, DT, lubridate, RcppRoll, readxl, rmarkdown, RPostgreSQL, rsdmx, sf, tidyverse
 
