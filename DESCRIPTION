@@ -5,6 +5,7 @@ Version: 0.1.0
 License: LICENCE OUVERTE/ OPEN LICENCE Version 2.0
 Description: Valise pedagogique pour la formation a R, 2e module sur la preparation des donnees
 URL: https://github.com/MTES-MCT/parcours_r_socle_preparation_des_donnees
+Imports: bookdown, dbplyr, DT, lubridate, RcppRoll, readxl, rmarkdown, RPostgreSQL, rsdmx, sf, tidyverse
 
 Authors@R: 
     c(person(given = "Juliette",
@@ -20,5 +21,4 @@ Authors@R:
              role = "aut",
              email = "mael.theuliere@gmail.com"))
 
-Imports: bookdown, dbplyr, DT, lubridate, RcppRoll, readxl, rmarkdown, RPostgreSQL, rsdmx, sf, tidyverse
 
