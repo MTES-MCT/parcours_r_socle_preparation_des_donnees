@@ -2,15 +2,18 @@
 
 Quelques références : 
   
-- R for data science : http://r4ds.had.co.nz/
+- R for data science : http://r4ds.had.co.nz/transform.html
   
-- Dplyr, Introduction : https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html
+- `{dplyr}`, Introduction : https://dplyr.tidyverse.org/articles/dplyr.html
 
-- Dplyr, manipulation de deux tables : https://cran.r-project.org/web/packages/dplyr/vignettes/two-table.html
+- `{dplyr}`, manipulation de deux tables : https://dplyr.tidyverse.org/articles/two-table.html
 
-- Tidyr : https://cran.r-project.org/web/packages/tidyr/tidyr.pdf
+- `{tidyr}` : https://tidyr.tidyverse.org/
 
-- Aide mémoire de Rstudio  sur dplyr et tidyr : https://www.rstudio.com/wp-content/uploads/2016/01/data-wrangling-french.pdf
+- `{tidyr}`, fonctions pivot : https://tidyr.tidyverse.org/articles/pivot.html
 
-- Si vous préférez vous mettre à data.table https://s3.amazonaws.com/assets.datacamp.com/img/blog/data+table+cheat+sheet.pdf
+
+- Aide mémoire de Rstudio sur `{dplyr}` et `{tidyr}` (assez ancien) : https://www.rstudio.com/wp-content/uploads/2016/01/data-wrangling-french.pdf
+
+- Si vous préférez vous mettre à `{data.table}` https://s3.amazonaws.com/assets.datacamp.com/img/blog/data+table+cheat+sheet.pdf
 
