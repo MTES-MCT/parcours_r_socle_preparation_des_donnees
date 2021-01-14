@@ -21,9 +21,8 @@ jobs:
         with:
           r-version: 'release'
 
-      - name: Install pandoc
-        run: |
-          brew install pandoc
+      - name: Setup pandoc
+        uses: r-lib/actions/setup-pandoc@master
 
       - name: Cache Renv packages
         uses: actions/cache@v2
