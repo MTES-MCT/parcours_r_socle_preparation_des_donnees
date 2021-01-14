@@ -1,0 +1,4 @@
+^renv$
+^renv\.lock$
+^dev_history\.R$
+^\.travis\.yml$

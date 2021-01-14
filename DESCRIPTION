@@ -1,8 +1,21 @@
-Package: Parcours-R
+Package: parcours_r_socle_preparation_des_donnees
 Type: Book
-Title: Formations à R
+Title: Parcours-R M2 Socle Preparation des Donnees
 Version: 0.1.0
+License: LICENCE OUVERTE/ OPEN LICENCE Version 2.0
+Description: Valise pedagogique pour la formation a R, 2e module sur la preparation des donnees
 URL: https://github.com/MTES-MCT/parcours_r_socle_preparation_des_donnees
-Imports: rmarkdown, htmltools, tidyverse, cartography, sf, GGally, dplyr, plotly, bookdown, RcppRoll, DT, RPostgreSQL, rsdmx, XML, lsr, ggmosaic, visNetwork, FactoMineR, factoextra, ggExtra, kableExtra, hrbrthemes, tmap, highcharter, waffle, gganimate, svglite, cowplot, gifski, docopt, webshot, ggspatial, shiny
-License: MIT
-Description: Valise pédagogique pour la formation à R
+Imports: bookdown, dbplyr, DT, lubridate, RcppRoll, readxl, rmarkdown, RPostgreSQL, rsdmx, sf, tidyverse
+Authors@R: 
+    c(person(given = "Juliette",
+             family = "Engelaere-Lefebvre",
+             role = "aut",
+             email = "juliette.engelaere@developpement-durable.gouv.fr"),
+      person(given = "Bruno",
+             family = "Terseur",
+             role = "aut",
+             email = "bruno.terseur@developpement-durable.gouv.fr"),
+      person(given = "Mael",
+             family = "Theuliere",
+             role = "aut",
+             email = "mael.theuliere@gmail.com"))
