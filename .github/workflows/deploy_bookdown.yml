@@ -38,6 +38,10 @@ jobs:
           key: bookdown-${{ hashFiles('**/*Rmd') }}
           restore-keys: bookdown-
 
+      - name: Install ubuntu dep
+        run: |
+          sudo apt-get install libcurl4-openssl-dev
+          
       - name: Install packages
         run: |
           R -e 'install.packages("renv")'
