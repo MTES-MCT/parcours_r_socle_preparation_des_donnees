@@ -24,7 +24,7 @@
 <meta name="author" content="Maël Theulière &amp; Bruno Terseur" />
 
 
-<meta name="date" content="2021-01-14" />
+<meta name="date" content="2021-01-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -572,7 +572,7 @@ La gestion des majuscules/minuscules :</p>
 <p>Suppression des accents (base::iconv) :</p>
 <div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="manipuler-des-données.html#cb73-1"></a>proust2 &lt;-<span class="st"> &quot;Les paradoxes d&#39;aujourd&#39;hui sont les préjugés de demain ; et ça c&#39;est embêtant&quot;</span></span>
 <span id="cb73-2"><a href="manipuler-des-données.html#cb73-2"></a><span class="st">iconv(proust2, to = &quot;</span>ASCII<span class="op">/</span><span class="er">/</span>TRANSLIT<span class="st">&quot;)</span></span></code></pre></div>
-<pre><code>## [1] &quot;Les paradoxes d&#39;aujourd&#39;hui sont les prejuges de demain ; et ca c&#39;est embetant&quot;</code></pre>
+<pre><code>## [1] &quot;Les paradoxes d&#39;aujourd&#39;hui sont les pr&#39;ejug&#39;es de demain ; et ca c&#39;est emb^etant&quot;</code></pre>
 <p>Avec un humour quelque peu discutable, un petit aide-mémoire illustré, assez visuel, est proposé par Lise Vaudor <a href="http://perso.ens-lyon.fr/lise.vaudor/manipuler-des-strings-avec-r/">ici</a>.</p>
 </div>
 </div>
