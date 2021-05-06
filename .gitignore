@@ -2,7 +2,6 @@
 .Rhistory
 .RData
 .Ruserdata
-*.Rproj
 _book
 _bookdown_files
 data/SEQUOIA**
