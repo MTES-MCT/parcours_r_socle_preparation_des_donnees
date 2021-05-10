@@ -47,6 +47,13 @@ unzip(zipfile = "data/SEQUOIA_TRIM_REGION.zip", exdir = "data")
 SEQUOIA <- read_excel(file.path("data", sequoia_trim_region), sheet = "PAYS_DE_LA_LOIRE")
 datatable(SEQUOIA)
 ```
+Exemple en utilisant l'api de l'URSSAF :
+
+```{r lire_2b, eval=FALSE}
+url_urssaf_fr <- "https://open.urssaf.fr/api/records/1.0/search/?dataset=effectifs-salaries-et-masse-salariale-du-secteur-prive-par-region-x-na38&q=&rows=10000&facet=grand_secteur_d_activite&facet=secteur_na28i&facet=annee&facet=trimestre&refine.region=Pays+de+la+Loire"
+urssaf_fr <- fromJSON(url_urssaf_fr)$records$fields
+datatable(urssaf_fr)
+```
 
 ## Lire des fichiers avec une dimension spatiale
 
