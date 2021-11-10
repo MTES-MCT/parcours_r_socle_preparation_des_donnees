@@ -52,8 +52,9 @@ Un package d'exercices, [{savoirfR}](https://github.com/MTES-MCT/savoirfR) rasse
 Pour vous tenir au courant de l'offre de formation proposée par le réseau des CVRH, [consultez la plateforme OUPS](http://oups-cmvrh.e2.rie.gouv.fr/) (un accès intranet MTES-MCT est nécessaire). Vous pouvez vous y abonner pour recevoir les annonces de formation qui vous intéressent.
 
 Pour échanger de l'information, discuter autour de R ou encore faire part de difficultés et trouver ensemble les solutions, il existe deux solutions:
-- S'insrire, en envoyant un message vide avec le titre "subscribe labo.communaute-r", à l'adresse sympa@developpement-durable.gouv.fr.
-- rejoindre le fil Ariane # utilisateurs_r
+
+- S'insrire en envoyant un message vide à l'adresse [sympa@developpement-durable.gouv.fr](mailto:sympa@developpement-durable.gouv.fr?Subject=subscribe labo.communaute-r).
+- Rejoindre le fil Ariane [#utilisateurs_r](https://ariane.din.developpement-durable.gouv.fr/channel/utilisateurs_r)
 
 
 ## Objectifs du module 2
