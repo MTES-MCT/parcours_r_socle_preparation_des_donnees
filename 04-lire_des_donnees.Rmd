@@ -11,7 +11,7 @@ La fonction `read_excel()` permet d'importer les données d'un fichier Excel. On
 
 ```{r lire_1}
 library(readxl)
-sitadel <- read_excel("data/ROES_201702.xls", sheet = "AUT_REG",
+sitadel <- read_excel("extdata/ROES_201702.xls", sheet = "AUT_REG",
                       col_types = c ("text","text","numeric","numeric","numeric","numeric"))
 datatable(sitadel)
 ```
@@ -36,9 +36,9 @@ Exemple sur les données SEQUOIA de l'ACOSS :
 
 ```{r lire_2, eval=FALSE}
 url <- "http://www.acoss.fr/files/Donnees_statistiques/SEQUOIA_TRIM_REGION.zip"
-download.file(url, destfile = "data/SEQUOIA_TRIM_REGION.zip", method = "auto")
-unzip(zipfile = "data/SEQUOIA_TRIM_REGION.zip", exdir = "data")
-SEQUOIA <- read_excel("data/SEQUOIA_TRIM_REGION_BRUT.xlsx", sheet = "PAYS_DE_LA_LOIRE")
+download.file(url, destfile = "extdata/SEQUOIA_TRIM_REGION.zip", method = "auto")
+unzip(zipfile = "extdata/SEQUOIA_TRIM_REGION.zip", exdir = "extdata")
+SEQUOIA <- read_excel("extdata/SEQUOIA_TRIM_REGION_BRUT210610.xlsx", sheet = "PAYS_DE_LA_LOIRE")
 datatable(SEQUOIA)
 ```
 
@@ -47,17 +47,17 @@ datatable(SEQUOIA)
 Le package `{sf}` (pour simple feature) permet d'importer dans R un fichier ayant une dimension spatiale. Après importation, le fichier est un dataframe avec une variable d'un type nouveau : la géométrie. Deux exemples ici pour lire des données au format shape et geojson.
 
 ```{r lire_3, eval = FALSE, message = FALSE, warning = FALSE}
-Carte_EPCI_France <- st_read(dsn = "data/refgeo2017", layer = "Contour_epci_2017_region")
+Carte_EPCI_France <- st_read(dsn = "extdata/refgeo2017", layer = "Contour_epci_2017_region")
 plot(Carte_EPCI_France)
 
-communes2017 <- st_read(dsn = "data/refgeo2017/communes2017.geojson")
+communes2017 <- st_read(dsn = "extdata/refgeo2017/communes2017.geojson")
 plot(communes2017)
 ```
 
 Le package `{sf}` contient l'ensemble des fonctions permettant des manipulations sur fichiers géomatiques.
 On ne traitera pas ici de toutes ces fonctions en détail, se référer pour cela à la [documentation du package](https://r-spatial.github.io/sf/).
 
-A noter que `{sf}` étant complètement compatible avec les packages du `tidyverse`, la géométrie se conçoit comme une une donnée comme une autre, sur laquelle par exemple on peut réaliser des aggrégations.
+A noter que `{sf}` étant complètement compatible avec les packages du `tidyverse`, la géométrie se conçoit comme une donnée comme une autre, sur laquelle par exemple on peut réaliser des aggrégations.
 
 
 ## Lire des données sous PostgreSQL
