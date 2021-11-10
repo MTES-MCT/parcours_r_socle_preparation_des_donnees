@@ -20,7 +20,7 @@ Le respect de ces règles va nous amener parfois à devoir changer la définitio
 Ci-dessous un exemple simple : la population estimée par département et genre en 2019. Ce fichier est un extrait d'un tableur [mis à disposition par l'Insee](https://www.insee.fr/fr/statistiques/1893198).   
 
 ```{r tidyr_intr, paged.print = TRUE}
-estim_pop <- read_excel('data/estim-pop-dep-sexe-gca-2019.xls')
+estim_pop <- read_excel('extdata/estim-pop-dep-sexe-gca-2019.xls')
 estim_pop
 ```
 
@@ -31,7 +31,7 @@ On retrouve 4 variables dans notre fichier : le territoire, le genre, l'âge et 
 Quel serait la version *tidy* de notre fichier ?
 
 ```{r tidyr_intr_deux, echo=FALSE}
-estim_pop_tidy <- read_excel('data/estim-pop-dep-sexe-gca-2019.xls') %>% 
+estim_pop_tidy <- read_excel('extdata/estim-pop-dep-sexe-gca-2019.xls') %>% 
   pivot_longer(-c(dep,lib_dep), names_pattern="(.*)_(.*)", names_to = c("genre", "age"), values_to = "nombre_individus")
 ```
 
@@ -62,7 +62,7 @@ Reprenons notre table Insee d'estimation de population. Comment faire pour passe
 Première étape, retrouvons notre colonne `population`. Pour cela, il nous faut passer notre table au *format long*, grace à `pivot_longer()`.
 
 ```{r, echo = TRUE, eval = TRUE}
-estim_pop_tidy <- read_excel('data/estim-pop-dep-sexe-gca-2019.xls') %>% 
+estim_pop_tidy <- read_excel('extdata/estim-pop-dep-sexe-gca-2019.xls') %>% 
   pivot_longer(-c(dep,lib_dep), values_to = "nombre_individus", names_to = "genre_age")
 ```
 
@@ -84,7 +84,7 @@ estim_pop_tidy <- estim_pop_tidy %>%
 Mais `pivot_longer()` permet d'aller encore plus loin en spécifiant sur nos colonnes un moyen de distinguer nos deux variables directement avec l'argument `names_sep`.
 
 ```{r}
-estim_pop_tidy <- read_excel('data/estim-pop-dep-sexe-gca-2019.xls') %>% 
+estim_pop_tidy <- read_excel('extdata/estim-pop-dep-sexe-gca-2019.xls') %>% 
   pivot_longer(-c(dep, lib_dep), names_sep = "_", names_to = c("genre", "age"), 
                values_to = "nombre_individus")
 ```

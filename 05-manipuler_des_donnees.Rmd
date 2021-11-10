@@ -37,7 +37,7 @@ station <- st_read_db(con, query = "SELECT * FROM pesticides.station")
 ```
 
 ```{r manip_2, include = TRUE}
-load(file = "data/FormationPreparationDesDonnees.RData")
+load(file = "extdata/FormationPreparationDesDonnees.RData")
 ```
 
 ## Les verbes clefs de `{dplyr}` pour manipuler une table
@@ -740,7 +740,7 @@ filter(parametre, across(starts_with("date"), ~ .x > "2015-01-01")) %>%
 
 mutate(exercice, across(starts_with("code") & where(is.numeric), as.factor),
                  across(starts_with("date"), as.Date)) %>%
-  slice(1:100) %>% 
+  slice(1:100) %>%
   datatable()
 
 summarise(parametre, across(starts_with("code"), n_distinct))
@@ -756,7 +756,7 @@ group_by(prelevement, across(code_intervenant:code_station)) %>%
 Exemple sur l'exercice sur les données sitadel.  
 
 ```{r, echo = TRUE, eval = TRUE}
-sitadel <- read_excel("data/ROES_201702.xls", "AUT_REG") %>%
+sitadel <- read_excel("extdata/ROES_201702.xls", "AUT_REG") %>%
   group_by(REG) %>%
   mutate(across(where(is.numeric), list(cumul12 = ~ roll_sumr(.x, n = 12))),
          across(ends_with("cumul12"), list(evo = ~ 100 * .x / lag (.x, 12) - 100,
