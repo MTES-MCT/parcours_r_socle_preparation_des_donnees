@@ -1,0 +1,30 @@
+name: Image docker parcours_r_socle_preparation_des_donnees
+
+on:
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      -'!**'
+      - '.github/workflows/rstudio-image-build.yml'
+      - 'Dockerfile'
+      - 'renv.lock'
+      
+  pull_request:
+    types:
+      - created
+    branches:
+      - main
+      - master
+    paths:
+      -'!**'
+      - '.github/workflows/rstudio-image-build.yml'
+      - 'Dockerfile'
+      - 'renv.lock'
+      
+  workflow_dispatch:
+
+jobs:
+  build-rstudio-image:
+    uses: MTES-MCT/parcours-r/.github/workflows/rstudio-image-build.yml@master
