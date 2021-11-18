@@ -1,0 +1,14 @@
+name: Déploiement de parcours_r_socle_preparation_des_donnees
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  build-and-deploy-bookdown:
+    name: Build and bookdown
+    uses: MTES-MCT/parcours-r/.github/workflows/bookdown-build-and-deploy.yml@master
+    with:
+      r_version: '4.0.4'
