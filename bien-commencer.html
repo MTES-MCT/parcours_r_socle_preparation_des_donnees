@@ -24,7 +24,7 @@
 <meta name="author" content="Maël Theulière &amp; Bruno Terseur" />
 
 
-<meta name="date" content="2021-05-10" />
+<meta name="date" content="2021-11-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,6 +33,7 @@
   
 <link rel="prev" href="le-tidyverse.html"/>
 <link rel="next" href="lire-des-données.html"/>
+<script src="libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -50,7 +51,6 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
 <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
 <script src="libs/datatables-binding-0.16/datatables.js"></script>
@@ -62,18 +62,18 @@
 
 
 <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -93,7 +93,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -143,12 +143,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">Préparer ses données avec R et le Tidyverse</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
 <li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#le-parcours-de-formation"><i class="fa fa-check"></i><b>1.1</b> Le parcours de formation</a></li>
 <li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#objectifs-du-module-2"><i class="fa fa-check"></i><b>1.2</b> Objectifs du module 2</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="le-tidyverse.html"><a href="le-tidyverse.html"><i class="fa fa-check"></i><b>2</b> Le tidyverse</a><ul>
-<li class="chapter" data-level="2.1" data-path="le-tidyverse.html"><a href="le-tidyverse.html#présentation-des-packages"><i class="fa fa-check"></i><b>2.1</b> Présentation des packages</a><ul>
+<li class="chapter" data-level="2" data-path="le-tidyverse.html"><a href="le-tidyverse.html"><i class="fa fa-check"></i><b>2</b> Le tidyverse</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="le-tidyverse.html"><a href="le-tidyverse.html#présentation-des-packages"><i class="fa fa-check"></i><b>2.1</b> Présentation des packages</a>
+<ul>
 <li class="chapter" data-level="2.1.1" data-path="le-tidyverse.html"><a href="le-tidyverse.html#des-packages-pour-lire-des-données"><i class="fa fa-check"></i><b>2.1.1</b> Des packages pour lire des données</a></li>
 <li class="chapter" data-level="2.1.2" data-path="le-tidyverse.html"><a href="le-tidyverse.html#des-packages-pour-manipuler-des-données"><i class="fa fa-check"></i><b>2.1.2</b> Des packages pour manipuler des données</a></li>
 <li class="chapter" data-level="2.1.3" data-path="le-tidyverse.html"><a href="le-tidyverse.html#des-packages-pour-nettoyer-des-données"><i class="fa fa-check"></i><b>2.1.3</b> Des packages pour nettoyer des données</a></li>
@@ -156,29 +159,35 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.2" data-path="le-tidyverse.html"><a href="le-tidyverse.html#les-spécificités-du-tidyverse"><i class="fa fa-check"></i><b>2.2</b> Les spécificités du tidyverse</a></li>
 <li class="chapter" data-level="2.3" data-path="le-tidyverse.html"><a href="le-tidyverse.html#dautres-approches-possibles"><i class="fa fa-check"></i><b>2.3</b> D’autres approches possibles</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="bien-commencer.html"><a href="bien-commencer.html"><i class="fa fa-check"></i><b>3</b> Bien commencer</a><ul>
+<li class="chapter" data-level="3" data-path="bien-commencer.html"><a href="bien-commencer.html"><i class="fa fa-check"></i><b>3</b> Bien commencer</a>
+<ul>
 <li class="chapter" data-level="3.1" data-path="bien-commencer.html"><a href="bien-commencer.html#créer-un-projet-sous-rstudio-pour-vous-permettre-de-recencer-vos-travaux."><i class="fa fa-check"></i><b>3.1</b> Créer un projet sous Rstudio pour vous permettre de recencer vos travaux.</a></li>
 <li class="chapter" data-level="3.2" data-path="bien-commencer.html"><a href="bien-commencer.html#intégrer-vos-données"><i class="fa fa-check"></i><b>3.2</b> Intégrer vos données</a></li>
 <li class="chapter" data-level="3.3" data-path="bien-commencer.html"><a href="bien-commencer.html#créer-votre-arborescence-de-projet"><i class="fa fa-check"></i><b>3.3</b> Créer votre arborescence de projet</a></li>
-<li class="chapter" data-level="3.4" data-path="bien-commencer.html"><a href="bien-commencer.html#activer-les-packages-nécessaires"><i class="fa fa-check"></i><b>3.4</b> Activer les packages nécessaires</a></li>
-<li class="chapter" data-level="3.5" data-path="bien-commencer.html"><a href="bien-commencer.html#bien-structurer-ses-projets-data"><i class="fa fa-check"></i><b>3.5</b> Bien structurer ses projets data</a></li>
+<li class="chapter" data-level="3.4" data-path="bien-commencer.html"><a href="bien-commencer.html#utilisation-du-package-savoirfr"><i class="fa fa-check"></i><b>3.4</b> Utilisation du package savoirfR</a></li>
+<li class="chapter" data-level="3.5" data-path="bien-commencer.html"><a href="bien-commencer.html#activer-les-packages-nécessaires"><i class="fa fa-check"></i><b>3.5</b> Activer les packages nécessaires</a></li>
+<li class="chapter" data-level="3.6" data-path="bien-commencer.html"><a href="bien-commencer.html#bien-structurer-ses-projets-data"><i class="fa fa-check"></i><b>3.6</b> Bien structurer ses projets data</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="lire-des-données.html"><a href="lire-des-données.html"><i class="fa fa-check"></i><b>4</b> Lire des données</a><ul>
+<li class="chapter" data-level="4" data-path="lire-des-données.html"><a href="lire-des-données.html"><i class="fa fa-check"></i><b>4</b> Lire des données</a>
+<ul>
 <li class="chapter" data-level="4.1" data-path="lire-des-données.html"><a href="lire-des-données.html#readxl-lire-des-données-excel"><i class="fa fa-check"></i><b>4.1</b> readxl : lire des données Excel</a></li>
 <li class="chapter" data-level="4.2" data-path="lire-des-données.html"><a href="lire-des-données.html#read_delim-lire-des-fichiers-plats"><i class="fa fa-check"></i><b>4.2</b> read_delim : lire des fichiers plats</a></li>
 <li class="chapter" data-level="4.3" data-path="lire-des-données.html"><a href="lire-des-données.html#télécharger-des-données-disponibles-sur-le-web"><i class="fa fa-check"></i><b>4.3</b> Télécharger des données disponibles sur le web</a></li>
 <li class="chapter" data-level="4.4" data-path="lire-des-données.html"><a href="lire-des-données.html#lire-des-fichiers-avec-une-dimension-spatiale"><i class="fa fa-check"></i><b>4.4</b> Lire des fichiers avec une dimension spatiale</a></li>
-<li class="chapter" data-level="4.5" data-path="lire-des-données.html"><a href="lire-des-données.html#lire-des-données-sous-postgresql"><i class="fa fa-check"></i><b>4.5</b> Lire des données sous PostgreSQL</a><ul>
+<li class="chapter" data-level="4.5" data-path="lire-des-données.html"><a href="lire-des-données.html#lire-des-données-sous-postgresql"><i class="fa fa-check"></i><b>4.5</b> Lire des données sous PostgreSQL</a>
+<ul>
 <li class="chapter" data-level="4.5.1" data-path="lire-des-données.html"><a href="lire-des-données.html#lire-des-données-sous-postgresql-première-approche"><i class="fa fa-check"></i><b>4.5.1</b> Lire des données sous PostgreSQL : première approche</a></li>
 <li class="chapter" data-level="4.5.2" data-path="lire-des-données.html"><a href="lire-des-données.html#lire-des-données-sous-postgresql-seconde-approche"><i class="fa fa-check"></i><b>4.5.2</b> Lire des données sous PostgreSQL : seconde approche</a></li>
 </ul></li>
 <li class="chapter" data-level="4.6" data-path="lire-des-données.html"><a href="lire-des-données.html#lire-des-données-du-webservice-insee"><i class="fa fa-check"></i><b>4.6</b> Lire des données du webservice Insee</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html"><i class="fa fa-check"></i><b>5</b> Manipuler des données</a><ul>
+<li class="chapter" data-level="5" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html"><i class="fa fa-check"></i><b>5</b> Manipuler des données</a>
+<ul>
 <li class="chapter" data-level="5.1" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#les-principes-des-fonctions-de-dplyr"><i class="fa fa-check"></i><b>5.1</b> Les principes des fonctions de <code>{dplyr}</code></a></li>
 <li class="chapter" data-level="5.2" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#présentation-des-données"><i class="fa fa-check"></i><b>5.2</b> Présentation des données</a></li>
 <li class="chapter" data-level="5.3" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#chargement-des-données"><i class="fa fa-check"></i><b>5.3</b> Chargement des données</a></li>
-<li class="chapter" data-level="5.4" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#les-verbes-clefs-de-dplyr-pour-manipuler-une-table"><i class="fa fa-check"></i><b>5.4</b> Les verbes clefs de <code>{dplyr}</code> pour manipuler une table</a><ul>
+<li class="chapter" data-level="5.4" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#les-verbes-clefs-de-dplyr-pour-manipuler-une-table"><i class="fa fa-check"></i><b>5.4</b> Les verbes clefs de <code>{dplyr}</code> pour manipuler une table</a>
+<ul>
 <li class="chapter" data-level="5.4.1" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#sélectionner-des-variables-select"><i class="fa fa-check"></i><b>5.4.1</b> Sélectionner des variables : <code>select()</code></a></li>
 <li class="chapter" data-level="5.4.2" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#trier-une-table-arrange"><i class="fa fa-check"></i><b>5.4.2</b> Trier une table : <code>arrange()</code></a></li>
 <li class="chapter" data-level="5.4.3" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#renommer-une-variable-rename"><i class="fa fa-check"></i><b>5.4.3</b> Renommer une variable : <code>rename()</code></a></li>
@@ -186,32 +195,38 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.4.5" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#modifierajouter-une-variable-mutate"><i class="fa fa-check"></i><b>5.4.5</b> Modifier/ajouter une variable : <code>mutate()</code></a></li>
 <li class="chapter" data-level="5.4.6" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#extraire-un-vecteur-pull"><i class="fa fa-check"></i><b>5.4.6</b> Extraire un vecteur : <code>pull()</code></a></li>
 </ul></li>
-<li class="chapter" data-level="5.5" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#la-boîte-à-outils-pour-créer-et-modifier-des-variables-avec-r"><i class="fa fa-check"></i><b>5.5</b> La boîte à outils pour créer et modifier des variables avec R</a><ul>
+<li class="chapter" data-level="5.5" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#la-boîte-à-outils-pour-créer-et-modifier-des-variables-avec-r"><i class="fa fa-check"></i><b>5.5</b> La boîte à outils pour créer et modifier des variables avec R</a>
+<ul>
 <li class="chapter" data-level="5.5.1" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#manipuler-des-variables-numériques"><i class="fa fa-check"></i><b>5.5.1</b> Manipuler des variables numériques</a></li>
 <li class="chapter" data-level="5.5.2" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#exercice-1-les-données-mensuelles-sitadel"><i class="fa fa-check"></i><b>5.5.2</b> Exercice 1 : Les données mensuelles sitadel</a></li>
 <li class="chapter" data-level="5.5.3" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#manipuler-des-dates"><i class="fa fa-check"></i><b>5.5.3</b> Manipuler des dates</a></li>
 <li class="chapter" data-level="5.5.4" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#manipuler-des-chaînes-de-caractères"><i class="fa fa-check"></i><b>5.5.4</b> Manipuler des chaînes de caractères</a></li>
 <li class="chapter" data-level="5.5.5" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#manipuler-des-variables-factorielles-qualitatives-ou-catégorielles"><i class="fa fa-check"></i><b>5.5.5</b> Manipuler des variables factorielles ( = qualitatives ou catégorielles)</a></li>
 </ul></li>
-<li class="chapter" data-level="5.6" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#aggréger-des-données-summarise"><i class="fa fa-check"></i><b>5.6</b> Aggréger des données : <code>summarise()</code></a><ul>
+<li class="chapter" data-level="5.6" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#aggréger-des-données-summarise"><i class="fa fa-check"></i><b>5.6</b> Aggréger des données : <code>summarise()</code></a>
+<ul>
 <li class="chapter" data-level="5.6.1" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#quelques-fonctions-daggrégations-utiles"><i class="fa fa-check"></i><b>5.6.1</b> Quelques fonctions d’aggrégations utiles</a></li>
 </ul></li>
 <li class="chapter" data-level="5.7" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#aggréger-des-données-par-dimension-group_by"><i class="fa fa-check"></i><b>5.7</b> Aggréger des données par dimension : <code>group_by()</code></a></li>
 <li class="chapter" data-level="5.8" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#le-pipe"><i class="fa fa-check"></i><b>5.8</b> Le pipe</a></li>
-<li class="chapter" data-level="5.9" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#la-magie-des-opérations-groupées"><i class="fa fa-check"></i><b>5.9</b> La magie des opérations groupées</a><ul>
+<li class="chapter" data-level="5.9" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#la-magie-des-opérations-groupées"><i class="fa fa-check"></i><b>5.9</b> La magie des opérations groupées</a>
+<ul>
 <li class="chapter" data-level="5.9.1" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#exercice-3"><i class="fa fa-check"></i><b>5.9.1</b> Exercice 3</a></li>
 <li class="chapter" data-level="5.9.2" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#exercice-4"><i class="fa fa-check"></i><b>5.9.2</b> Exercice 4</a></li>
 </ul></li>
-<li class="chapter" data-level="5.10" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#les-armes-non-conventionnelles-de-la-préparation-des-donnéees"><i class="fa fa-check"></i><b>5.10</b> Les armes non conventionnelles de la préparation des donnéees</a><ul>
+<li class="chapter" data-level="5.10" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#les-armes-non-conventionnelles-de-la-préparation-des-donnéees"><i class="fa fa-check"></i><b>5.10</b> Les armes non conventionnelles de la préparation des donnéees</a>
+<ul>
 <li class="chapter" data-level="5.10.1" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#les-select-helpers"><i class="fa fa-check"></i><b>5.10.1</b> Les select helpers</a></li>
 <li class="chapter" data-level="5.10.2" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#utiliser-les-select-helpers-avec-les-autres-verbes-du-tidyverse"><i class="fa fa-check"></i><b>5.10.2</b> Utiliser les select helpers avec les autres verbes du tidyverse</a></li>
 <li class="chapter" data-level="5.10.3" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#filter-mutate-group_by-summarise-arrange-transmute"><i class="fa fa-check"></i><b>5.10.3</b> filter(), mutate(), group_by(), summarise(), arrange(), transmute()…</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="manipuler-plusieurs-tables.html"><a href="manipuler-plusieurs-tables.html"><i class="fa fa-check"></i><b>6</b> Manipuler plusieurs tables</a><ul>
+<li class="chapter" data-level="6" data-path="manipuler-plusieurs-tables.html"><a href="manipuler-plusieurs-tables.html"><i class="fa fa-check"></i><b>6</b> Manipuler plusieurs tables</a>
+<ul>
 <li class="chapter" data-level="6.1" data-path="manipuler-plusieurs-tables.html"><a href="manipuler-plusieurs-tables.html#exercice-5"><i class="fa fa-check"></i><b>6.1</b> Exercice 5</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="structurer-ses-tables.html"><a href="structurer-ses-tables.html"><i class="fa fa-check"></i><b>7</b> Structurer ses tables</a><ul>
+<li class="chapter" data-level="7" data-path="structurer-ses-tables.html"><a href="structurer-ses-tables.html"><i class="fa fa-check"></i><b>7</b> Structurer ses tables</a>
+<ul>
 <li class="chapter" data-level="7.1" data-path="structurer-ses-tables.html"><a href="structurer-ses-tables.html#pourquoi-se-pencher-sur-la-structuration-des-tables"><i class="fa fa-check"></i><b>7.1</b> Pourquoi se pencher sur la structuration des tables ?</a></li>
 <li class="chapter" data-level="7.2" data-path="structurer-ses-tables.html"><a href="structurer-ses-tables.html#les-deux-fonctions-clefs-de-tidyr"><i class="fa fa-check"></i><b>7.2</b> Les deux fonctions clefs de <code>{tidyr}</code></a></li>
 </ul></li>
@@ -238,9 +253,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="bien-commencer" class="section level1">
+<div id="bien-commencer" class="section level1" number="3">
 <h1><span class="header-section-number">Chapitre 3</span> Bien commencer</h1>
-<div id="créer-un-projet-sous-rstudio-pour-vous-permettre-de-recencer-vos-travaux." class="section level2">
+<div id="créer-un-projet-sous-rstudio-pour-vous-permettre-de-recencer-vos-travaux." class="section level2" number="3.1">
 <h2><span class="header-section-number">3.1</span> Créer un projet sous Rstudio pour vous permettre de recencer vos travaux.</h2>
 <p>Pourquoi travailler avec les projets Rstudio plutôt que les scripts R ?</p>
 <ul>
@@ -252,11 +267,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li>Toujours sur la portabilité, un projet peut être utilisé avec un outil comme <code>packrat</code> qui va vous intégrer en interne au projet l’ensemble des packages nécessaires au projet. Cela permet donc à votre collègue à qui vous passez votre projet de ne pas avoir à les installer et, surtout, si vous mettez à jour votre environnement R, votre projet restera toujours avec les versions des packages avec lesquelles vous avez fait tourner votre projet à l’époque. Cela évite d’avoir à subir les effets d’une mise à jour importante d’un package qui casserait votre code.</li>
 </ul>
-<p>Pour activer <code>packrat</code> sur un projet, aller dans <code>Tools/Project Options-&gt;Packrat</code></p>
-<p><a href="https://www.rstudio.com/resources/webinars/managing-package-dependencies-in-r-with-packrat/">En savoir plus sur Packrat</a></p>
-<p><img src="images/creerprojet4.png" id="id" class="class" width="500" /></p>
+<p>Pour activer <code>renv</code> sur un projet, il faut l’installer avec <code>install.packages("renv")</code>.
+Pour intialiser la sauvegarde des packages employés dans le projet, il faut utiliser
+<code>renv::init()</code>
+Les packages chargés dans le projet sont enregistrés dans un sous-dossier dédié.
+En cours de travail sur le projet, la commande <code>renv::snapshot()</code> permet de faire une sauvegarde, la commande <code>renv::restore()</code> permet de charger la dernière sauvegarde.</p>
+<p><a href="https://blog.rstudio.com/2019/11/06/renv-project-environments-for-r/">En savoir plus sur renv</a></p>
 <ul>
-<li><p>Cela permet de se forcer à travailler en mode projet : on intègre à un seul endroit tout ce qui est lié à un projet : données brutes, données retravaillées, scripts, illustrations, documentations, publications… et donc y compris les packages avec <code>packrat</code>.</p></li>
+<li><p>Cela permet de se forcer à travailler en mode projet : on intègre à un seul endroit tout ce qui est lié à un projet : données brutes, données retravaillées, scripts, illustrations, documentations, publications… et donc y compris les packages avec <code>renv</code>.</p></li>
 <li><p>On peut travailler sur plusieurs projets en même temps, Rstudio ouvre autant de sessions que de projets dans ce cas.</p></li>
 <li><p>Les projets Rstudio intègrent une interface avec les outils de gestion de version Git et SVN. Cela veut dire que vous pouvez versionner votre projet et l’héberger simplement comme répertoire sur des plateformes de gestion de code telle que Github ou Gitlab.</p></li>
 </ul>
@@ -270,45 +288,54 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p><img src="images/creerprojet2.png" id="id" class="class" width="500" /></p>
 </div>
-<div id="intégrer-vos-données" class="section level2">
+<div id="intégrer-vos-données" class="section level2" number="3.2">
 <h2><span class="header-section-number">3.2</span> Intégrer vos données</h2>
 <p>Une bonne pratique est de créer un sous répertoire <code>/data</code> pour stocker les données sur lesquelles vous aurez à travailler.</p>
 <p>Vous pouvez le faire depuis l’explorateur de fichier de votre système d’exploitation ou directement à partir de l’explorateur de fichier de RStudio.</p>
 <p><img src="images/creerprojet3.png" id="id" class="class" width="500" /></p>
 <p>Cela marche bien quand on a un seul type de données, mais en général on va avoir à travailler sur des données brutes que l’on va retravailler ensuite et vouloir stocker à part. Si par la suite vous souhaitez avoir des exemples de bonnes pratiques sur comment structurer vos données, vous pouvez vous référer au <a href="http://r-pkgs.had.co.nz/data.html">chapitre data</a> du livre d’Hadley Wickham sur la construction de packages R (tout package R étant aussi un projet !).</p>
 </div>
-<div id="créer-votre-arborescence-de-projet" class="section level2">
+<div id="créer-votre-arborescence-de-projet" class="section level2" number="3.3">
 <h2><span class="header-section-number">3.3</span> Créer votre arborescence de projet</h2>
 <ul>
 <li>Créer un répertoire <code>/src</code> ou vous mettrez vos scripts R.</li>
 <li>Créer un répertoire <code>/figures</code> ou vous mettrez vos illustrations issues de R.</li>
 </ul>
 </div>
-<div id="activer-les-packages-nécessaires" class="section level2">
-<h2><span class="header-section-number">3.4</span> Activer les packages nécessaires</h2>
+<div id="utilisation-du-package-savoirfr" class="section level2" number="3.4">
+<h2><span class="header-section-number">3.4</span> Utilisation du package savoirfR</h2>
+<p>Pour faciliter le déroulé de ce module, l’ensemble des exercices (énoncés, corrigés et données) a été intégré à un package réalisé par le groupe des référents R: savoirfR</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="bien-commencer.html#cb1-1" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;MTES-MCT/savoirfR&quot;</span>)</span></code></pre></div>
+<p>Pour l’utiliser, il suffit de créer un nouveau projet dans un nouveau répertoire, en sélectionnant le “Project Type” <strong>Exercice Parcours R MTES-MCT</strong>.</p>
+<p><img src="images/projetsavoirfR1.PNG" id="id" class="class" width="500" /></p>
+<p>Remplissez et sélectionnez le module suivi.</p>
+<p><img src="images/projetsavoirfR2.PNG" id="id" class="class" width="500" /></p>
+</div>
+<div id="activer-les-packages-nécessaires" class="section level2" number="3.5">
+<h2><span class="header-section-number">3.5</span> Activer les packages nécessaires</h2>
 <p>Commencer par rajouter un script dans le répertoire <code>/src</code> à votre projet qui commencera par :</p>
 <ul>
 <li><p>activer l’ensemble des packages nécessaires,</p></li>
 <li><p>charger les données dont vous aurez besoin.</p></li>
 </ul>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="bien-commencer.html#cb1-1"></a><span class="kw">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="bien-commencer.html#cb1-2"></a><span class="kw">library</span>(lubridate)</span>
-<span id="cb1-3"><a href="bien-commencer.html#cb1-3"></a><span class="kw">library</span>(RcppRoll)</span>
-<span id="cb1-4"><a href="bien-commencer.html#cb1-4"></a><span class="kw">library</span>(DT)</span>
-<span id="cb1-5"><a href="bien-commencer.html#cb1-5"></a><span class="kw">library</span>(readxl)</span>
-<span id="cb1-6"><a href="bien-commencer.html#cb1-6"></a><span class="kw">library</span>(dbplyr)</span>
-<span id="cb1-7"><a href="bien-commencer.html#cb1-7"></a><span class="kw">library</span>(RPostgreSQL)</span>
-<span id="cb1-8"><a href="bien-commencer.html#cb1-8"></a><span class="kw">library</span>(rsdmx)</span>
-<span id="cb1-9"><a href="bien-commencer.html#cb1-9"></a><span class="kw">library</span>(sf)</span>
-<span id="cb1-10"><a href="bien-commencer.html#cb1-10"></a><span class="kw">library</span>(stringi)</span>
-<span id="cb1-11"><a href="bien-commencer.html#cb1-11"></a></span>
-<span id="cb1-12"><a href="bien-commencer.html#cb1-12"></a>sitadel &lt;-<span class="st"> </span><span class="kw">read_excel</span>(<span class="st">&quot;data/ROES_201702.xls&quot;</span>, <span class="dt">sheet =</span> <span class="st">&quot;AUT_REG&quot;</span>,</span>
-<span id="cb1-13"><a href="bien-commencer.html#cb1-13"></a>                      <span class="dt">col_types =</span> <span class="kw">c</span> (<span class="st">&quot;text&quot;</span>,<span class="st">&quot;text&quot;</span>,<span class="st">&quot;numeric&quot;</span>,<span class="st">&quot;numeric&quot;</span>,<span class="st">&quot;numeric&quot;</span>,<span class="st">&quot;numeric&quot;</span>))</span>
-<span id="cb1-14"><a href="bien-commencer.html#cb1-14"></a><span class="kw">load</span>(<span class="dt">file =</span> <span class="st">&quot;data/FormationPreparationDesDonnees.RData&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="bien-commencer.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-2"><a href="bien-commencer.html#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb2-3"><a href="bien-commencer.html#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RcppRoll)</span>
+<span id="cb2-4"><a href="bien-commencer.html#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DT)</span>
+<span id="cb2-5"><a href="bien-commencer.html#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb2-6"><a href="bien-commencer.html#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dbplyr)</span>
+<span id="cb2-7"><a href="bien-commencer.html#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RPostgreSQL)</span>
+<span id="cb2-8"><a href="bien-commencer.html#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rsdmx)</span>
+<span id="cb2-9"><a href="bien-commencer.html#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb2-10"><a href="bien-commencer.html#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringi)</span>
+<span id="cb2-11"><a href="bien-commencer.html#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="bien-commencer.html#cb2-12" aria-hidden="true" tabindex="-1"></a>sitadel <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">&quot;extdata/ROES_201702.xls&quot;</span>, <span class="at">sheet =</span> <span class="st">&quot;AUT_REG&quot;</span>,</span>
+<span id="cb2-13"><a href="bien-commencer.html#cb2-13" aria-hidden="true" tabindex="-1"></a>                      <span class="at">col_types =</span> <span class="fu">c</span> (<span class="st">&quot;text&quot;</span>,<span class="st">&quot;text&quot;</span>,<span class="st">&quot;numeric&quot;</span>,<span class="st">&quot;numeric&quot;</span>,<span class="st">&quot;numeric&quot;</span>,<span class="st">&quot;numeric&quot;</span>))</span>
+<span id="cb2-14"><a href="bien-commencer.html#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="at">file =</span> <span class="st">&quot;extdata/FormationPreparationDesDonnees.RData&quot;</span>)</span></code></pre></div>
 </div>
-<div id="bien-structurer-ses-projets-data" class="section level2">
-<h2><span class="header-section-number">3.5</span> Bien structurer ses projets data</h2>
-<p>Plusieurs documents peuvent vous inspirer sur la structuration de vos projets data par la suite.</p>
+<div id="bien-structurer-ses-projets-data" class="section level2" number="3.6">
+<h2><span class="header-section-number">3.6</span> Bien structurer ses projets data</h2>
+<p>Plusieurs documents peuvent vous inspirer sur la structuration de vos projets <em>data</em> par la suite.</p>
 <p>En voici quelques-uns :</p>
 <ul>
 <li><a href="https://github.com/pavopax/new-project-template" class="uri">https://github.com/pavopax/new-project-template</a></li>

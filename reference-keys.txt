@@ -17,6 +17,7 @@ bien-commencer
 créer-un-projet-sous-rstudio-pour-vous-permettre-de-recencer-vos-travaux.
 intégrer-vos-données
 créer-votre-arborescence-de-projet
+utilisation-du-package-savoirfr
 activer-les-packages-nécessaires
 bien-structurer-ses-projets-data
 lire-des-données
