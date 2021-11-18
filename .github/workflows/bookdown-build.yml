@@ -1,0 +1,14 @@
+name: Test compilation de parcours_r_socle_preparation_des_donnees
+
+on:
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  build-bookdown:
+    name: Build bookdown
+    uses: MTES-MCT/parcours-r/.github/workflows/bookdown-build.yml@master
+    with:
+      r_version: '4.0.4'
