@@ -29,30 +29,32 @@ knitr::opts_chunk$set(echo = TRUE, message=FALSE, error=FALSE, warning=FALSE, fi
 
 ## Le parcours de formation
 
-Ce dispositif de formation vise à faire monter en compétence les agents du MTES (Ministère de la transition écologique et solidaire) et du MCT (Ministère de la cohésion des territoires) dans le domaine de la science de la donnée avec le logiciel R. Il est conçu pour être déployé à l'échelle nationale par le réseau des CVRH (Centre de Valorisation des Ressources Humaines).
+Ce dispositif de formation vise à faire monter en compétence les agents du MTES (Ministère de la transition écologique) et du MCTRCT (Ministère de la Cohésion des Territoires et des Relations avec les collectivités territoriales) dans le domaine de la science de la donnée avec le logiciel R. Il est conçu pour être déployé à l'échelle nationale par le réseau des CVRH (Centre de Valorisation des Ressources Humaines).
 
 Le parcours proposé est structuré en modules de 2 jours chacun. Les deux premiers (ou un niveau équivalent) sont des pré-requis pour suivre les suivants qui sont proposés "à la carte" :
 
 1. Socle : Premier programme en R
 2. Socle : Préparation des données
 3. Statistiques descriptives
-4. Analyses multivariées
+4. Analyse des données multi-dimensionnelles
 5. Datavisualisation : Produire des graphiques, des cartes et des tableaux
-6. Documents reproductibles avec RMarkdown 
-
-... et en perspective : analyse spatiale, applis interactives avec Shiny, big data, etc.
+6. Publications reproductibles avec RMarkdown (à venir)
+7. Analyse spatiale (à venir)
+8. Big data et optimisation du code (à venir)
+9. Applications interactives avec Shiny (à venir)
 
 La mise à disposition des supports de formation se fait désormais par la [page d'accueil du parcours de formation](https://mtes-mct.github.io/parcours-r/). Ces supports sont en [licence ouverte](https://www.etalab.gouv.fr/wp-content/uploads/2017/04/ETALAB-Licence-Ouverte-v2.0.pdf).
 
-Si vous souhaitez accéder aux sources, données mobilisées pendant les formations, il faut directement les télécharger depuis le [Github du ministère](https://github.com/MTES-MCT/parcours_r_socle_preparation_des_donnees).
+Si vous souhaitez accéder aux sources ou aux données mobilisées pendant les formations, il faut directement les télécharger depuis le [Github du ministère](https://github.com/MTES-MCT?q=parcours_r&type=&language=).
 
 Un package d'exercices, [{savoirfR}](https://github.com/MTES-MCT/savoirfR) rassemble toutes les données et les consignes d'exercices de ce support de formation
 
-Pour vous tenir au courant de l'offre de formation proposée par le réseau des CVRH, [consultez la plateforme OUPS](http://oups-cmvrh.e2.rie.gouv.fr/). Vous pouvez vous y abonner pour recevoir les annonces qui vous intéressent.
+Pour vous tenir au courant de l'offre de formation proposée par le réseau des CVRH, [consultez la plateforme OUPS](http://oups-cmvrh.e2.rie.gouv.fr/) (un accès intranet MTES-MCT est nécessaire). Vous pouvez vous y abonner pour recevoir les annonces de formation qui vous intéressent.
 
-Il existe une liste pour diffuser de l'information, échanger autour de R ou lever des points de blocage. Pour s'insrire, envoyer un message vide avec le titre "subscribe labo.communaute-r" à l'adresse sympa@developpement-durable.gouv.fr.   
+Pour échanger de l'information, discuter autour de R ou encore faire part de difficultés et trouver ensemble les solutions, il existe deux solutions:
 
-Il existe également un canal Ariane #utilisateurs_r et une faq http://pne.metier.e2.rie.gouv.fr/la-faq-de-r-r1028.html
+- S'insrire en envoyant un message vide à l'adresse [sympa@developpement-durable.gouv.fr](mailto:sympa@developpement-durable.gouv.fr?Subject=subscribe labo.communaute-r).
+- Rejoindre le fil Ariane [#utilisateurs_r](https://ariane.din.developpement-durable.gouv.fr/channel/utilisateurs_r)
 
 
 ## Objectifs du module 2
