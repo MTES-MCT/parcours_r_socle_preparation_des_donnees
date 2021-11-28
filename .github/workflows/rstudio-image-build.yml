@@ -6,10 +6,9 @@ on:
       - main
       - master
     paths:
-      -'!**'
-      - '.github/workflows/rstudio-image-build.yml'
-      - 'Dockerfile'
-      - 'renv.lock'
+      - .github/workflows/rstudio-image-build.yml
+      - Dockerfile
+      - renv.lock
       
   pull_request:
     types:
@@ -18,10 +17,9 @@ on:
       - main
       - master
     paths:
-      -'!**'
-      - '.github/workflows/rstudio-image-build.yml'
-      - 'Dockerfile'
-      - 'renv.lock'
+      - .github/workflows/rstudio-image-build.yml
+      - Dockerfile
+      - renv.lock
       
   workflow_dispatch:
 
