@@ -2,9 +2,7 @@ name: Test compilation de parcours_r_socle_preparation_des_donnees
 
 on:
   pull_request:
-    branches:
-      - main
-      - master
+    branches: [main, master, dev]
 
 jobs:
   build-bookdown:
