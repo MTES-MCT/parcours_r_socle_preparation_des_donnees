@@ -475,7 +475,7 @@ head(levels(prelevementb$code_station))
 
 `{forcats}` permet beaucoup d'autres possibilités de tri : 
 
-- tri manue des facteurs avec `fct_relevel()` ;
+- tri manuel des facteurs avec `fct_relevel()` ;
 
 - en fonction de la valeur d'une autre variable avec `fct_reorder()`;
 
