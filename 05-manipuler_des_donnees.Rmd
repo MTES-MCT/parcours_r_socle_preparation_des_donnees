@@ -58,7 +58,8 @@ prelevementb <- select(prelevement, -commentaire)
 names(prelevementb)
 ```
 
-`select()` possède ce qu'on appelle des [helpers](https://dplyr.tidyverse.org/reference/select.html) qui permettent de gagner du temps dans l'écriture de notre select. A partir du moment où les conventions de nommage sont correctement effectuées, cela permet de gagner également en reproductibilité d'une année sur l'autre.
+`select()` possède ce qu'on appelle des [helpers](https://dplyr.tidyverse.org/reference/select.html) qui permettent de gagner du temps dans l'écriture de notre sélection. 
+A partir du moment où les conventions de nommage sont correctement effectuées, cela permet de gagner également en reproductibilité d'une année sur l'autre.
 
 Exemple : sélectionner toutes les variables qui commencent par "code_" : 
 
@@ -196,7 +197,7 @@ datatable(b)
 
 - opérations cumulatives ou glissantes : 
 
-    - R fournit des fonctions pour obtenir **opérations cumulatives** les somme, produit, minimum et maximum cumulés, dplyr fournit l'équivalent pour les moyennes : `cumsum()`, `cumprod()`, `cummin()`, `cummax()`, `cummean()`
+    - R fournit des fonctions pour obtenir des **opérations cumulatives** les somme, produit, minimum et maximum cumulés, dplyr fournit l'équivalent pour les moyennes : `cumsum()`, `cumprod()`, `cummin()`, `cummax()`, `cummean()`
   
     - Pour appliquer des **opérations glissantes**, on peut soit créer l'opération avec l'instruction `lag()`, soit exploiter le package `RcppRoll` qui permet d'exploiter des fonctions prédéfinies.
 
@@ -272,13 +273,8 @@ analyseb <- mutate(analyse, classe_resultat_analyse = case_when(
 
 cf. package d'exercices `{savoirfR}`
 
-À partir du fichier sitadel de février 2017 (ROES_201702.xls), produire un dataframe `sit_52_ind` contenant pour la **région Pays-de-la-Loire** (code région 52), pour **chaque mois** et pour les **logements individuels** (definis par la somme des logements individuels purs et individuels groupés : `i_AUT = ip_AUT + ig_AUT`) :  
-
-   - le cumul des autorisations sur 12 mois glissants (`i_AUT_cum12`) ;    
-   
-   - le taux d’évolution du cumul sur 12 mois (`i_AUT_cum_evo`, en %) ;   
-   
-   - la part de ce cumul dans celui de l’ensemble des logements autorisés (`log_AUT`, en %).    
+```{r mod2_exo1, child=charge_exo("m2", "exo1.rmd"), echo=FALSE}
+```
    
    
 <center>![](images/exercice1_enonce_v3.png)</center>
@@ -327,7 +323,8 @@ Les fonctions `make_date()` et `make_datetime()` vous permettent de transformer 
 
 #### Exercice 2 : les dates
 
-Convertir les colonnes de la table exercice au format date (quand c'est pertinent).
+```{r mod2_exo2, child=charge_exo("m2", "exo2.rmd"), echo=FALSE}
+```
 
 ### Manipuler des chaînes de caractères
 
@@ -519,14 +516,14 @@ La fonction `summarise()` permet d'aggréger des données, en appliquant une fon
 `summarise()` est une fonction dite de “résumé”. À l’inverse de `mutate()`, quand une fonction summarise est appelée, elle retourne une seule information. La moyenne, la variance, l’effectif… sont des informations qui condensent la variable étudiée en une seule information.
 <left>![](images/summarise.jpg)</left><left>![](images/mutate.jpg)</left>
 
-La syntaxe de summarise est classique. Le resultat est un dataframe.
+La syntaxe de summarise est classique. Le résultat est un dataframe.
 
 ```{r, echo = TRUE, results='hide'}
 summarise(exercice, 
           mesure_moyenne = mean(resultat_analyse, na.rm = T))
 ```
 
-On peut calculer plusieurs statistiques sur une aggrégation
+On peut calculer plusieurs statistiques sur une agrégation
 
 ```{r, echo = TRUE, results='hide'}
 summarise(exercice, 
@@ -624,30 +621,14 @@ L'opération `group_by()` que nous venons de voir est très utile pour les aggr�
 
 ### Exercice 3
 
-A partir des données “sitadel” (chargées dans l'exercice 1), effectuer les opérations suivantes en utilisant l’opérateur %>% :  
-
-- effectuer les mêmes calculs que ceux réalisés sur la région 52, mais sur chacune des régions _--> à stocker dans 'sit_ind'_
-  
-- calculer les aggrégations par année civile pour chacune des régions, puis leur taux d’évolution d’une année sur l’autre, exemple : (val2015-val2014)/val2014 _--> à stocker dans 'sit_annuel'_
+```{r mod2_exo3, child=savoirfR::charge_exo("m2", "exo3.rmd"), echo=FALSE}
+```
 
 
 ### Exercice 4
 
-Sur les données "FormationPreparationDesDonnées.RData", table "exercice" : 
-
-1. calculer le taux de quantification pour chaque molécule et chacune des année : chaque molécule est identifiée par son `code_parametre`, le taux de quantification est le nombre de fois qu'une molécule est retrouvée (`code_remarque` = 1) sur le nombre de fois où elle a été
-cherchée (`code_remarque` = 1, 2, 7 ou 10). Pour cela :  
-
- - créer la variable “annee” ;  
- - créer la variable de comptage des présences pour chaque analyse (1=présent, 0=absent) ;  
- - créer la variable de comptage des recherches pour chaque analyse (1=recherchée, 0=non recherchée) ;  
- - pour chaque combinaison `annee` x `code_parametre`, calculer le taux de quantification.  
- 
-2. Trouver pour chaque station, sur l’année 2016, le prélèvement pour lequel la concentration cumulée, toutes substances confondues, est la plus élevée (~ le prélèvement le plus pollué). Pour cela :  
-
- - filtrer les concentrations quantifiées (`code_remarque`=1) et l’année 2016 ;  
- - sommer les concentrations (`resultat_analyse`) par combinaison `code_station` x `code_prelevement` ;  
- - ne conserver que le prélèvement avec le concentration maximale.  
+```{r mod2_exo4, child=savoirfR::charge_exo("m2", "exo4.rmd"), echo=FALSE}
+```
 
 
 <!-- ## Le travail en colonnes col_wise ? -->

@@ -26,20 +26,23 @@ La fonction `read_delim()` permet d'importer les données d'un fichier csv. Elle
 - le `locale` du fichier,  
 - la valeur qui sera interprétée comme étant la valeur manquante.
 
-`read_csv()`, `read_csv2()` et `read_tsv()` sont des implémentations prérenseignées de `read_delim` pour lire des fichiers plats avec séparateurs **,** **;** et **tabulaire**.
+`read_csv()`, `read_csv2()` et `read_tsv()` sont des implémentations pré-renseignées de `read_delim` pour lire des fichiers plats avec séparateurs **,** **;** et **tabulaire**.
 
 ## Télécharger des données disponibles sur le web
 
 Parfois, les données que nous exploitons sont disponibles sur le web.
 Il est possible, directement depuis R, de télécharger ces données et, si nécessaire, de les décompresser (dans le répertoire de travail).
-Exemple sur les données SEQUOIA de l'ACOSS :
+Exemple sur les données 2019 de l'enquête INSEE sur les hébergements touristiques.
 
-```{r lire_2, eval=FALSE}
-url <- "http://www.acoss.fr/files/Donnees_statistiques/SEQUOIA_TRIM_REGION.zip"
-download.file(url, destfile = "extdata/SEQUOIA_TRIM_REGION.zip", method = "auto")
-unzip(zipfile = "extdata/SEQUOIA_TRIM_REGION.zip", exdir = "extdata")
-SEQUOIA <- read_excel("extdata/SEQUOIA_TRIM_REGION_BRUT210610.xlsx", sheet = "PAYS_DE_LA_LOIRE")
-datatable(SEQUOIA)
+```{r lire_2, eval=TRUE}
+# présentation des données sur https://www.insee.fr/fr/statistiques/2021703
+url <- "https://www.insee.fr/fr/statistiques/fichier/2021703/base-cc-tourisme-2019-geo2019.zip"
+
+download.file(url, destfile = "extdata/base-cc-tourisme-2019-geo2019.zip", method = "auto")
+unzip(zipfile = "extdata/base-cc-tourisme-2019-geo2019.zip", exdir = "extdata")
+enq_tourisme <- read_excel("extdata/base-cc-tourisme-2019-geo2019.xls", 
+                           sheet = "COM", skip = 5, n_max = 50)
+datatable(head(enq_tourisme), options = list(dom = 't'))
 ```
 
 ## Lire des fichiers avec une dimension spatiale
@@ -52,6 +55,16 @@ plot(Carte_EPCI_France)
 
 communes2017 <- st_read(dsn = "extdata/refgeo2017/communes2017.geojson")
 plot(communes2017)
+```
+
+On peut également lire des couches directement depuis le web
+
+```{r lire_3b, eval = TRUE, message = TRUE, warning = FALSE}
+st_read("https://france-geojson.gregoiredavid.fr/repo/regions.geojson") %>% 
+  filter(code > "10") %>% 
+  select(code) %>% 
+  plot()
+
 ```
 
 Le package `{sf}` contient l'ensemble des fonctions permettant des manipulations sur fichiers géomatiques.
