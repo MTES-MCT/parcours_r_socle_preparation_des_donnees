@@ -49,11 +49,11 @@ datatable(head(enq_tourisme), options = list(dom = 't'))
 
 Le package `{sf}` (pour simple feature) permet d'importer dans R un fichier ayant une dimension spatiale. Après importation, le fichier est un dataframe avec une variable d'un type nouveau : la géométrie. Deux exemples ici pour lire des données au format shape et geojson.
 
-```{r lire_3, eval = FALSE, message = FALSE, warning = FALSE}
-Carte_EPCI_France <- st_read(dsn = "extdata/refgeo2017", layer = "Contour_epci_2017_region")
-plot(Carte_EPCI_France)
+```{r lire_3, eval = TRUE, message = FALSE, warning = FALSE}
+Carte_com_Mayotte <- st_read(dsn = "extdata/refgeo", layer = "com_mayotte")
+plot(Carte_com_Mayotte)
 
-communes2017 <- st_read(dsn = "extdata/refgeo2017/communes2017.geojson")
+communes2017 <- st_read(dsn = "extdata/refgeo/communes2017.geojson")
 plot(communes2017)
 ```
 

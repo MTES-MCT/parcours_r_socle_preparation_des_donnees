@@ -11,5 +11,3 @@ bookdown::gitbook:
     download: ["pdf", "epub"]
 bookdown::epub_book:
   stylesheet: style.css
-bookdown::pdf_book:
-  latex_engine: xelatex

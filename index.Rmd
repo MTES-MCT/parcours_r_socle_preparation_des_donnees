@@ -16,7 +16,7 @@ description: "Préparation des données avec R et le Tidyverse (module 2)"
 
 ```{r setup, include=FALSE}
 rm(list=ls())
-knitr::opts_chunk$set(echo = TRUE, message=FALSE, error=FALSE, warning=FALSE, dev = "svg", fig.width=6, fig.height=6)
+knitr::opts_chunk$set(echo = TRUE, message=FALSE, error=FALSE, warning=FALSE, fig.width=6, fig.height=6)
 library(savoirfR)
 ```
 
@@ -65,3 +65,16 @@ On estime qu'un scientifique de la donnée passe en général ***la moitié de s
 ![](images/cover.png)
 
 Sous R, comme souvent, il y a plusieurs façons d'aborder cette question. Ce module de formation privilegie l'exploration des packages du framework *tidyverse*, qui ont l'avantage d'aborder les différentes phases de préparation des données d'une façon intégrée et cohérente, que ce soit entre elles, ou avec d'autres.
+
+```{r recup dataset depuis savoirfR, message=FALSE, include=FALSE, warning=FALSE}
+library(dplyr)
+# récupération des jeux de données de savoir faire
+datasets_m2 <- read.csv2(system.file("extdata", "list_data_module.csv", package = "savoirfR")) %>% 
+  filter(module == "m2") %>% 
+  pull(file)
+
+file.copy(from = system.file("extdata", datasets_m2, package = "savoirfR"), to = "extdata", 
+          overwrite = TRUE, recursive = TRUE)
+
+```
+

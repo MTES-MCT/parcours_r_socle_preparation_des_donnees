@@ -54,7 +54,7 @@ prelevementb <- select(
 )
 datatable(head(prelevementb))
 
-prelevementb <- select(prelevement, -commentaire)
+prelevementb <- select(prelevement, -code_support)
 names(prelevementb)
 ```
 
@@ -446,7 +446,7 @@ iconv(proust2, to = "ASCII//TRANSLIT")
 
 ```
 
-Avec un humour quelque peu discutable, un petit aide-mémoire illustré, assez visuel, est proposé par Lise Vaudor [ici](http://perso.ens-lyon.fr/lise.vaudor/manipuler-des-strings-avec-r/). 
+Avec un humour particulier, un petit aide-mémoire illustré, assez visuel, est proposé par Lise Vaudor [ici](http://perso.ens-lyon.fr/lise.vaudor/manipuler-des-strings-avec-r/). 
 
 ### Manipuler des variables factorielles ( = qualitatives ou catégorielles)
 
@@ -699,7 +699,7 @@ rename_with(station, toupper, starts_with("code")) %>% names()
 Si la fonction de renommage est plus complexe qu'un simple mot, il faut recourir au pronom `.x` et au `~` pour la définir. Exemple avec la fonction `str_sub()` de `{stringr}` vue précédemment :
 
 ```{r rename_with2}
-rename_with(exercice, ~ str_sub(.x, start = 5, end = str_length(.x)), 
+rename_with(exercice, ~ str_sub(.x, start = 6, end = str_length(.x)), 
             starts_with("code")) %>% names()
 
 ```
@@ -721,13 +721,13 @@ filter(parametre, across(starts_with("date"), ~ .x > "2015-01-01")) %>%
 
 mutate(exercice, across(starts_with("code") & where(is.numeric), as.factor),
                  across(starts_with("date"), as.Date)) %>%
-  slice(1:100) %>%
+  head() %>%
   datatable()
 
 summarise(parametre, across(starts_with("code"), n_distinct))
 
 group_by(prelevement, across(code_intervenant:code_station)) %>%
-  summarise(across(everything(), list(nb = n_distinct)))
+  summarise(across(everything(), list(nb = n_distinct)), .groups = "drop")
 
 
 ```
