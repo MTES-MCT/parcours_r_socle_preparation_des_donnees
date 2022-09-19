@@ -1,0 +1,73 @@
+# Nettoyer des données territoriales : gérer les évolutions du COG (code officiel géographique) 
+
+Lorsque qu'on démarre en analyse de données territoriales, on est parfois surpris de constater que ce qui nous semblent être immuable, comme les contours des régions, départements, communes, ne l'est pas ! 
+Chaque année des communes fusionnent (voire se séparent !), les régions ont bougé avec beaucoup de bruit début 2016, on a même vu récemment une [commune changer de département](https://fr.wikipedia.org/wiki/Freign%C3%A9). 
+Bref toute chaîne de traitement de données qui a vocation a être pérennisée doit prendre en compte cette variabilité des contours territoriaux. 
+
+Le COG ou Code officiel géographique des territoires est [administré par l'INSEE](https://www.insee.fr/fr/information/2560452), qui publie chaque année la nouvelle liste des communes, départements, regions, et une table de passage annuelle entre anciennes et nouvelles communes. 
+
+Comme souvent avec R, des utilisateurs soucieux de partager leurs astuces ont conçu des packages pour faciliter les traitement de mise à jour du COG, on peut citer [{COGugaison} de Kim Antunez](https://antuki.github.io/COGugaison/), qui est très précis (conversion d'un millésime à un autre, contrôle des années de conversion, retour en arrière possible) mais seulement adapté pour les tables de données France entière, et le package DREAL Pays de la Loire, initié par [Maël Theulière {COGiter}](https://maeltheuliere.github.io/COGiter/), qui est plus simple (un seul sens : la mise à jour), ce package comprend par ailleurs des services d'agrégation à différentes échelles, de gestion des noms, des contours géo, mais ne gère pas très bien les scission de communes. 
+
+La mise à jour du COG d'une source de donnée avec ces packages n'est possible que si elle est disponible au moins à la maille communale sans secrétisation. Dans ce chapitre est présenté les usages les plus fréquents de {COGiter}.
+
+
+## Mettre à jour une table comportant une colonne de code commune
+
+Dans nos données relatives aux pesticides, la table des stations comprend le code commune de rattachement de chaque station.
+`{COGiter}` permet de tenir à jour cette information d'une fonction :
+
+```{r cog1}
+library(COGiter)
+stations_cog_ok <- passer_au_cog_a_jour(.data = station, code_commune = code_commune, aggrege = FALSE, garder_info_supra = TRUE)
+
+```
+
+Le paramètre "aggrege" sert à indiquer si on souhaite obtenir en sortie une table avec une ligne par commune à jour, en sommant les valeurs numériques de la table.
+Le paramètre "garder_info_supra" sert à indiquer si on souhaite obtenir en sortie une table comportant en plus les territoires supra-communaux (EPCI, DEP, REG, ...) de rattachement.
+```{r cog1vue}
+stations_cog_ok  %>% names()
+```
+
+## Mettre à jour le COG et agréger aux différentes échelles
+
+Dans nos données de l'enquête l'INSEE nous indique que les communes utilisées pour diffuser les résultats sont de celles 2019. Elles on donc bougé depuis.
+Imaginions, que nous voudrions avoir les résultats de cette enquête non pas par commune, mais par EPCI et département : la fonction COGifier nous aide à faire tout ça en un tour de main.
+
+```{r cogifier1}
+glimpse(enq_tourisme)
+enq_tourisme_epci_dep <- enq_tourisme %>% 
+  # on enlève les colonnes textes à mettre à jour
+  select(-LIBGEO, -REG, -DEP) %>% 
+  cogifier(code_commune = CODGEO, communes = FALSE, epci = TRUE, departements = TRUE, regions = FALSE, 
+           metro = TRUE, franceprovince = FALSE, metrodrom = FALSE, drom = TRUE, na.rm = FALSE)
+
+glimpse(enq_tourisme_epci_dep)
+```
+
+## Sélectionner les territoires de ma zone de travail
+Et si je ne souhaite que les territoires de ma région ou de mon département ?
+
+```{r filter_cog}
+# Département du Nord
+enq_tourisme_epci_dep %>% 
+  filtrer_cog(dep = "59")
+
+# Région Bretagne
+enq_tourisme_epci_dep %>% 
+  filtrer_cog(reg = "53", garder_supra = TRUE) %>% 
+  arrange(desc(TypeZone))
+```
+
+## Pour en savoir plus : utiliser les fonds de carte mis à disposition dans COGiter
+COGiter contient des fonds de cartes des contours administratifs, conçus à partir des couches admin-express de l'IGN et dont la géométrie a été encore simplifiée pour répondre aux besoins de visualisation statistique.
+
+Voici un exemple d'usage très sommaire : 
+```{r}
+departements_geo %>% 
+  inner_join(enq_tourisme_epci_dep, by = c("DEP" = "CodeZone")) %>% 
+  select(HT19) %>% 
+  plot()
+
+```
+Obtenir la liste des fonds de cartes et des fonctionnalités géo : https://maeltheuliere.github.io/COGiter/articles/filtre_geo.html
+

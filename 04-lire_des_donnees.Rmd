@@ -50,7 +50,7 @@ url <- "https://www.insee.fr/fr/statistiques/fichier/2021703/base-cc-tourisme-20
 download.file(url, destfile = "extdata/base-cc-tourisme-2019-geo2019.zip", method = "auto")
 unzip(zipfile = "extdata/base-cc-tourisme-2019-geo2019.zip", exdir = "extdata")
 enq_tourisme <- read_excel("extdata/base-cc-tourisme-2019-geo2019.xls", 
-                           sheet = "COM", skip = 5, n_max = 50)
+                           sheet = "COM", skip = 5)
 datatable(head(enq_tourisme), options = list(dom = 't'))
 ```
 ### Exemple données sur les logements vacants depuis data.gouv.fr
