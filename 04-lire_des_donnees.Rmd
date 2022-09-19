@@ -105,7 +105,7 @@ datatable(urssaf_fr)
 
 La récupération des métadonnées d'un jeu de données se fait avec une autre url, en voici un exemple à partir de la plateforme opendata des réseaux d'énergie (ODRE)
 
-```{r lire_2b}
+```{r lire_2c}
 # Description du jeu de données
 dataset_url  <- paste0("https://opendata.reseaux-energies.fr/api/dataset/1.0/prod-region-annuelle-enr")
 
@@ -166,6 +166,7 @@ devtools::install_github("mtes-mct/didor")
 
 Voici un exemple d'utilisation pour récupérer les données de consommation de produits pétroliers dans les DROM :
 ```{r}
+devtools::install_github("mtes-mct/didor")
 library(didor)
 library(tidyverse)
 
@@ -211,7 +212,7 @@ st_read("https://france-geojson.gregoiredavid.fr/repo/regions.geojson") %>%
 
 {sf} propose de lire toutes sortes de données spatiales. 
 
-```{r lire_3b, eval = TRUE, message = TRUE, warning = FALSE}
+```{r lire_3c, eval = TRUE, message = TRUE, warning = FALSE}
 sf::st_drivers()
 
 ```
