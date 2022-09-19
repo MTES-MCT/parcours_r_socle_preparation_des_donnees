@@ -55,15 +55,17 @@ Comment passer facilement d'un format **non tidy** à un format **tidy** ? C'est
 
 <center>![](images/spread.png)</center>
 
-Pour avoir un apperçu illustré de ces fonctions, voir [cette animation](https://www.dropbox.com/s/a6o75zj443b2rv3/tidyr-longer-wider-modified.gif?dl=0)
+Pour avoir un aperçu illustré de ces fonctions, voir [cette animation](https://www.dropbox.com/s/a6o75zj443b2rv3/tidyr-longer-wider-modified.gif?dl=0)
 
 Reprenons notre table Insee d'estimation de population. Comment faire pour passer cette table dans le format *tidy* ?
 
-Première étape, retrouvons notre colonne `population`. Pour cela, il nous faut passer notre table au *format long*, grace à `pivot_longer()`.
+Première étape, retrouvons notre colonne `population`. Pour cela, il nous faut passer notre table au *format long*, grâce à `pivot_longer()`.
 
 ```{r, echo = TRUE, eval = TRUE}
-estim_pop_tidy <- read_excel('extdata/estim-pop-dep-sexe-gca-2019.xls') %>% 
-  pivot_longer(-c(dep,lib_dep), values_to = "nombre_individus", names_to = "genre_age")
+estim_pop_tidy <- estim_pop %>% 
+  pivot_longer(-c(dep, lib_dep), values_to = "nombre_individus", names_to = "genre_age")
+
+datatable(estim_pop_tidy)
 ```
 
 Si nous voulions retrouver le format *large*, nous pourrions utiliser `pivot_wider()`  
@@ -71,6 +73,7 @@ Si nous voulions retrouver le format *large*, nous pourrions utiliser `pivot_wid
 ```{r}
 estim_pop_nontidy <- estim_pop_tidy %>% 
   pivot_wider(names_from = genre_age, values_from = nombre_individus)
+datatable(estim_pop_nontidy)
 ```
 
 Nous n'avons pas encore retrouvé nos deux variables `genre` et `age`, mais une seule variable mélange les deux.
@@ -78,22 +81,26 @@ Pour cela, nous pouvons utiliser `separate()` du package `{tidyr}`.
 
 ```{r}
 estim_pop_tidy <- estim_pop_tidy %>% 
-  separate(genre_age, sep = "_", into = c("genre","age"))
+  separate(genre_age, sep = "_", into = c("genre", "age"))
+
+datatable(estim_pop_tidy)
 ```
 
 Mais `pivot_longer()` permet d'aller encore plus loin en spécifiant sur nos colonnes un moyen de distinguer nos deux variables directement avec l'argument `names_sep`.
 
 ```{r}
-estim_pop_tidy <- read_excel('extdata/estim-pop-dep-sexe-gca-2019.xls') %>% 
+estim_pop_tidy <- estim_pop %>% 
   pivot_longer(-c(dep, lib_dep), names_sep = "_", names_to = c("genre", "age"), 
                values_to = "nombre_individus")
+datatable(estim_pop_tidy)
 ```
 
 Et `pivot_wider()` permet également d'utiliser deux variables pour définir les modalités à *convertir* en colonnes.
 
 ```{r}
-estim_pop_nontidy <- estim_pop_tidy %>% 
-  pivot_wider(names_from = c(genre,age), values_from = nombre_individus)
+estim_pop_tidy %>% 
+  pivot_wider(names_from = c(genre, age), values_from = nombre_individus) %>% 
+  datatable()
 ```
 
 
