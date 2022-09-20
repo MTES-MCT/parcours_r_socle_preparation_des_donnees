@@ -9,4 +9,4 @@ jobs:
     name: Build bookdown
     uses: MTES-MCT/parcours-r/.github/workflows/bookdown-build.yml@master
     with:
-      r_version: '4.1.2'
+      r_version: '4.0.4'
