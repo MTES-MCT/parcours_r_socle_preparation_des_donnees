@@ -1441,10 +1441,15 @@
     },
     "rlang": {
       "Package": "rlang",
-      "Version": "1.0.5",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "971c3d698fc06dabdac6bc4bcda72dc4",
+      "Version": "1.0.5.9000",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "rlang",
+      "RemoteUsername": "r-lib",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "5a25ff460be4a3509631492624624b2ccadc113d",
+      "Hash": "4fe1dc42f4ee1c7c3221c39d458cae66",
       "Requirements": []
     },
     "rmarkdown": {
