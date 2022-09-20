@@ -5,7 +5,7 @@ R propose énormément de solutions pour ce faire.
 Quelle que soit la solution choisie, l'important est de chercher à rendre votre travail reproductible : c'est à dire reproductible dans le temps et reproductible par un collègue, sur une autre machine.
 L'idéal est indiquer dans le script de préparation des données comment le fichier est arrivé sur votre poste de travail, soit en codant les instructions de téléchargement, soit en ajoutant des commentaires qui vous permettront plus tard de reconstituer le jeu de données que vous utilisez. 
 
-## Fichiers locaux 
+## Lire des fichiers locaux 
 
 ### {readxl} : lire des données Excel 
 La fonction `read_excel()` du package `{readxl}` permet d'importer les données d'un fichier Excel. On peut spécifier : 

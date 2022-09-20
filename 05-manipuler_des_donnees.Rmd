@@ -584,7 +584,7 @@ Pour reprendre des traitements "table entière", il faut mettre fin au `group_by
 
 La fonction `summarise()` accepte désormais un argument `.groups` qui permet d'indiquer directement comment nous souhaitons voir ré-assemblé ou non notre jeu de données. 
 
-```{r, echo = TRUE}
+```{r, echo = TRUE, message = TRUE}
 
 paran <- group_by(exercice, annee, code_reseau)
 

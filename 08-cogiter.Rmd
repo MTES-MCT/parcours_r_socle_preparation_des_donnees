@@ -8,7 +8,8 @@ Le COG ou Code officiel géographique des territoires est [administré par l'INS
 
 Comme souvent avec R, des utilisateurs soucieux de partager leurs astuces ont conçu des packages pour faciliter les traitement de mise à jour du COG, on peut citer [{COGugaison} de Kim Antunez](https://antuki.github.io/COGugaison/), qui est très précis (conversion d'un millésime à un autre, contrôle des années de conversion, retour en arrière possible) mais seulement adapté pour les tables de données France entière, et le package DREAL Pays de la Loire, initié par [Maël Theulière {COGiter}](https://maeltheuliere.github.io/COGiter/), qui est plus simple (un seul sens : la mise à jour), ce package comprend par ailleurs des services d'agrégation à différentes échelles, de gestion des noms, des contours géo, mais ne gère pas très bien les scission de communes. 
 
-La mise à jour du COG d'une source de donnée avec ces packages n'est possible que si elle est disponible au moins à la maille communale sans secrétisation. Dans ce chapitre est présenté les usages les plus fréquents de {COGiter}.
+La mise à jour du COG d'une source avec ces packages n'est possible que si cette dernière est disponible au moins à la maille communale sans secrétisation. 
+Dans ce chapitre sont présentés les usages les plus fréquents de `{COGiter}`.
 
 
 ## Mettre à jour une table comportant une colonne de code commune
@@ -30,8 +31,8 @@ stations_cog_ok  %>% names()
 
 ## Mettre à jour le COG et agréger aux différentes échelles
 
-Dans nos données de l'enquête l'INSEE nous indique que les communes utilisées pour diffuser les résultats sont de celles 2019. Elles on donc bougé depuis.
-Imaginions, que nous voudrions avoir les résultats de cette enquête non pas par commune, mais par EPCI et département : la fonction COGifier nous aide à faire tout ça en un tour de main.
+Dans nos données de l'enquête tourisme, l'INSEE nous indique que les communes utilisées pour diffuser les résultats sont de celles 2019. Elles on donc bougé depuis.
+Imaginions, que nous voudrions avoir les résultats de cette enquête non pas par commune, mais par EPCI et département : la fonction `cogifier()` nous aide à faire tout ça en un tour de main.
 
 ```{r cogifier1}
 glimpse(enq_tourisme)
@@ -69,5 +70,7 @@ departements_geo %>%
   plot()
 
 ```
+
+
 Obtenir la liste des fonds de cartes et des fonctionnalités géo : https://maeltheuliere.github.io/COGiter/articles/filtre_geo.html
 
