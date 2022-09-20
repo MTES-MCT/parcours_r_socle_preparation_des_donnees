@@ -73,8 +73,8 @@ datasets_m2 <- read.csv2(system.file("extdata", "list_data_module.csv", package 
   filter(module == "m2") %>% 
   pull(file)
 
-file.copy(from = system.file("extdata", datasets_m2, package = "savoirfR"), to = "extdata", 
-          overwrite = TRUE, recursive = TRUE)
+file.copy(from = system.file("extdata", datasets_m2, package = "savoirfR"), 
+          to = paste0("extdata/", datasets_m2), overwrite = TRUE)
 
 ```
 
