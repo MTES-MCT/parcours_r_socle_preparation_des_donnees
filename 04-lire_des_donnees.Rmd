@@ -175,7 +175,7 @@ devtools::install_github("mtes-mct/didor")
 ```
 
 Voici un exemple d'utilisation pour récupérer les données de consommation de produits pétroliers dans les DROM :
-```{r}
+```{r, eval = FALSE}
 # devtools::install_github("mtes-mct/didor")
 library(didor)
 library(tidyverse)
@@ -189,8 +189,6 @@ knitr::kable(head(result))
 ```
 
 Tutoriel complet : https://mtes-mct.github.io/didor/articles/premiers_pas.html
-
-
 
 
 ## Lire des fichiers avec une dimension spatiale
@@ -212,7 +210,7 @@ A noter que `{sf}` étant complètement compatible avec les packages du `tidyver
 
 On peut également lire des couches directement depuis le web : 
 
-```{r lire_3b, eval = TRUE, message = TRUE, warning = FALSE}
+```{r lire_3b, eval = FALSE, message = TRUE, warning = FALSE}
 st_read("https://france-geojson.gregoiredavid.fr/repo/regions.geojson") %>% 
   filter(code > "10") %>% 
   select(code) %>% 
@@ -229,7 +227,7 @@ sf::st_drivers()
 
 Il comprend notamment un driver pour lire les flux WFS, émis par nos plateforme de données géographiques. Voici un exemple issu de SIGloire :
 
-```{r wfs}
+```{r wfs, eval = FALSE}
 crte <- sf::st_read(dsn = 'https://datacarto.sigloire.fr/wfs?REQUEST=getCapabilities&service=WFS&VERSION=2.0.0', layer = "ms:r_portrait_crte_r52")
 crte %>% select(nom_territ) %>% plot
 ```
