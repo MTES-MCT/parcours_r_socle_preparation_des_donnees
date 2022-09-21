@@ -43,11 +43,21 @@ Parfois, les données que nous exploitons sont disponibles au téléchargement s
 Il est possible, directement depuis R, de télécharger ces données et, si nécessaire, de les décompresser (dans le répertoire de travail).
 Exemple sur les données 2019 de l'enquête INSEE sur les hébergements touristiques.
 
-```{r lire_2, eval=TRUE}
+```{r lire_2url, eval=TRUE}
 # présentation des données sur https://www.insee.fr/fr/statistiques/2021703
 url <- "https://www.insee.fr/fr/statistiques/fichier/2021703/base-cc-tourisme-2019-geo2019.zip"
+```
 
+```{r lire_2CI, eval=TRUE, include=FALSE}
+# Avec github action, le téléchargement ne passe pas "SSL peer certificate or SSH remote key was not OK"
+download.file(url, destfile = "extdata/base-cc-tourisme-2019-geo2019.zip", method = "curl", extra = "-k")
+```
+
+```{r lire_2, eval=FALSE}
 download.file(url, destfile = "extdata/base-cc-tourisme-2019-geo2019.zip")
+```
+
+```{r lire_2_dezip, eval=TRUE}
 unzip(zipfile = "extdata/base-cc-tourisme-2019-geo2019.zip", exdir = "extdata")
 enq_tourisme <- read_excel("extdata/base-cc-tourisme-2019-geo2019.xls", 
                            sheet = "COM", skip = 5)
