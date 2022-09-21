@@ -47,7 +47,7 @@ Exemple sur les données 2019 de l'enquête INSEE sur les hébergements touristi
 # présentation des données sur https://www.insee.fr/fr/statistiques/2021703
 url <- "https://www.insee.fr/fr/statistiques/fichier/2021703/base-cc-tourisme-2019-geo2019.zip"
 
-download.file(url, destfile = "extdata/base-cc-tourisme-2019-geo2019.zip", method = "auto")
+download.file(url, destfile = "extdata/base-cc-tourisme-2019-geo2019.zip")
 unzip(zipfile = "extdata/base-cc-tourisme-2019-geo2019.zip", exdir = "extdata")
 enq_tourisme <- read_excel("extdata/base-cc-tourisme-2019-geo2019.xls", 
                            sheet = "COM", skip = 5)
