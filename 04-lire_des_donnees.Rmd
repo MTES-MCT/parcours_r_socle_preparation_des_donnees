@@ -166,7 +166,7 @@ devtools::install_github("mtes-mct/didor")
 
 Voici un exemple d'utilisation pour récupérer les données de consommation de produits pétroliers dans les DROM :
 ```{r}
-devtools::install_github("mtes-mct/didor")
+# devtools::install_github("mtes-mct/didor")
 library(didor)
 library(tidyverse)
 
@@ -188,10 +188,10 @@ Tutoriel complet : https://mtes-mct.github.io/didor/articles/premiers_pas.html
 Le package `{sf}` (pour simple feature) permet d'importer dans R un fichier ayant une dimension spatiale. Après importation, le fichier est un dataframe avec une variable d'un type nouveau : la géométrie. Deux exemples ici pour lire des données au format shape et geojson.
 
 ```{r lire_3, eval = TRUE, message = FALSE, warning = FALSE}
-Carte_com_Mayotte <- st_read(dsn = "extdata/refgeo", layer = "com_mayotte")
+Carte_com_Mayotte <- st_read(dsn = "extdata", layer = "com_mayotte")
 plot(Carte_com_Mayotte)
 
-communes2017 <- st_read(dsn = "extdata/refgeo/communes2017.geojson")
+communes2017 <- st_read(dsn = "extdata/communes2017.geojson")
 plot(communes2017)
 ```
 
