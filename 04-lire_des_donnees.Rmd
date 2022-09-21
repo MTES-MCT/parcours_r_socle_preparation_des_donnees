@@ -115,7 +115,7 @@ datatable(urssaf_fr)
 
 La récupération des métadonnées d'un jeu de données se fait avec une autre url, en voici un exemple à partir de la plateforme opendata des réseaux d'énergie (ODRE)
 
-```{r lire_2c}
+```{r lire_2c, eval = FALSE}
 # Description du jeu de données
 dataset_url  <- paste0("https://opendata.reseaux-energies.fr/api/dataset/1.0/prod-region-annuelle-enr")
 
