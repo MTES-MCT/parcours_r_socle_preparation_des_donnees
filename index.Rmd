@@ -72,7 +72,7 @@ library(dplyr)
 datasets_m2 <- read.csv2(system.file("extdata", "list_data_module.csv", package = "savoirfR")) %>% 
   filter(module == "m2") %>% 
   pull(file)
-
+dir.create("extdata/")
 file.copy(from = system.file("extdata", datasets_m2, package = "savoirfR"), 
           to = paste0("extdata/", datasets_m2), overwrite = TRUE)
 
