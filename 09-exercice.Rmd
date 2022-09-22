@@ -1,0 +1,5 @@
+# Exercice 6 : les données majic
+
+```{r mod2_exo6, child=savoirfR::charge_exo("m2", "exo6.rmd"), echo=FALSE}
+```
+

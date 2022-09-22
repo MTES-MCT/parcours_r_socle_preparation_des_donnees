@@ -1,7 +1,14 @@
 # Lire des données
 
-## readxl : lire des données Excel 
-La fonction `read_excel()` permet d'importer les données d'un fichier Excel. On peut spécifier : 
+La première étape d'une chaîne de traitement est d'accéder aux données à traiter. 
+R propose énormément de solutions pour ce faire. 
+Quelle que soit la solution choisie, l'important est de chercher à rendre votre travail reproductible : c'est à dire reproductible dans le temps et reproductible par un collègue, sur une autre machine.
+L'idéal est indiquer dans le script de préparation des données comment le fichier est arrivé sur votre poste de travail, soit en codant les instructions de téléchargement, soit en ajoutant des commentaires qui vous permettront plus tard de reconstituer le jeu de données que vous utilisez. 
+
+## Lire des fichiers locaux 
+
+### {readxl} : lire des données Excel 
+La fonction `read_excel()` du package `{readxl}` permet d'importer les données d'un fichier Excel. On peut spécifier : 
 
 - la feuille, les colonnes, les lignes ou la zone à importer,  
 - les lignes à supprimer avant importation,  
@@ -16,122 +23,122 @@ sitadel <- read_excel("extdata/ROES_201702.xls", sheet = "AUT_REG",
 datatable(sitadel)
 ```
 
-## read_delim : lire des fichiers plats 
+### read_delim() : lire des fichiers plats 
 
-La fonction `read_delim()` permet d'importer les données d'un fichier csv. Elle fonctionne de la même façon que `read_excel()`. On peut spécifier : 
+La fonction `read_delim()` de `{readr}` permet d'importer les données d'un fichier csv. Elle fonctionne de la même façon que `read_excel()`. On peut spécifier : 
 
-- le délimiteur de colonne,  
+- le caractère délimiteur de colonne,  
 - les lignes à supprimer avant importation,  
 - si on souhaite importer la première ligne comme des noms de variables ou non,  
 - le `locale` du fichier,  
 - la valeur qui sera interprétée comme étant la valeur manquante.
 
-`read_csv()`, `read_csv2()` et `read_tsv()` sont des implémentations prérenseignées de `read_delim` pour lire des fichiers plats avec séparateurs **,** **;** et **tabulaire**.
+`read_csv()`, `read_csv2()` et `read_tsv()` sont des implémentations pré-renseignées de `read_delim` pour lire des fichiers plats avec séparateurs **,** **;** et **tabulaire**.
 
-## Télécharger des données disponibles sur le web
+## Lire des données disponibles sur le web : téléchargement de fichiers
 
-Parfois, les données que nous exploitons sont disponibles sur le web.
+Parfois, les données que nous exploitons sont disponibles au téléchargement sur le web.
+
+### Exemple site de l'INSEE, avec dezippage
 Il est possible, directement depuis R, de télécharger ces données et, si nécessaire, de les décompresser (dans le répertoire de travail).
-Exemple sur les données SEQUOIA de l'ACOSS :
+Exemple sur les données 2019 de l'enquête INSEE sur les hébergements touristiques.
+
+```{r lire_2url, eval=TRUE}
+# présentation des données sur https://www.insee.fr/fr/statistiques/2021703
+url <- "https://www.insee.fr/fr/statistiques/fichier/2021703/base-cc-tourisme-2019-geo2019.zip"
+```
+
+```{r lire_2CI, eval=TRUE, include=FALSE}
+# Avec github action, le téléchargement ne passe pas "SSL peer certificate or SSH remote key was not OK"
+download.file(url, destfile = "extdata/base-cc-tourisme-2019-geo2019.zip", method = "curl", extra = "-k")
+```
 
 ```{r lire_2, eval=FALSE}
-url <- "http://www.acoss.fr/files/Donnees_statistiques/SEQUOIA_TRIM_REGION.zip"
-download.file(url, destfile = "extdata/SEQUOIA_TRIM_REGION.zip", method = "auto")
-unzip(zipfile = "extdata/SEQUOIA_TRIM_REGION.zip", exdir = "extdata")
-SEQUOIA <- read_excel("extdata/SEQUOIA_TRIM_REGION_BRUT210610.xlsx", sheet = "PAYS_DE_LA_LOIRE")
-datatable(SEQUOIA)
+download.file(url, destfile = "extdata/base-cc-tourisme-2019-geo2019.zip")
 ```
 
-## Lire des fichiers avec une dimension spatiale
+```{r lire_2_dezip, eval=TRUE}
+unzip(zipfile = "extdata/base-cc-tourisme-2019-geo2019.zip", exdir = "extdata")
+enq_tourisme <- read_excel("extdata/base-cc-tourisme-2019-geo2019.xls", 
+                           sheet = "COM", skip = 5)
+datatable(head(enq_tourisme), options = list(dom = 't'))
+```
+### Exemple données sur les logements vacants depuis data.gouv.fr
+```{r}
+# présentation des données sur https://www.data.gouv.fr/fr/datasets/logements-vacants-du-parc-prive-par-anciennete-de-vacance-par-commune-et-par-epci/
+url <- "https://static.data.gouv.fr/resources/logements-vacants-du-parc-prive-par-anciennete-de-vacance-par-commune-et-par-epci/20220513-194528/logements-vacants-du-parc-prive-par-epci-au-01012020-lovac-.xlsx"
 
-Le package `{sf}` (pour simple feature) permet d'importer dans R un fichier ayant une dimension spatiale. Après importation, le fichier est un dataframe avec une variable d'un type nouveau : la géométrie. Deux exemples ici pour lire des données au format shape et geojson.
+download.file(url, destfile = "extdata/logements-vacants-du-parc-prive-par-epci-au-01012020-lovac-.xlsx", mode = "wb")
+lgt_vac_prv <- read_xlsx("extdata/logements-vacants-du-parc-prive-par-epci-au-01012020-lovac-.xlsx", sheet = 1)
 
-```{r lire_3, eval = FALSE, message = FALSE, warning = FALSE}
-Carte_EPCI_France <- st_read(dsn = "extdata/refgeo2017", layer = "Contour_epci_2017_region")
-plot(Carte_EPCI_France)
+datatable(head(lgt_vac_prv), options = list(dom = 't'))
 
-communes2017 <- st_read(dsn = "extdata/refgeo2017/communes2017.geojson")
-plot(communes2017)
 ```
 
-Le package `{sf}` contient l'ensemble des fonctions permettant des manipulations sur fichiers géomatiques.
-On ne traitera pas ici de toutes ces fonctions en détail, se référer pour cela à la [documentation du package](https://r-spatial.github.io/sf/).
 
-A noter que `{sf}` étant complètement compatible avec les packages du `tidyverse`, la géométrie se conçoit comme une donnée comme une autre, sur laquelle par exemple on peut réaliser des aggrégations.
+## Lire des données disponibles sur le web via API
+
+De plus en plus de mise à disposition de données, se font via des API (Application Programming Interface). 
+Une API correspond à un protocole de communication entre un logiciel fournisseur et un logiciel utilisateur.
+L'utilisateur doit suivre une série de méthodes définies par le fournisseur. 
+
+Par rapport au téléchargement de fichier via `download.file()`, on peut ne récupérer qu'une partie du jeu de données. 
+L'autre avantage est la stabilité des url de téléchargement.
+
+En savoir plus sur les API : https://thinkr.fr/les-api-un-enfer/. 
+Connaître les API de l'Etat : https://api.gouv.fr/rechercher-api
+
+Plusieurs solutions sont disponibles pour lire des données au travers d'une API dans R :   
+
+- tester l'API sur votre navigateur, et une fois que l'URL de requête est construite, lire le résultat JSON depuis R -> cf exemple URSSAF 
+- utiliser en complément le package `{httr}` qui simplifie le recours aux API dans R -> exemple ODRE   
+- utiliser un package wrapper, c'est à dire 'enrobant', dédié à une API spécifique, qui simplifie encore plus l'utilisation de l'API et allège l'écriture -> exemple `{Didor}` du ministère et `{rsdmx}` de l'INSEE.
 
 
-## Lire des données sous PostgreSQL
+### Exemple de recours à l'API opendatasoft en utilisant l'API de l'URSSAF ou de l'ODRE
 
-Deux approches possibles pour utiliser des données stockées dans une base de données PostgreSQL. 
+Opendatasoft est une solution de plateforme opendata comprenant un catalogue, une visualisation des tables, une valorisation graphiques ou cartographiques du jeu de données diffusé et une API d'accès.
+Cette solution est utilisée par de nombreux acteurs publics (Urssaf, énergéticiens, collectivités, Groupe La Poste...).
+Chaque partie (catalogue, métadonnées, enregistrements...) fait l'objet d'une URL d'API distincte, en voici deux exemples.
 
-- *Importer* toutes ces données dans l'environnement R
-- se *connecter* à ces données et utiliser un interpréteur permettant de traduire du code R comme une requête SQL. 
+1er exemple données URSSAF des effectifs salariés et de masse salariale du secteur privé par région : 
 
-### Lire des données sous PostgreSQL : première approche
+```{r lire_2b, eval=TRUE}
+library(jsonlite)
 
-```{r lire_4, eval=FALSE}
-#Définition du driver
-drv <- dbDriver("PostgreSQL") 
+url_urssaf_fr <- "https://open.urssaf.fr/api/records/1.0/search/?dataset=effectifs-salaries-et-masse-salariale-du-secteur-prive-par-region-x-na38&q=&rows=10000&facet=grand_secteur_d_activite&facet=secteur_na28i&facet=annee&facet=trimestre&refine.region=Pays+de+la+Loire"
 
-#Définition de la base de données
-con <- dbConnect(drv, dbname = "dbname", host = "ip", port = numero_du_port,
-                  user = "user_name", password = "pwd") 
-
-#Spécification de l'encodage, obligatoire avec Windows
-postgresqlpqExec(con, "SET client_encoding = 'windows-1252'") 
-
-#Téléchargement de la table analyse du schéma pesticide
-parametre <- dbGetQuery(con, "SELECT * FROM pesticides.parametre") 
-
-#Téléchargement de données avec dimension spatiale via la fonction st_read du package simple feature
-station = st_read(con, query = "SELECT * FROM pesticides.station")
+reponse_urssaf_fr <- fromJSON(url_urssaf_fr)
+urssaf_fr <- reponse_urssaf_fr$records$fields
+datatable(urssaf_fr)
 ```
 
-On voit que pour importer notre table analyse, on a simplement lancé une requête SQL.
-On peut bien sûr avec la même fonction lancer n'importe quelle requête sur la base et recueillir le résultat.
+La récupération des métadonnées d'un jeu de données se fait avec une autre url, en voici un exemple à partir de la plateforme opendata des réseaux d'énergie (ODRE)
 
-### Lire des données sous PostgreSQL : seconde approche
+```{r lire_2c, eval = FALSE}
+# Description du jeu de données
+dataset_url  <- paste0("https://opendata.reseaux-energies.fr/api/dataset/1.0/prod-region-annuelle-enr")
 
-```{r lire_5, eval=FALSE, message=FALSE, warning=FALSE}
-#définition du driver
-drv <- dbDriver("PostgreSQL") 
+metadata <- httr::GET(dataset_url) %>% 
+  httr::content("text") %>%
+  jsonlite::fromJSON(flatten = TRUE)
+attributs <- metadata$fields
 
-#définition de la base de données
-con <- dbConnect(drv, dbname = "dbname", host = "ip", port = numero_du_port, 
-                 user = "user_name", password = "pwd") 
+datatable(attributs)
 
-#spécification de l'encodage, obligatoire avec windows
-postgresqlpqExec(con, "SET client_encoding = 'windows-1252'") 
+# Enregistrements
+data_url <-"https://opendata.reseaux-energies.fr/api/records/1.0/search/?dataset=prod-region-annuelle-enr&q=&rows=50&facet=code_insee_region&refine.code_insee_region=52"
+prod_annuelle_enr <- jsonlite::fromJSON(data_url)$records$fields
 
-#téléchargement de la table analyse du schéma pesticide
-analyse_db <- tbl(con, in_schema ("pesticides", "analyse"))
 ```
+### Packages R d'interrogation d'API
 
-Ici la table *analyse* n'est pas chargée dans l'environnement R, R s'est juste *connecté* à la base de données.
+Pour faciliter l'utilisation de leur API par les utilisateurs de R, certains fournisseurs propose un package R pour se brancher à leur données. 
+Le support vous propose deux exemples (INSEE et CGDD), mais il en existe de nombreux !
+Pour trouver des packages R qui facilitent l'utilisation d'API françaises, rdv sur : 
+https://github.com/frrrenchies/frrrenchies#package-packages-package
 
-On peut réaliser des opérations sur la table *analyse* avec du code R très simplement. Par exemple pour filtrer sur les analyses relatives au Glyphosate : 
-
-```{r lire_6, eval=FALSE, message=FALSE, warning=FALSE}
-analyse_db <- filter(analyse_db, code_parametre == 1506)
-```
-
->Attention, ce code ne touche pas la base de donnée, il n'est pas exécuté.
->Pour l'exécuter, il faut par exemple afficher la table.
-
-```{r lire_7, eval = FALSE}
-analyse_db
-```
-
-Même une fois le code exécuté, cette base n'est pas encore un dataframe.
-Pour importer la table, on utilise la fonction `collect()`
-
-```{r lire_8, eval = FALSE}
-analyse_db <- collect(analyse_db)
-```
-
-Cette approche est à conseiller sur d'importantes bases de données, et sans dimension spatiale, car `{dbplyr}` ne sait pas encore lire ce type de variable (ce qui ne saurait tarder).
-
-## Lire des données du webservice Insee
+#### Lire des données du webservice Insee
 
 L'Insee met à disposition un webservice d'accès (API) à des données de référence sous le format [sdmx](https://sdmx.org/).
 Le package [`{rsdmx}`](https://github.com/opensdmx/rsdmx) permet de se connecter directement à ces données. 
@@ -156,3 +163,162 @@ L'autre approche permet de télécharger un ensemble de données d'une thématiq
 url <- "https://bdm.insee.fr/series/sdmx/data/CONSTRUCTION-LOGEMENTS"
 datainsee <- as.data.frame(readSDMX(url))
 ```
+
+#### Interroger le catalogue DiDo du CGDD et lire les jeux de données grâce à `{didor}`
+
+`{didor}` est un package R conçu pour explorer et accéder aux [données publiées par le SDES au CGDD sur DIDO](https://data.statistiques.developpement-durable.gouv.fr/dido/api/v1/apidoc.html).
+
+Le package `{didor}` s'installe depuis GitHub :
+```
+install.packages("devtools")
+devtools::install_github("mtes-mct/didor")
+```
+
+Voici un exemple d'utilisation pour récupérer les données de consommation de produits pétroliers dans les DROM :
+```{r, eval = FALSE}
+# devtools::install_github("mtes-mct/didor")
+library(didor)
+library(tidyverse)
+
+result <- datasets() %>%
+  dido_search("produit-petrolier") %>%
+  datafiles() %>%
+  dido_search("drom") %>%
+  get_data()
+knitr::kable(head(result))
+```
+
+Tutoriel complet : https://mtes-mct.github.io/didor/articles/premiers_pas.html
+
+
+## Lire des fichiers avec une dimension spatiale
+
+Le package `{sf}` (pour simple feature) permet d'importer dans R un fichier ayant une dimension spatiale. Après importation, le fichier est un dataframe avec une variable d'un type nouveau : la géométrie. Deux exemples ici pour lire des données au format shape et geojson.
+
+```{r lire_3, eval = TRUE, message = FALSE, warning = FALSE}
+Carte_com_Mayotte <- st_read(dsn = "extdata", layer = "com_mayotte")
+plot(Carte_com_Mayotte)
+
+communes2017 <- st_read(dsn = "extdata/communes2017.geojson")
+plot(communes2017)
+```
+
+Le package `{sf}` contient l'ensemble des fonctions permettant des manipulations sur fichiers géomatiques.
+On ne traitera pas ici de toutes ces fonctions en détail, se référer pour cela à la [documentation du package](https://r-spatial.github.io/sf/) ou suivre le module 7 du parcours de formation à R du ministère.
+
+A noter que `{sf}` étant complètement compatible avec les packages du `tidyverse`, la géométrie se conçoit comme une donnée comme une autre, sur laquelle par exemple on peut réaliser des agrégations.
+
+On peut également lire des couches directement depuis le web : 
+
+```{r lire_3b, eval = FALSE, message = TRUE, warning = FALSE}
+st_read("https://france-geojson.gregoiredavid.fr/repo/regions.geojson") %>% 
+  filter(code > "10") %>% 
+  select(code) %>% 
+  plot()
+
+```
+
+{sf} propose de lire toutes sortes de données spatiales. 
+
+```{r lire_3c, eval = TRUE, message = TRUE, warning = FALSE}
+sf::st_drivers()
+
+```
+
+Il comprend notamment un driver pour lire les flux WFS, émis par nos plateforme de données géographiques. Voici un exemple issu de SIGloire :
+
+```{r wfs, eval = FALSE}
+crte <- sf::st_read(dsn = 'https://datacarto.sigloire.fr/wfs?REQUEST=getCapabilities&service=WFS&VERSION=2.0.0', layer = "ms:r_portrait_crte_r52")
+crte %>% select(nom_territ) %>% plot
+```
+
+On indique au niveau du paramètre `dsn` l'url du webservice WFS de la plateforme et au niveau du parametre `layer` le nom de la couche.
+Pour aller plus loin dans l'exploitation des flux WFS dans R : https://inbo.github.io/tutorials/tutorials/spatial_wfs_services/.
+
+
+## Lire des données sous PostgreSQL
+
+Deux approches possibles pour utiliser des données stockées dans une base de données PostgreSQL. 
+
+- *Importer* toutes ces données dans l'environnement R
+- se *connecter* à ces données (sans les charger en mémoire vive) et utiliser un interpréteur permettant de traduire du code R comme une requête SQL. 
+
+### Lire des données sous PostgreSQL : première approche
+
+Le package {DBI} est fréquemment utilisé pour connecter des bases de données à R.
+On ouvre une connexion en déclarant les informations liées à la base (adresse, identifiants..) et en choisissant le driver de connexion.
+
+```{r lire_4, eval=FALSE}
+#Définition du driver
+drv <- dbDriver("PostgreSQL") 
+
+#Définition de la base de données
+con <- dbConnect(drv, dbname = "dbname", host = "ip", port = numero_du_port,
+                  user = "user_name", password = "pwd") 
+
+#Spécification de l'encodage, obligatoire avec Windows
+postgresqlpqExec(con, "SET client_encoding = 'windows-1252'") 
+
+#Téléchargement de la table analyse du schéma pesticide
+parametre <- dbGetQuery(con, "SELECT * FROM pesticides.parametre") 
+
+#Téléchargement de données avec dimension spatiale via la fonction st_read du package simple feature
+station = st_read(con, query = "SELECT * FROM pesticides.station")
+station = st_read(dsn = con, layer = c(schema = 'pesticides', table = 'station'))
+```
+
+On voit que pour importer notre table analyse, on a simplement lancé une requête SQL.
+Pour obtenir un résultat qui préserve le caractère spatial de notre jeu de données, il faut changer de fonction de lecture.
+
+Un package, encore expérimental, de la DREAL Pays de la Loire, [{datalibaba}](https://dreal-datalab.gitlab.io/datalibaba/index.html) simplifie l'écriture des instructions de lecture/écriture de données vers ou depuis un SGBD Postgresql/postgis. 
+Il propose de stocker vos identifiants de connexion dans vos variable d'environnement afin d'en préserver la confidentialité et de vous éviter de les réécrire dans chaque script. 
+L'utilisateur n'a plus à se préoccuper du driver de connexion ni de la fonction de lecture.
+Les instruction précédentes deviennent : 
+```{r lire_4b, eval=FALSE}
+remotes::install_gitlab('dreal-datalab/datalibaba')
+library(datalibaba)
+parametre <- importer_data(table = "parametre", schema = "pesticides")
+station <- importer_data(table = "station", schema = "pesticides")
+```
+
+### Lire des données sous PostgreSQL : seconde approche
+
+```{r lire_5, eval=FALSE, message=FALSE, warning=FALSE}
+#définition du driver
+drv <- dbDriver("PostgreSQL") 
+
+#définition de la base de données
+con <- dbConnect(drv, dbname = "dbname", host = "ip", port = numero_du_port, 
+                 user = "user_name", password = "pwd") 
+
+#spécification de l'encodage, obligatoire avec windows
+postgresqlpqExec(con, "SET client_encoding = 'windows-1252'") 
+
+#téléchargement de la table analyse du schéma pesticide
+analyse_db <- tbl(con, in_schema("pesticides", "analyse"))
+```
+
+Ici la table *analyse* n'est pas chargée dans l'environnement R, R s'est juste *connecté* à la base de données.
+
+On peut réaliser des opérations sur la table *analyse* avec du code R très simplement. Par exemple pour filtrer sur les analyses relatives au Glyphosate : 
+
+```{r lire_6, eval=FALSE, message=FALSE, warning=FALSE}
+analyse_db <- filter(analyse_db, code_parametre == 1506)
+```
+
+>Attention, ce code ne touche pas la base de donnée, il n'est pas exécuté.
+>Pour l'exécuter, il faut par exemple afficher la table.
+
+```{r lire_7, eval = FALSE}
+analyse_db
+```
+
+Même une fois le code exécuté, cette base n'est pas encore un dataframe.
+Pour importer la table, on utilise la fonction `collect()`
+
+```{r lire_8, eval = FALSE}
+analyse_db <- collect(analyse_db)
+```
+
+Cette approche est à conseiller sur d'importantes bases de données, et sans dimension spatiale, car `{dbplyr}` ne sait pas encore [lire facilement ce type de variable](https://github.com/tidyverse/dbplyr/issues/788).
+

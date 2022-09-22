@@ -16,7 +16,8 @@ description: "Préparation des données avec R et le Tidyverse (module 2)"
 
 ```{r setup, include=FALSE}
 rm(list=ls())
-knitr::opts_chunk$set(echo = TRUE, message=FALSE, error=FALSE, warning=FALSE, fig.width=4, fig.height=4)
+knitr::opts_chunk$set(echo = TRUE, message=FALSE, error=FALSE, warning=FALSE, fig.width=6, fig.height=6)
+library(savoirfR)
 ```
 
 # Introduction
@@ -29,32 +30,19 @@ knitr::opts_chunk$set(echo = TRUE, message=FALSE, error=FALSE, warning=FALSE, fi
 
 ## Le parcours de formation
 
-Ce dispositif de formation vise à faire monter en compétence les agents du MTES (Ministère de la transition écologique) et du MCTRCT (Ministère de la Cohésion des Territoires et des Relations avec les collectivités territoriales) dans le domaine de la science de la donnée avec le logiciel R. Il est conçu pour être déployé à l'échelle nationale par le réseau des CVRH (Centre de Valorisation des Ressources Humaines).
+```{r collecte prez parcours, results='asis', warning=FALSE, echo=FALSE}
+# Utilisation du chapitre de présentation du parcours présent dans https://github.com/MTES-MCT/parcours-r
+cat(stringi::stri_read_lines("https://raw.githubusercontent.com/MTES-MCT/parcours-r/master/parties_communes/le_parcours_R.Rmd", encoding = "UTF-8"), sep = "\n")
+```
 
-Le parcours proposé est structuré en modules de 2 jours chacun. Les deux premiers (ou un niveau équivalent) sont des pré-requis pour suivre les suivants qui sont proposés "à la carte" :
 
-1. Socle : Premier programme en R
-2. Socle : Préparation des données
-3. Statistiques descriptives
-4. Analyse des données multi-dimensionnelles
-5. Datavisualisation : Produire des graphiques, des cartes et des tableaux
-6. Publications reproductibles avec RMarkdown (à venir)
-7. Analyse spatiale (à venir)
-8. Big data et optimisation du code (à venir)
-9. Applications interactives avec Shiny (à venir)
+## Le groupe de référents R du pôle ministériel
 
-La mise à disposition des supports de formation se fait désormais par la [page d'accueil du parcours de formation](https://mtes-mct.github.io/parcours-r/). Ces supports sont en [licence ouverte](https://www.etalab.gouv.fr/wp-content/uploads/2017/04/ETALAB-Licence-Ouverte-v2.0.pdf).
-
-Si vous souhaitez accéder aux sources ou aux données mobilisées pendant les formations, il faut directement les télécharger depuis le [Github du ministère](https://github.com/MTES-MCT?q=parcours_r&type=&language=).
-
-Un package d'exercices, [{savoirfR}](https://github.com/MTES-MCT/savoirfR) rassemble toutes les données et les consignes d'exercices de ce support de formation
-
-Pour vous tenir au courant de l'offre de formation proposée par le réseau des CVRH, [consultez la plateforme OUPS](http://oups-cmvrh.e2.rie.gouv.fr/) (un accès intranet MTES-MCT est nécessaire). Vous pouvez vous y abonner pour recevoir les annonces de formation qui vous intéressent.
-
-Pour échanger de l'information, discuter autour de R ou encore faire part de difficultés et trouver ensemble les solutions, il existe deux solutions:
-
-- S'insrire en envoyant un message vide à l'adresse [sympa@developpement-durable.gouv.fr](mailto:sympa@developpement-durable.gouv.fr?Subject=subscribe labo.communaute-r).
-- Rejoindre le fil Ariane [#utilisateurs_r](https://ariane.din.developpement-durable.gouv.fr/channel/utilisateurs_r)
+```{r collecte prez ref, warning=FALSE, echo=FALSE, results='asis'}
+# Utilisation du chapitre de présentation des référents présent dans https://github.com/MTES-MCT/parcours-r
+a <- knitr::knit_child(text = stringi::stri_read_lines("https://raw.githubusercontent.com/MTES-MCT/parcours-r/master/parties_communes/les_referents_R.Rmd", encoding = "UTF-8"), quiet = TRUE)
+cat(a, sep = '\n')
+```
 
 
 ## Objectifs du module 2
@@ -67,13 +55,26 @@ Préparer ses données sous R, cela veut dire :
 - Rajouter des variables en fonction de variables existantes,
 - Regrouper des modalités de variables,
 - Joindre des tables entre elles pour obtenir des informations de plusieurs sources,
-- Aggréger des données,
+- Agréger des données,
 - Bien définir notre table de travail en fonction des indicateurs à analyser et à leurs dimensions d'analyse.
 ...
 
-Bref, tout le travail technique préalable entre la collecte de la donnée et la valorisation proprement dite de ces sources.
+Bref, tout le travail technique préalable entre la collecte de la donnée et sa valorisation proprement dite.
 On estime qu'un scientifique de la donnée passe en général ***la moitié de son temps*** à cela.
 
 ![](images/cover.png)
 
-Sous R, comme souvent, il y a plusieurs façons d'aborder cette question. Ce module de formation privilègie l'exploration des packages du framework *tidyverse*, qui ont l'avantage d'aborder les différentes phases de préparation des données d'une façon intégrée et cohérente, que ce soit entre elles, ou avec d'autres.
+Sous R, comme souvent, il y a plusieurs façons d'aborder cette question. Ce module de formation privilegie l'exploration des packages du framework *tidyverse*, qui ont l'avantage d'aborder les différentes phases de préparation des données d'une façon intégrée et cohérente, que ce soit entre elles, ou avec d'autres.
+
+```{r recup dataset depuis savoirfR, message=FALSE, include=FALSE, warning=FALSE}
+library(dplyr)
+# récupération des jeux de données de savoir faire
+datasets_m2 <- read.csv2(system.file("extdata", "list_data_module.csv", package = "savoirfR")) %>% 
+  filter(module == "m2") %>% 
+  pull(file)
+dir.create("extdata/")
+file.copy(from = system.file("extdata", datasets_m2, package = "savoirfR"), 
+          to = paste0("extdata/", datasets_m2), overwrite = TRUE)
+
+```
+

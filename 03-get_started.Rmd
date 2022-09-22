@@ -4,44 +4,17 @@
 
 ## Créer un projet sous Rstudio pour vous permettre de recencer vos travaux.
 
-Pourquoi travailler avec les projets Rstudio plutôt que les scripts R ?
 
-- Cela permet la portabilité : le répertoire de travail par défaut d'un projet est le répertoire où est ce projet. Si vous transmettez celui-ci à un collègue, le fait de lancer un programme ne dépend pas de l'arborescence de votre machine.
-
-> **Fini les `setwd("chemin/qui/marche/uniquement/sur/mon/poste")` !** 
-
-- Toujours sur la portabilité, un projet peut être utilisé avec un outil comme `packrat` qui va vous intégrer en interne au projet l'ensemble des packages nécessaires au projet. Cela permet donc à votre collègue à qui vous passez votre projet de ne pas avoir à les installer et, surtout, si vous mettez à jour votre environnement R, votre projet restera toujours avec les versions des packages avec lesquelles vous avez fait tourner votre projet à l'époque. Cela évite d'avoir à subir les effets d'une mise à jour importante d'un package qui casserait votre code.
-
-Pour activer `renv` sur un projet, il faut l'installer avec `install.packages("renv")`.
-Pour intialiser la sauvegarde des packages employés dans le projet, il faut utiliser
-`renv::init()`
-Les packages chargés dans le projet sont enregistrés dans un sous-dossier dédié.
-En cours de travail sur le projet, la commande `renv::snapshot()` permet de faire une sauvegarde, la commande `renv::restore()` permet de charger la dernière sauvegarde.
-
-[En savoir plus sur renv](https://blog.rstudio.com/2019/11/06/renv-project-environments-for-r/)
-
-- Cela permet de se forcer à travailler en mode projet : on intègre à un seul endroit tout ce qui est lié à un projet : données brutes, données retravaillées, scripts, illustrations, documentations, publications... et donc y compris les packages avec `renv`.
-
-- On peut travailler sur plusieurs projets en même temps, Rstudio ouvre autant de sessions que de projets dans ce cas.
-
-- Les projets Rstudio intègrent une interface avec les outils de gestion de version Git et SVN. Cela veut dire que vous pouvez versionner votre projet et l'héberger simplement comme répertoire sur des plateformes de gestion de code telle que Github ou Gitlab.
-
-**Pour créer un projet : **
-
-- Cliquez sur *Project* en haut à droite puis *New Project*.
-
-![](images/creerprojet1.png){#id .class width=500}
-
-- Cliquez sur *New Directory*.
-
-![](images/creerprojet2.png){#id .class width=500}
-
+```{r collecte prez projet rstudio, warning=FALSE, echo=FALSE, results='asis'}
+# Utilisation du chapitre de présentation des projets RStudio présent dans https://github.com/MTES-MCT/parcours-r
+cat(text = stringi::stri_read_lines("https://raw.githubusercontent.com/MTES-MCT/parcours-r/master/parties_communes/bien_commencer.Rmd", encoding = "UTF-8"), sep = '\n')
+```
 
 ## Intégrer vos données
 
 Une bonne pratique est de créer un sous répertoire `/data` pour stocker les données sur lesquelles vous aurez à travailler. 
 
-Vous pouvez le faire depuis l'explorateur de fichier de votre système d'exploitation ou directement à partir de l'explorateur de fichier de RStudio.
+Vous pouvez le faire depuis l'explorateur de fichiers de votre système d'exploitation ou directement à partir de l'explorateur de fichiers de RStudio.
 
 ![](images/creerprojet3.png){#id .class width=500}
 
@@ -54,19 +27,11 @@ Cela marche bien quand on a un seul type de données, mais en général on va av
 
 ## Utilisation du package savoirfR
 
-Pour faciliter le déroulé de ce module, l'ensemble des exercices (énoncés, corrigés et données) a été intégré à un package réalisé par le groupe des référents R: savoirfR
-
-```{r , eval=F}
-remotes::install_github("MTES-MCT/savoirfR")
+```{r collecte prez savoirfR, warning=FALSE, echo=FALSE, results='asis'}
+# Utilisation du chapitre de présentation de savoirfR présent dans https://github.com/MTES-MCT/parcours-r
+a <-  knitr::knit_child(text = stringi::stri_read_lines("https://raw.githubusercontent.com/MTES-MCT/parcours-r/master/parties_communes/savoir_faire.Rmd", encoding = "UTF-8"), quiet = TRUE)
+cat(a, sep = '\n')
 ```
-
-Pour l'utiliser, il suffit de créer un nouveau projet dans un nouveau répertoire, en sélectionnant le "Project Type" **Exercice Parcours R MTES-MCT**.
-
-![](images/projetsavoirfR1.PNG){#id .class width=500}
-
-Remplissez et sélectionnez le module suivi.
-
-![](images/projetsavoirfR2.PNG){#id .class width=500}
 
 ## Activer les packages nécessaires
 
@@ -90,6 +55,7 @@ library(rsdmx)
 library(sf)
 library(stringi)
 
+
 sitadel <- read_excel("extdata/ROES_201702.xls", sheet = "AUT_REG",
                       col_types = c ("text","text","numeric","numeric","numeric","numeric"))
 load(file = "extdata/FormationPreparationDesDonnees.RData")
@@ -108,6 +74,7 @@ En voici quelques-uns :
 - https://www.inwt-statistics.com/read-blog/a-meaningful-file-structure-for-r-projects.html
 - http://projecttemplate.net/architecture.html
 
-À partir du moment où quelques grands principes sont respectés (un répertoire pour les données brutes en lecture seule par exemple), le reste est surtout une question d'attirance plus forte pour l'une ou l'autre solution. L'important est de vous tenir ensuite à conserver toujours la même arborescence dans vos projets afin de vous y retrouver plus simplement.
+À partir du moment où quelques grands principes sont respectés (un répertoire pour les données brutes en lecture seule par exemple), le reste est surtout une question d'attirance plus forte pour l'une ou l'autre solution. 
+L'important est de vous tenir ensuite à conserver toujours la même arborescence dans vos projets afin de vous y retrouver plus simplement.
 
 

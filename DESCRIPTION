@@ -18,4 +18,5 @@ Authors@R:
       person(given = "Mael",
              family = "Theuliere",
              role = "aut",
-             email = "mael.theuliere@gmail.com"))
+             email = "mael.theuliere@gmail.com")
+             )

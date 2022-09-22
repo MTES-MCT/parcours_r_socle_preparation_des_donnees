@@ -8,4 +8,4 @@ Objectifs du module, être en capacité  :
 - de les croiser et les enrichir avec des données externes pour les préparer à des traitements statistiques.
 
 La préparation des données est une étape fondamentale pour faciliter la réalisation des analyses statistiques.
-Les principaux packagex exploités sont {dplyr} et {tidyr}.
+Les principaux packages exploités sont {dplyr} et {tidyr}.

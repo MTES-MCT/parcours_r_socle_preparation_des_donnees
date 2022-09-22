@@ -26,3 +26,5 @@ on:
 jobs:
   build-rstudio-image:
     uses: MTES-MCT/parcours-r/.github/workflows/rstudio-image-build.yml@master
+    with:
+      r_version: '4.0.4'

@@ -7,11 +7,11 @@ Le but de `{dplyr}` est d'identifier et de rassembler dans un seul package les o
 - Sélectionner un ensemble de variables : `select()`  
 - Sélectionner un ensemble de lignes : `filter()`  
 - Ajouter/modifier/renommer des variables : `mutate()` ou `rename()`  
-- Produire des statistiques aggrégées sur les dimensions d'une table : `summarise()`  
+- Produire des statistiques agrégées sur les dimensions d'une table : `summarise()`  
 - Trier une table : `arrange()`  
 - Manipuler plusieurs tables : `left_join()`, `right_join()`, `full_join()`, `inner_join()`...  
 
-D'appliquer cela sur des données, quel que soit leur format : data frames, data.table, base de données sql, big data...
+D'appliquer cela sur des données, quel que soit leur format : dataframes, data.table, couche spatiale, base de données sql, big data...
 
 D'appliquer cela en articulation avec `group_by()` qui change la façon d'interpréter chaque fonction : d'une interprétation *globale* sur l'ensemble d'une table, on passe alors à une approche *groupe par groupe* : chaque groupe étant défini par un ensemble des modalités des variables définies dans l'instruction `group_by()`.
 
@@ -24,17 +24,20 @@ On va travailler sur ce module principalement à partir des données sitadel en 
 
 ## Chargement des données
 
-```{r manip_1, echo = FALSE, warning = FALSE, error = FALSE, eval = FALSE}
-drv <- dbDriver("PostgreSQL")
-con <- dbConnect(drv, dbname = "production", host = "xx.xx.xxx.xxx", port = 5432,
-                 user = "dreal", password = "xxxxxxxx")
-postgresqlpqExec(con, "SET client_encoding = 'windows-1252'")
 
-analyse <- dbGetQuery(con, "SELECT * FROM pesticides.analyse")
-parametre <- dbGetQuery(con, "SELECT * FROM pesticides.parametre")
-prelevement <- dbGetQuery(con, "SELECT * FROM pesticides.prelevement")
-station <- st_read_db(con, query = "SELECT * FROM pesticides.station")
+```{r manip_1, echo = FALSE, warning = FALSE, error = FALSE, eval = FALSE}
+Dans un environnement SSPCloud, les données peuvent être chargée ainsi :
+Sys.setenv("server" = "postgresql-304103.user-juliette",
+           "user_does" = "stagiaire",
+           "pwd_does" = "xxx")
+
+library(datalibaba)
+analyse <- importer_data(schema = "pesticides", table = "analyse", db = "formR_M2")
+parametre <- importer_data(schema = "pesticides", table = "parametre", db = "formR_M2")
+prelevement <- importer_data(schema = "pesticides", table = "prelevement", db = "formR_M2")
+station <- importer_data(schema = "pesticides", table = "station", db = "formR_M2")
 ```
+
 
 ```{r manip_2, include = TRUE}
 load(file = "extdata/FormationPreparationDesDonnees.RData")
@@ -54,11 +57,12 @@ prelevementb <- select(
 )
 datatable(head(prelevementb))
 
-prelevementb <- select(prelevement, -commentaire)
+prelevementb <- select(prelevement, -code_support)
 names(prelevementb)
 ```
 
-`select()` possède ce qu'on appelle des [helpers](https://dplyr.tidyverse.org/reference/select.html) qui permettent de gagner du temps dans l'écriture de notre select. A partir du moment où les conventions de nommage sont correctement effectuées, cela permet de gagner également en reproductibilité d'une année sur l'autre.
+`select()` possède ce qu'on appelle des [helpers](https://dplyr.tidyverse.org/reference/select.html) qui permettent de gagner du temps dans l'écriture de notre sélection. 
+A partir du moment où les conventions de nommage sont correctement effectuées, cela permet de gagner également en reproductibilité d'une année sur l'autre.
 
 Exemple : sélectionner toutes les variables qui commencent par "code_" : 
 
@@ -103,7 +107,7 @@ ars <- filter(prelevement, code_reseau == "ARS")
 
 L'exemple ci-dessus n'exerce un filtre que sur une condition unique.
 
-Pour des conditions cumulatives (toutes les conditions doivent être remplies), le "&" ou la ","
+Pour des conditions cumulatives (toutes les conditions doivent être remplies), le `"&"` ou la `","`
 
 ```{r manip_9}
 ars <- filter(prelevement, code_reseau == "ARS", code_intervenant == "44")
@@ -137,7 +141,7 @@ ni_ars_ni_fredon <- filter(prelevement, !(code_reseau %in% c("ARS", "FREDON")))
 
 ### Modifier/ajouter une variable : `mutate()`
 
-`mutate()` est le verbe qui permet la transformation d’une variable existante ou la création d’une nouvelle variable dans le jeu de données. 
+`mutate()` est le verbe qui permet la transformation d'une variable existante ou la création d'une nouvelle variable dans le jeu de données. 
 
 <center>![](images/mutate.png)</center>
 
@@ -196,7 +200,7 @@ datatable(b)
 
 - opérations cumulatives ou glissantes : 
 
-    - R fournit des fonctions pour obtenir **opérations cumulatives** les somme, produit, minimum et maximum cumulés, dplyr fournit l'équivalent pour les moyennes : `cumsum()`, `cumprod()`, `cummin()`, `cummax()`, `cummean()`
+    - R fournit des fonctions pour obtenir des **opérations cumulatives** les somme, produit, minimum et maximum cumulés, dplyr fournit l'équivalent pour les moyennes : `cumsum()`, `cumprod()`, `cummin()`, `cummax()`, `cummean()`
   
     - Pour appliquer des **opérations glissantes**, on peut soit créer l'opération avec l'instruction `lag()`, soit exploiter le package `RcppRoll` qui permet d'exploiter des fonctions prédéfinies.
 
@@ -272,13 +276,8 @@ analyseb <- mutate(analyse, classe_resultat_analyse = case_when(
 
 cf. package d'exercices `{savoirfR}`
 
-À partir du fichier sitadel de février 2017 (ROES_201702.xls), produire un dataframe `sit_52_ind` contenant pour la **région Pays-de-la-Loire** (code région 52), pour **chaque mois** et pour les **logements individuels** (definis par la somme des logements individuels purs et individuels groupés : `i_AUT = ip_AUT + ig_AUT`) :  
-
-   - le cumul des autorisations sur 12 mois glissants (`i_AUT_cum12`) ;    
-   
-   - le taux d’évolution du cumul sur 12 mois (`i_AUT_cum_evo`, en %) ;   
-   
-   - la part de ce cumul dans celui de l’ensemble des logements autorisés (`log_AUT`, en %).    
+```{r mod2_exo1, child=charge_exo("m2", "exo1.rmd"), echo=FALSE}
+```
    
    
 <center>![](images/exercice1_enonce_v3.png)</center>
@@ -327,7 +326,8 @@ Les fonctions `make_date()` et `make_datetime()` vous permettent de transformer 
 
 #### Exercice 2 : les dates
 
-Convertir les colonnes de la table exercice au format date (quand c'est pertinent).
+```{r mod2_exo2, child=charge_exo("m2", "exo2.rmd"), echo=FALSE}
+```
 
 ### Manipuler des chaînes de caractères
 
@@ -449,7 +449,7 @@ iconv(proust2, to = "ASCII//TRANSLIT")
 
 ```
 
-Avec un humour quelque peu discutable, un petit aide-mémoire illustré, assez visuel, est proposé par Lise Vaudor [ici](http://perso.ens-lyon.fr/lise.vaudor/manipuler-des-strings-avec-r/). 
+Avec humour, un petit aide-mémoire illustré, très visuel, est proposé par Lise Vaudor [ici](http://perso.ens-lyon.fr/lise.vaudor/manipuler-des-strings-avec-r/). 
 
 ### Manipuler des variables factorielles ( = qualitatives ou catégorielles)
 
@@ -511,31 +511,31 @@ ggplot(data, aes(x = fct_reorder(cat, -num), num)) +
 
 
 
-## Aggréger des données : `summarise()`
+## Agréger des données : `summarise()`
 
 <center>![](images/summarise.png)</center>
 
-La fonction `summarise()` permet d'aggréger des données, en appliquant une fonction sur les variables pour construire une statistique sur les observations de la table.
+La fonction `summarise()` permet d'agréger des données, en appliquant une fonction sur les variables pour construire une statistique sur les observations de la table.
 `summarise()` est une fonction dite de “résumé”. À l’inverse de `mutate()`, quand une fonction summarise est appelée, elle retourne une seule information. La moyenne, la variance, l’effectif… sont des informations qui condensent la variable étudiée en une seule information.
 <left>![](images/summarise.jpg)</left><left>![](images/mutate.jpg)</left>
 
-La syntaxe de summarise est classique. Le resultat est un dataframe.
+La syntaxe de `summarise` est classique. Le résultat est un dataframe.
 
 ```{r, echo = TRUE, results='hide'}
 summarise(exercice, 
-          mesure_moyenne = mean(resultat_analyse, na.rm = T))
+          mesure_moyenne = mean(resultat_analyse, na.rm = TRUE))
 ```
 
-On peut calculer plusieurs statistiques sur une aggrégation
+On peut calculer plusieurs statistiques sur une agrégation
 
 ```{r, echo = TRUE, results='hide'}
 summarise(exercice, 
-          mesure_moyenne = mean(resultat_analyse, na.rm = T),
-          mesure_total = sum(resultat_analyse, na.rm = T)
+          mesure_moyenne = mean(resultat_analyse, na.rm = TRUE),
+          mesure_total = sum(resultat_analyse, na.rm = TRUE)
           )
 ```
 
-### Quelques fonctions d'aggrégations utiles
+### Quelques fonctions d'agrégations utiles
 
 - compter : `n()`
 - sommer : `sum()`
@@ -546,49 +546,79 @@ summarise(exercice,
 - minimum : `min()`, maximum : `max()`
 - position : `first()`, `nth(., position)`, `last()`
 
+La plupart de ces fonctions d'agrégation sont paramétrables pour indiquer comment traiter les valeurs manquantes (NA) grâce à l'argument `na.rm`. 
+Si on ne souhaite pas tenir compte des valeurs manquantes pour effectuer notre synthèse, il faut indiquer `na.rm = TRUE` pour évacuer les valeurs manquantes du calcul, sinon, le résultat apparaîtra comme lui même manquant, car il manque des observations pour pouvoir calculer correctement notre résultat.  
+C'est la connaissance de votre source de données et du travail en court qui déterminera comment vous souhaitez que les valeurs manquantes soit traitées. 
 
-## Aggréger des données par dimension : `group_by()`
+
+## Agréger des données par dimension : `group_by()`
 
 <center>![](images/groupby.png)</center>
 
-Summarise est utile, mais la plupart du temps, nous avons besoin non pas d'aggréger des données d'une table entière, mais de construire des aggrégations sur des sous-ensembles : par année, département...
+La fonction `summarise()` est utile, mais la plupart du temps, nous avons besoin non pas d'agréger des données d'une table entière, mais de construire des agrégations sur des sous-ensembles : par année, département...
 La fonction `group_by()` va permettre *d'éclater* notre table en fonction de dimensions de celle-ci.
 
 Ainsi, si on veut construire des statistiques agrégées non sur l'ensemble de la table, mais pour chacune des modalités d'une ou de plusieurs variables de la table. Il faut deux étapes :
 
-- utiliser prélablement la fonction `group_by()` pour définir les variables sur lesquelles on souhaite aggréger les données,
+- utiliser préalablement la fonction `group_by()` pour définir la ou les variables sur lesquelles on souhaite agréger les données,
 
-- utiliser `summarise()` ou sur la table en sortie de l'étape précédente.
+- utiliser `summarise()` sur la table en sortie de l'étape précédente.
 
-Découper un jeu de données pour réaliser des opérations sur chacun des sous-ensembles afin de les restituer ensuite de façon organisée est appelée stratégie du split – apply – combine schématiquement, c’est cette opération qui est réalisée par dplyr dès qu'un `group_by()` est introduit sur une table.
+Découper un jeu de données pour réaliser des opérations sur chacun des sous-ensembles afin de les restituer ensuite de façon organisée est appelée stratégie du split – apply – combine schématiquement, c’est cette opération qui est réalisée par dplyr dès qu'un `group_by()` est introduit sur une table. 
 
 <center>![](images/split_apply_combine-1024x570.png)</center>
 
-Exemple pour calculer les statistiques précédentes par mois : 
+Exemple pour calculer les statistiques précédentes par année : 
 
 ```{r, echo = TRUE}
 exercice <- mutate(exercice, annee = year(date_prelevement))
 
 paran <- group_by(exercice, annee)
 
-summarise (paran, mesure_moyenne = mean(resultat_analyse, na.rm = T),
-                  mesure_total = sum(resultat_analyse, na.rm = T))
+summarise(paran, 
+          mesure_moyenne = mean(resultat_analyse, na.rm = TRUE), 
+          mesure_total = sum(resultat_analyse, na.rm = TRUE))
 ```
 
-Pour reprendre des traitements "table entière", il faut mettre fin au `group_by()` par un `ungroup()`
+Pour reprendre des traitements "table entière", il faut mettre fin au `group_by()` par un `ungroup()`. 
+
+La fonction `summarise()` accepte désormais un argument `.groups` qui permet d'indiquer directement comment nous souhaitons voir ré-assemblé ou non notre jeu de données. 
+
+```{r, echo = TRUE, message = TRUE}
+
+paran <- group_by(exercice, annee, code_reseau)
+
+resultat <- summarise(paran, mesure_moyenne = mean(resultat_analyse, na.rm = TRUE), 
+                      mesure_total = sum(resultat_analyse, na.rm = TRUE))
+```
+
+Si on omet de lui déclarer comment traiter les groupes en sortie, `summarise()` nous informe des éventuels groupes résiduels, ici `resultat` est toujours groupé par `annee`. 
+
+Pour remédier à ce message ou changer le comportement de `summarise()`, `.groups` peut prendre plusieurs valeurs :  
+
+- `"drop_last"` : va supprimer le dernier niveau de groupement de notre jeu de données. Dans notre exemple le groupe selon `code_reseau` va disparaître et celui lié à `annee` va rester. C'est le comportement par défaut.
+- `"drop"` : supprime tous les niveaux de groupement
+- `"keep"` : conserve tous les niveaux de groupement.
+- `"rowwise"` : chaque ligne devient son propre groupe.
+
+```{r, echo = TRUE}
+
+resultat <- summarise(paran, mesure_moyenne = mean(resultat_analyse, na.rm = TRUE), mesure_total = sum(resultat_analyse, na.rm = TRUE),
+                      .groups = "drop")
+```
 
 ## Le pipe
 ![](images/pipe.png)
 
-Le pipe est la fonction qui va vous permettre d'écrire votre code de façon plus lisible pour vous et les utilisateurs.
-Comment ?  
+Le pipe est la fonction qui va vous permettre d'écrire votre code de façon plus lisible pour vous et les utilisateurs. 
+Comment ?   
 En se rapprochant de l'usage usuel en grammaire. 
 
-`verbe(sujet,complement)` devient `sujet %>% verbe(complement)`
+`verbe(sujet, complement)` devient `sujet %>% verbe(complement)`
 
 Quand on enchaîne plusieurs verbes, l'avantage devient encore plus évident : 
 
-`verbe2(verbe1(sujet,complement1),complement2)` devient `sujet %>% verbe1(complement1) %>% verbe2(complement2)`
+`verbe2(verbe1(sujet, complement1), complement2)` devient `sujet %>% verbe1(complement1) %>% verbe2(complement2)`
 
 En reprenant l'exemple précédent, sans passer par les étapes intermédiaires, le code aurait cette tête :
 
@@ -597,12 +627,12 @@ summarise (
   group_by (
     mutate (
       exercice,
-      annee = year (date_prelevement)
+      annee = year(date_prelevement)
             ),
       annee
             ), 
-          mesure_moyenne = mean (resultat_analyse, na.rm = T),
-          mesure_total = sum (resultat_analyse, na.rm = T)
+          mesure_moyenne = mean(resultat_analyse, na.rm = TRUE),
+          mesure_total = sum(resultat_analyse, na.rm = TRUE)
           )
 ```
 
@@ -612,42 +642,26 @@ Avec l'utilisation du pipe (raccourci clavier `CTrl + Maj + M`), il devient :
 exercice %>%
   mutate(annee = year(date_prelevement)) %>%
   group_by(annee) %>%
-  summarise(mesure_moyenne = mean (resultat_analyse, na.rm = T),
-            mesure_total = sum (resultat_analyse, na.rm = T))
+  summarise(mesure_moyenne = mean(resultat_analyse, na.rm = TRUE),
+            mesure_total = sum(resultat_analyse, na.rm = TRUE))
 
 ```
 
 ## La magie des opérations groupées
 
-L'opération `group_by()` que nous venons de voir est très utile pour les aggrégations, mais elle peut aussi servir pour créer des variables ou filtrer une table, puisque `group_by()` permet de traiter notre table en entrée comme *autant de tables séparées* par les modalités des variables de regroupement.
+L'opération `group_by()` que nous venons de voir est très utile pour les agrégations, mais elle peut aussi servir pour créer des variables ou filtrer une table, puisque `group_by()` permet de traiter notre table en entrée comme *autant de tables séparées* par les modalités des variables de regroupement.
 
 
 ### Exercice 3
 
-A partir des données “sitadel” (chargées dans l'exercice 1), effectuer les opérations suivantes en utilisant l’opérateur %>% :  
-
-- effectuer les mêmes calculs que ceux réalisés sur la région 52, mais sur chacune des régions _--> à stocker dans 'sit_ind'_
-  
-- calculer les aggrégations par année civile pour chacune des régions, puis leur taux d’évolution d’une année sur l’autre, exemple : (val2015-val2014)/val2014 _--> à stocker dans 'sit_annuel'_
+```{r mod2_exo3, child=savoirfR::charge_exo("m2", "exo3.rmd"), echo=FALSE}
+```
 
 
 ### Exercice 4
 
-Sur les données "FormationPreparationDesDonnées.RData", table "exercice" : 
-
-1. calculer le taux de quantification pour chaque molécule et chacune des année : chaque molécule est identifiée par son `code_parametre`, le taux de quantification est le nombre de fois qu'une molécule est retrouvée (`code_remarque` = 1) sur le nombre de fois où elle a été
-cherchée (`code_remarque` = 1, 2, 7 ou 10). Pour cela :  
-
- - créer la variable “annee” ;  
- - créer la variable de comptage des présences pour chaque analyse (1=présent, 0=absent) ;  
- - créer la variable de comptage des recherches pour chaque analyse (1=recherchée, 0=non recherchée) ;  
- - pour chaque combinaison `annee` x `code_parametre`, calculer le taux de quantification.  
- 
-2. Trouver pour chaque station, sur l’année 2016, le prélèvement pour lequel la concentration cumulée, toutes substances confondues, est la plus élevée (~ le prélèvement le plus pollué). Pour cela :  
-
- - filtrer les concentrations quantifiées (`code_remarque`=1) et l’année 2016 ;  
- - sommer les concentrations (`resultat_analyse`) par combinaison `code_station` x `code_prelevement` ;  
- - ne conserver que le prélèvement avec le concentration maximale.  
+```{r mod2_exo4, child=savoirfR::charge_exo("m2", "exo4.rmd"), echo=FALSE}
+```
 
 
 <!-- ## Le travail en colonnes col_wise ? -->
@@ -658,11 +672,12 @@ Nous venons de voir les principaux verbes de manipulation d'une table de dplyr. 
 
 ### Les select helpers
 
-Repéter des opérations de nettoyage ou de typage sur les différentes variables d'un jeu de données peut s'avérer fastidieux lorsque l'on a à écrire les opérations variable par variable.
+Répéter des opérations de nettoyage ou de typage sur les différentes variables d'un jeu de données peut s'avérer fastidieux lorsque l'on a à écrire les opérations variable par variable.
 
 La fonction select() propose cinq manières différentes de désigner les variables à sélectionner.
 Nous avons vu la première et la plus intuitive, qui est de **nommer** les variables une à une. 
-On peut également utiliser les `:` qui permettent de sélectionner une liste de variables consécutives. On peut également désigner les variables à sélectionner en fonction de leur **position** :
+On peut également utiliser les `:` qui permettent de sélectionner une liste de variables consécutives. 
+On peut également désigner les variables à sélectionner en fonction de leur **position** :
 
 ```{r select1}
 select(exercice, code_analyse, code_laboratoire, code_prelevement, code_parametre,
@@ -679,7 +694,7 @@ select(exercice, -c(1:7)) %>% names()
 
 Sélectionner les variables en fonction de leur position peut sembler séduisant, mais attention aux problèmes de reproductibilité que cela peut poser si le jeu de données en entrée bouge un peu entre deux millésimes.
 
-On peut également sélectionner des variables selon des **conditions sur leur nom**. Par exemple, on peut selectionner les variables dont le nom commence par "date", ou se termine par "station", ou contient "prel" ou en fonction d'une expression régulière comme "m.n" (le nom contient un "m" suivi d'un caractère suivi d'un "n".
+On peut également sélectionner des variables selon des **conditions sur leur nom**. Par exemple, on peut sélectionner les variables dont le nom commence par "date", ou se termine par "station", ou contient "prel" ou en fonction d'une expression régulière comme "m.n" (le nom contient un "m" suivi d'un caractère suivi d'un "n".
 
 ```{r select2}
 select(exercice, starts_with("date")) %>% names()
@@ -694,7 +709,7 @@ On peut également sélectionner des variables selon des **conditions sur leur t
 select(exercice, where(is.numeric)) %>% names()
 select(exercice, where(is.character)) %>% names()
 ```
-On peut enfin sélectionner des variables en **combinant** les moyens détaillés ci-avant et en recourant aux opérateurs boléens : `!` (negation), `&` (et), `|` (ou).
+On peut enfin sélectionner des variables en **combinant** les moyens détaillés ci-avant et en recourant aux opérateurs booléens : `!` (négation), `&` (et), `|` (ou).
 
 ```{r select4}
 select(exercice, 1:7 & starts_with("code")) %>% names()
@@ -708,7 +723,7 @@ select(exercice, starts_with("date") & !where(is.Date)) %>% names()
 Lorsqu'on souhaite renommer les variable une à une, la fonction `rename()` fonctionne de la même manière que `select()` :     
 ` mon_df_renomme <- rename(mon_dataframe, nouveau_nom1 = ancien_nom1, nouveau_nom2 = ancien_nom2)`
 
-Si l'on souhaite recourir aux select helpers, il faut utiliser `rename_with()`, avec la synthaxe `rename_with(.data= mon_df, .fn= ma_fonction_de_renommage, .cols= les_variables_a_renommer)`. Exemple avec la fonction toupper() qui passe les chaînes de caractères en majuscules.
+Si l'on souhaite recourir aux select helpers, il faut utiliser `rename_with()`, avec la syntaxe `rename_with(.data= mon_df, .fn= ma_fonction_de_renommage, .cols= les_variables_a_renommer)`. Exemple avec la fonction `toupper()` qui passe les chaînes de caractères en majuscules.
 
 ```{r rename_with1}
 rename_with(station, toupper, starts_with("code")) %>% names()
@@ -718,7 +733,7 @@ rename_with(station, toupper, starts_with("code")) %>% names()
 Si la fonction de renommage est plus complexe qu'un simple mot, il faut recourir au pronom `.x` et au `~` pour la définir. Exemple avec la fonction `str_sub()` de `{stringr}` vue précédemment :
 
 ```{r rename_with2}
-rename_with(exercice, ~ str_sub(.x, start = 5, end = str_length(.x)), 
+rename_with(exercice, ~ str_sub(.x, start = 6, end = str_length(.x)), 
             starts_with("code")) %>% names()
 
 ```
@@ -740,13 +755,13 @@ filter(parametre, across(starts_with("date"), ~ .x > "2015-01-01")) %>%
 
 mutate(exercice, across(starts_with("code") & where(is.numeric), as.factor),
                  across(starts_with("date"), as.Date)) %>%
-  slice(1:100) %>%
+  head() %>%
   datatable()
 
 summarise(parametre, across(starts_with("code"), n_distinct))
 
 group_by(prelevement, across(code_intervenant:code_station)) %>%
-  summarise(across(everything(), list(nb = n_distinct)))
+  summarise(across(everything(), list(nb = n_distinct)), .groups = "drop")
 
 
 ```
