@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapitre 2 Le tidyverse | Préparer ses données avec R et le Tidyverse</title>
   <meta name="description" content="Préparation des données avec R et le Tidyverse (module 2)" />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapitre 2 Le tidyverse | Préparer ses données avec R et le Tidyverse" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="Préparation des données avec R et le Tidyverse (module 2)" />
   
@@ -24,7 +23,7 @@
 <meta name="author" content="Maël Theulière &amp; Bruno Terseur" />
 
 
-<meta name="date" content="2022-01-12" />
+<meta name="date" content="2022-09-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +32,8 @@
   
 <link rel="prev" href="index.html"/>
 <link rel="next" href="bien-commencer.html"/>
-<script src="libs/header-attrs-2.6/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -50,15 +49,17 @@
 
 
 
-
-<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
 <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="libs/datatables-binding-0.16/datatables.js"></script>
-<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
-<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
-<link href="libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+<script src="libs/datatables-binding-0.24/datatables.js"></script>
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
 
 
 <style type="text/css">
@@ -126,6 +127,7 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 
@@ -146,7 +148,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
 <ul>
 <li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#le-parcours-de-formation"><i class="fa fa-check"></i><b>1.1</b> Le parcours de formation</a></li>
-<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#objectifs-du-module-2"><i class="fa fa-check"></i><b>1.2</b> Objectifs du module 2</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#le-groupe-de-référents-r-du-pôle-ministériel"><i class="fa fa-check"></i><b>1.2</b> Le groupe de référents R du pôle ministériel</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#objectifs-du-module-2"><i class="fa fa-check"></i><b>1.3</b> Objectifs du module 2</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="le-tidyverse.html"><a href="le-tidyverse.html"><i class="fa fa-check"></i><b>2</b> Le tidyverse</a>
 <ul>
@@ -170,16 +173,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4" data-path="lire-des-données.html"><a href="lire-des-données.html"><i class="fa fa-check"></i><b>4</b> Lire des données</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="lire-des-données.html"><a href="lire-des-données.html#readxl-lire-des-données-excel"><i class="fa fa-check"></i><b>4.1</b> readxl : lire des données Excel</a></li>
-<li class="chapter" data-level="4.2" data-path="lire-des-données.html"><a href="lire-des-données.html#read_delim-lire-des-fichiers-plats"><i class="fa fa-check"></i><b>4.2</b> read_delim : lire des fichiers plats</a></li>
-<li class="chapter" data-level="4.3" data-path="lire-des-données.html"><a href="lire-des-données.html#télécharger-des-données-disponibles-sur-le-web"><i class="fa fa-check"></i><b>4.3</b> Télécharger des données disponibles sur le web</a></li>
+<li class="chapter" data-level="4.1" data-path="lire-des-données.html"><a href="lire-des-données.html#lire-des-fichiers-locaux"><i class="fa fa-check"></i><b>4.1</b> Lire des fichiers locaux</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="lire-des-données.html"><a href="lire-des-données.html#readxl-lire-des-données-excel"><i class="fa fa-check"></i><b>4.1.1</b> {readxl} : lire des données Excel</a></li>
+<li class="chapter" data-level="4.1.2" data-path="lire-des-données.html"><a href="lire-des-données.html#read_delim-lire-des-fichiers-plats"><i class="fa fa-check"></i><b>4.1.2</b> read_delim() : lire des fichiers plats</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="lire-des-données.html"><a href="lire-des-données.html#lire-des-données-disponibles-sur-le-web-téléchargement-de-fichiers"><i class="fa fa-check"></i><b>4.2</b> Lire des données disponibles sur le web : téléchargement de fichiers</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="lire-des-données.html"><a href="lire-des-données.html#exemple-site-de-linsee-avec-dezippage"><i class="fa fa-check"></i><b>4.2.1</b> Exemple site de l’INSEE, avec dezippage</a></li>
+<li class="chapter" data-level="4.2.2" data-path="lire-des-données.html"><a href="lire-des-données.html#exemple-données-sur-les-logements-vacants-depuis-data.gouv.fr"><i class="fa fa-check"></i><b>4.2.2</b> Exemple données sur les logements vacants depuis data.gouv.fr</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="lire-des-données.html"><a href="lire-des-données.html#lire-des-données-disponibles-sur-le-web-via-api"><i class="fa fa-check"></i><b>4.3</b> Lire des données disponibles sur le web via API</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="lire-des-données.html"><a href="lire-des-données.html#exemple-de-recours-à-lapi-opendatasoft-en-utilisant-lapi-de-lurssaf-ou-de-lodre"><i class="fa fa-check"></i><b>4.3.1</b> Exemple de recours à l’API opendatasoft en utilisant l’API de l’URSSAF ou de l’ODRE</a></li>
+<li class="chapter" data-level="4.3.2" data-path="lire-des-données.html"><a href="lire-des-données.html#packages-r-dinterrogation-dapi"><i class="fa fa-check"></i><b>4.3.2</b> Packages R d’interrogation d’API</a></li>
+</ul></li>
 <li class="chapter" data-level="4.4" data-path="lire-des-données.html"><a href="lire-des-données.html#lire-des-fichiers-avec-une-dimension-spatiale"><i class="fa fa-check"></i><b>4.4</b> Lire des fichiers avec une dimension spatiale</a></li>
 <li class="chapter" data-level="4.5" data-path="lire-des-données.html"><a href="lire-des-données.html#lire-des-données-sous-postgresql"><i class="fa fa-check"></i><b>4.5</b> Lire des données sous PostgreSQL</a>
 <ul>
 <li class="chapter" data-level="4.5.1" data-path="lire-des-données.html"><a href="lire-des-données.html#lire-des-données-sous-postgresql-première-approche"><i class="fa fa-check"></i><b>4.5.1</b> Lire des données sous PostgreSQL : première approche</a></li>
 <li class="chapter" data-level="4.5.2" data-path="lire-des-données.html"><a href="lire-des-données.html#lire-des-données-sous-postgresql-seconde-approche"><i class="fa fa-check"></i><b>4.5.2</b> Lire des données sous PostgreSQL : seconde approche</a></li>
 </ul></li>
-<li class="chapter" data-level="4.6" data-path="lire-des-données.html"><a href="lire-des-données.html#lire-des-données-du-webservice-insee"><i class="fa fa-check"></i><b>4.6</b> Lire des données du webservice Insee</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html"><i class="fa fa-check"></i><b>5</b> Manipuler des données</a>
 <ul>
@@ -203,11 +217,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.5.4" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#manipuler-des-chaînes-de-caractères"><i class="fa fa-check"></i><b>5.5.4</b> Manipuler des chaînes de caractères</a></li>
 <li class="chapter" data-level="5.5.5" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#manipuler-des-variables-factorielles-qualitatives-ou-catégorielles"><i class="fa fa-check"></i><b>5.5.5</b> Manipuler des variables factorielles ( = qualitatives ou catégorielles)</a></li>
 </ul></li>
-<li class="chapter" data-level="5.6" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#aggréger-des-données-summarise"><i class="fa fa-check"></i><b>5.6</b> Aggréger des données : <code>summarise()</code></a>
+<li class="chapter" data-level="5.6" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#agréger-des-données-summarise"><i class="fa fa-check"></i><b>5.6</b> Agréger des données : <code>summarise()</code></a>
 <ul>
-<li class="chapter" data-level="5.6.1" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#quelques-fonctions-daggrégations-utiles"><i class="fa fa-check"></i><b>5.6.1</b> Quelques fonctions d’aggrégations utiles</a></li>
+<li class="chapter" data-level="5.6.1" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#quelques-fonctions-dagrégations-utiles"><i class="fa fa-check"></i><b>5.6.1</b> Quelques fonctions d’agrégations utiles</a></li>
 </ul></li>
-<li class="chapter" data-level="5.7" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#aggréger-des-données-par-dimension-group_by"><i class="fa fa-check"></i><b>5.7</b> Aggréger des données par dimension : <code>group_by()</code></a></li>
+<li class="chapter" data-level="5.7" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#agréger-des-données-par-dimension-group_by"><i class="fa fa-check"></i><b>5.7</b> Agréger des données par dimension : <code>group_by()</code></a></li>
 <li class="chapter" data-level="5.8" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#le-pipe"><i class="fa fa-check"></i><b>5.8</b> Le pipe</a></li>
 <li class="chapter" data-level="5.9" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#la-magie-des-opérations-groupées"><i class="fa fa-check"></i><b>5.9</b> La magie des opérations groupées</a>
 <ul>
@@ -230,8 +244,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.1" data-path="structurer-ses-tables.html"><a href="structurer-ses-tables.html#pourquoi-se-pencher-sur-la-structuration-des-tables"><i class="fa fa-check"></i><b>7.1</b> Pourquoi se pencher sur la structuration des tables ?</a></li>
 <li class="chapter" data-level="7.2" data-path="structurer-ses-tables.html"><a href="structurer-ses-tables.html#les-deux-fonctions-clefs-de-tidyr"><i class="fa fa-check"></i><b>7.2</b> Les deux fonctions clefs de <code>{tidyr}</code></a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="exercice-6-les-données-majic.html"><a href="exercice-6-les-données-majic.html"><i class="fa fa-check"></i><b>8</b> Exercice 6 : les données majic</a></li>
-<li class="chapter" data-level="9" data-path="aller-plus-loin.html"><a href="aller-plus-loin.html"><i class="fa fa-check"></i><b>9</b> Aller plus loin</a></li>
+<li class="chapter" data-level="8" data-path="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html"><i class="fa fa-check"></i><b>8</b> Nettoyer des données territoriales : gérer les évolutions du COG (code officiel géographique)</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#mettre-à-jour-une-table-comportant-une-colonne-de-code-commune"><i class="fa fa-check"></i><b>8.1</b> Mettre à jour une table comportant une colonne de code commune</a></li>
+<li class="chapter" data-level="8.2" data-path="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#mettre-à-jour-le-cog-et-agréger-aux-différentes-échelles"><i class="fa fa-check"></i><b>8.2</b> Mettre à jour le COG et agréger aux différentes échelles</a></li>
+<li class="chapter" data-level="8.3" data-path="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#sélectionner-les-territoires-de-ma-zone-de-travail"><i class="fa fa-check"></i><b>8.3</b> Sélectionner les territoires de ma zone de travail</a></li>
+<li class="chapter" data-level="8.4" data-path="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#pour-en-savoir-plus-utiliser-les-fonds-de-carte-mis-à-disposition-dans-cogiter"><i class="fa fa-check"></i><b>8.4</b> Pour en savoir plus : utiliser les fonds de carte mis à disposition dans COGiter</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="exercice-6-les-données-majic.html"><a href="exercice-6-les-données-majic.html"><i class="fa fa-check"></i><b>9</b> Exercice 6 : les données majic</a></li>
+<li class="chapter" data-level="10" data-path="aller-plus-loin.html"><a href="aller-plus-loin.html"><i class="fa fa-check"></i><b>10</b> Aller plus loin</a></li>
 <li class="divider"></li>
 <li><a href="https://mtes-mct.github.io/parcours-r/">Liste des formations R</a></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -253,30 +274,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="le-tidyverse" class="section level1" number="2">
-<h1><span class="header-section-number">Chapitre 2</span> Le tidyverse</h1>
+<div id="le-tidyverse" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapitre 2</span> Le tidyverse<a href="le-tidyverse.html#le-tidyverse" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Le <code>tidyverse</code> est un ensemble de packages proposant une syntaxe cohérente pour remplir l’essentiel des traitements propres à la science de la données, de la lecture des données à la valorisation, en passant par la modélisation. Le manifeste du <code>tidyverse</code> comprend 4 principes clefs pour les packages :</p>
 <ul>
 <li><p>Utiliser les structures de données existantes : ne pas créer des objets ad hoc ;</p></li>
 <li><p>Utiliser l’opérateur pipe ;</p></li>
-<li><p>S’intègrer dans l’approche de programmation fonctionnelle de R ;</p></li>
+<li><p>S’intégrer dans l’approche de programmation fonctionnelle de R ;</p></li>
 <li><p>Designé pour les être humains : favoriser la facilité d’usage à la performance machine.</p></li>
 </ul>
 <p><img src="images/tidyverse.png" /></p>
-<div id="présentation-des-packages" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> Présentation des packages</h2>
-<div id="des-packages-pour-lire-des-données" class="section level3" number="2.1.1">
-<h3><span class="header-section-number">2.1.1</span> Des packages pour lire des données</h3>
-<div id="tidyverse" class="section level4" number="2.1.1.1">
-<h4><span class="header-section-number">2.1.1.1</span> tidyverse</h4>
+<div id="présentation-des-packages" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Présentation des packages<a href="le-tidyverse.html#présentation-des-packages" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="des-packages-pour-lire-des-données" class="section level3 hasAnchor" number="2.1.1">
+<h3><span class="header-section-number">2.1.1</span> Des packages pour lire des données<a href="le-tidyverse.html#des-packages-pour-lire-des-données" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="tidyverse" class="section level4 hasAnchor" number="2.1.1.1">
+<h4><span class="header-section-number">2.1.1.1</span> tidyverse<a href="le-tidyverse.html#tidyverse" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <ul>
 <li><a href="http://readr.tidyverse.org/"><code>{readr}</code></a> pour les fichiers plats</li>
 <li><a href="http://readxl.tidyverse.org/"><code>{readxl}</code></a> pour les fichiers tableur Excel</li>
 <li><a href="http://haven.tidyverse.org/"><code>{haven}</code></a> pour les données stockées sous des formats propriétaires (SAS, SPSS, …)</li>
 </ul>
 </div>
-<div id="hors-tidyverse" class="section level4" number="2.1.1.2">
-<h4><span class="header-section-number">2.1.1.2</span> Hors tidyverse</h4>
+<div id="hors-tidyverse" class="section level4 hasAnchor" number="2.1.1.2">
+<h4><span class="header-section-number">2.1.1.2</span> Hors tidyverse<a href="le-tidyverse.html#hors-tidyverse" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <ul>
 <li><a href="http://db.rstudio.com/odbc/"><code>{odbc}</code></a> / <a href="https://cran.r-project.org/web/packages/RPostgreSQL/index.html"><code>{Rposgresql}</code></a> pour accéder à des données stockées sous forme de base de données</li>
 <li><a href="https://r-spatial.github.io/sf/"><code>{sf}</code></a> pour lire des données spatiales</li>
@@ -284,28 +305,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 </div>
 </div>
-<div id="des-packages-pour-manipuler-des-données" class="section level3" number="2.1.2">
-<h3><span class="header-section-number">2.1.2</span> Des packages pour manipuler des données</h3>
-<div id="tidyverse-1" class="section level4" number="2.1.2.1">
-<h4><span class="header-section-number">2.1.2.1</span> tidyverse</h4>
+<div id="des-packages-pour-manipuler-des-données" class="section level3 hasAnchor" number="2.1.2">
+<h3><span class="header-section-number">2.1.2</span> Des packages pour manipuler des données<a href="le-tidyverse.html#des-packages-pour-manipuler-des-données" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="tidyverse-1" class="section level4 hasAnchor" number="2.1.2.1">
+<h4><span class="header-section-number">2.1.2.1</span> tidyverse<a href="le-tidyverse.html#tidyverse-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <ul>
 <li><a href="http://dplyr.tidyverse.org/"><code>{dplyr}</code></a> fonctions correspondant à des “verbes” pour manipuler ses données</li>
 <li><a href="http://tidyr.tidyverse.org/"><code>{tidyr}</code></a> fonctions pour modifier l’agencement de nos tables entre les lignes et les colonnes</li>
 </ul>
 </div>
 </div>
-<div id="des-packages-pour-nettoyer-des-données" class="section level3" number="2.1.3">
-<h3><span class="header-section-number">2.1.3</span> Des packages pour nettoyer des données</h3>
-<div id="tidyverse-2" class="section level4" number="2.1.3.1">
-<h4><span class="header-section-number">2.1.3.1</span> tidyverse</h4>
+<div id="des-packages-pour-nettoyer-des-données" class="section level3 hasAnchor" number="2.1.3">
+<h3><span class="header-section-number">2.1.3</span> Des packages pour nettoyer des données<a href="le-tidyverse.html#des-packages-pour-nettoyer-des-données" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="tidyverse-2" class="section level4 hasAnchor" number="2.1.3.1">
+<h4><span class="header-section-number">2.1.3.1</span> tidyverse<a href="le-tidyverse.html#tidyverse-2" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <ul>
 <li><a href="http://forcats.tidyverse.org/"><code>{forcats}</code></a> permet de manipuler les variables de type catégoriel (ou factor en R)</li>
 <li><a href="http://stringr.tidyverse.org/"><code>{stringr}</code></a> permet de manipuler des chaînes de caractères</li>
 <li><a href="http://lubridate.tidyverse.org/"><code>{lubridate}</code></a> permet de manipuler des dates</li>
 </ul>
 </div>
-<div id="hors-tidyverse-1" class="section level4" number="2.1.3.2">
-<h4><span class="header-section-number">2.1.3.2</span> Hors tidyverse</h4>
+<div id="hors-tidyverse-1" class="section level4 hasAnchor" number="2.1.3.2">
+<h4><span class="header-section-number">2.1.3.2</span> Hors tidyverse<a href="le-tidyverse.html#hors-tidyverse-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <ul>
 <li><a href="http://www.gagolewski.com/software/stringi/"><code>{stringi}</code></a> permet de manipuler des chaînes de caractères</li>
 <li><a href="https://cran.r-project.org/web/packages/RcppRoll/index.html"><code>{RcppRoll}</code></a> qui regroupe des opérations fenêtrées ou glissantes</li>
@@ -313,8 +334,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </div>
-<div id="les-spécificités-du-tidyverse" class="section level2" number="2.2">
-<h2><span class="header-section-number">2.2</span> Les spécificités du tidyverse</h2>
+<div id="les-spécificités-du-tidyverse" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Les spécificités du tidyverse<a href="le-tidyverse.html#les-spécificités-du-tidyverse" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Quelques spécificités des fonctions de ce framework :</p>
 <ul>
 <li>Ces packages sont orientés manipulation de <em>dataframes</em> et non de <em>vecteurs</em><br />
@@ -328,14 +349,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>L’ensemble de ces opérations élémentaires peuvent s’enchaîner à la manière d’un ETL avec le pipe</li>
 </ul>
 </div>
-<div id="dautres-approches-possibles" class="section level2" number="2.3">
-<h2><span class="header-section-number">2.3</span> D’autres approches possibles</h2>
+<div id="dautres-approches-possibles" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> D’autres approches possibles<a href="le-tidyverse.html#dautres-approches-possibles" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Les fonctions que nous allons voir obéissent à une logique intégrée et simple, qui permet des manipulations complexes, à partir du moment ou l’on est capable d’identifier et de sérier chaque <em>opération élémentaire</em> à réaliser.<br />
 D’autres packages permettent également de réaliser ce type de manipulations. La différence est qu’ils sont souvent dédiés à une tâche spécifique, ce qui rend la cohérence moins évidente lorsque l’on doit réaliser plusieurs opérations.<br />
 Un autre package propose toutefois une vision intégrée de la sorte : <a href="https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html"><code>{data.table}</code></a>.
 Plusieurs différences sont à noter :</p>
 <ul>
-<li><code>{data.table}</code> est plus rapide sur d’importants volumes de données, le code est très succinct.<br />
+<li><code>{data.table}</code> est plus rapide sur d’importants volumes de données, le code est très concis.<br />
 </li>
 <li><code>{dplyr}</code> est plus simple à apprendre, le code est plus lisible, il peut s’appliquer à des formats de données multiples, il s’intègre dans un framework global qui va de la lecture des données (<code>{readr}</code>, <code>{readxl}</code>, <code>{haven}</code>…) à leur valorisation (<code>{ggplot2}</code>).</li>
 </ul>
@@ -352,7 +373,6 @@ Plusieurs différences sont à noter :</p>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -371,6 +391,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
@@ -391,6 +412,10 @@ gitbook.start({
 "text": null
 },
 "download": ["Preparer-ses-donnees-avec-R-et-le-Tidyverse.pdf", "Preparer-ses-donnees-avec-R-et-le-Tidyverse.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "subsection"
 }
@@ -398,20 +423,6 @@ gitbook.start({
 });
 </script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:")
-      if (/^https?:/.test(src))
-        src = src.replace(/^https?:/, '');
-    script.src = src;
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
 </body>
 
 </html>

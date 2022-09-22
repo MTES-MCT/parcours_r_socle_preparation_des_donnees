@@ -4,19 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapitre 8 Exercice 6 : les données majic | Préparer ses données avec R et le Tidyverse</title>
+  <title>Chapitre 9 Exercice 6 : les données majic | Préparer ses données avec R et le Tidyverse</title>
   <meta name="description" content="Préparation des données avec R et le Tidyverse (module 2)" />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapitre 8 Exercice 6 : les données majic | Préparer ses données avec R et le Tidyverse" />
+  <meta property="og:title" content="Chapitre 9 Exercice 6 : les données majic | Préparer ses données avec R et le Tidyverse" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="Préparation des données avec R et le Tidyverse (module 2)" />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapitre 8 Exercice 6 : les données majic | Préparer ses données avec R et le Tidyverse" />
+  <meta name="twitter:title" content="Chapitre 9 Exercice 6 : les données majic | Préparer ses données avec R et le Tidyverse" />
   
   <meta name="twitter:description" content="Préparation des données avec R et le Tidyverse (module 2)" />
   
@@ -24,17 +23,17 @@
 <meta name="author" content="Maël Theulière &amp; Bruno Terseur" />
 
 
-<meta name="date" content="2022-01-12" />
+<meta name="date" content="2022-09-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="structurer-ses-tables.html"/>
+<link rel="prev" href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html"/>
 <link rel="next" href="aller-plus-loin.html"/>
-<script src="libs/header-attrs-2.6/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -50,15 +49,17 @@
 
 
 
-
-<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
 <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="libs/datatables-binding-0.16/datatables.js"></script>
-<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
-<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
-<link href="libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+<script src="libs/datatables-binding-0.24/datatables.js"></script>
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
 
 
 <style type="text/css">
@@ -126,6 +127,7 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 
@@ -146,7 +148,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
 <ul>
 <li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#le-parcours-de-formation"><i class="fa fa-check"></i><b>1.1</b> Le parcours de formation</a></li>
-<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#objectifs-du-module-2"><i class="fa fa-check"></i><b>1.2</b> Objectifs du module 2</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#le-groupe-de-référents-r-du-pôle-ministériel"><i class="fa fa-check"></i><b>1.2</b> Le groupe de référents R du pôle ministériel</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#objectifs-du-module-2"><i class="fa fa-check"></i><b>1.3</b> Objectifs du module 2</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="le-tidyverse.html"><a href="le-tidyverse.html"><i class="fa fa-check"></i><b>2</b> Le tidyverse</a>
 <ul>
@@ -170,16 +173,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4" data-path="lire-des-données.html"><a href="lire-des-données.html"><i class="fa fa-check"></i><b>4</b> Lire des données</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="lire-des-données.html"><a href="lire-des-données.html#readxl-lire-des-données-excel"><i class="fa fa-check"></i><b>4.1</b> readxl : lire des données Excel</a></li>
-<li class="chapter" data-level="4.2" data-path="lire-des-données.html"><a href="lire-des-données.html#read_delim-lire-des-fichiers-plats"><i class="fa fa-check"></i><b>4.2</b> read_delim : lire des fichiers plats</a></li>
-<li class="chapter" data-level="4.3" data-path="lire-des-données.html"><a href="lire-des-données.html#télécharger-des-données-disponibles-sur-le-web"><i class="fa fa-check"></i><b>4.3</b> Télécharger des données disponibles sur le web</a></li>
+<li class="chapter" data-level="4.1" data-path="lire-des-données.html"><a href="lire-des-données.html#lire-des-fichiers-locaux"><i class="fa fa-check"></i><b>4.1</b> Lire des fichiers locaux</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="lire-des-données.html"><a href="lire-des-données.html#readxl-lire-des-données-excel"><i class="fa fa-check"></i><b>4.1.1</b> {readxl} : lire des données Excel</a></li>
+<li class="chapter" data-level="4.1.2" data-path="lire-des-données.html"><a href="lire-des-données.html#read_delim-lire-des-fichiers-plats"><i class="fa fa-check"></i><b>4.1.2</b> read_delim() : lire des fichiers plats</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="lire-des-données.html"><a href="lire-des-données.html#lire-des-données-disponibles-sur-le-web-téléchargement-de-fichiers"><i class="fa fa-check"></i><b>4.2</b> Lire des données disponibles sur le web : téléchargement de fichiers</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="lire-des-données.html"><a href="lire-des-données.html#exemple-site-de-linsee-avec-dezippage"><i class="fa fa-check"></i><b>4.2.1</b> Exemple site de l’INSEE, avec dezippage</a></li>
+<li class="chapter" data-level="4.2.2" data-path="lire-des-données.html"><a href="lire-des-données.html#exemple-données-sur-les-logements-vacants-depuis-data.gouv.fr"><i class="fa fa-check"></i><b>4.2.2</b> Exemple données sur les logements vacants depuis data.gouv.fr</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="lire-des-données.html"><a href="lire-des-données.html#lire-des-données-disponibles-sur-le-web-via-api"><i class="fa fa-check"></i><b>4.3</b> Lire des données disponibles sur le web via API</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="lire-des-données.html"><a href="lire-des-données.html#exemple-de-recours-à-lapi-opendatasoft-en-utilisant-lapi-de-lurssaf-ou-de-lodre"><i class="fa fa-check"></i><b>4.3.1</b> Exemple de recours à l’API opendatasoft en utilisant l’API de l’URSSAF ou de l’ODRE</a></li>
+<li class="chapter" data-level="4.3.2" data-path="lire-des-données.html"><a href="lire-des-données.html#packages-r-dinterrogation-dapi"><i class="fa fa-check"></i><b>4.3.2</b> Packages R d’interrogation d’API</a></li>
+</ul></li>
 <li class="chapter" data-level="4.4" data-path="lire-des-données.html"><a href="lire-des-données.html#lire-des-fichiers-avec-une-dimension-spatiale"><i class="fa fa-check"></i><b>4.4</b> Lire des fichiers avec une dimension spatiale</a></li>
 <li class="chapter" data-level="4.5" data-path="lire-des-données.html"><a href="lire-des-données.html#lire-des-données-sous-postgresql"><i class="fa fa-check"></i><b>4.5</b> Lire des données sous PostgreSQL</a>
 <ul>
 <li class="chapter" data-level="4.5.1" data-path="lire-des-données.html"><a href="lire-des-données.html#lire-des-données-sous-postgresql-première-approche"><i class="fa fa-check"></i><b>4.5.1</b> Lire des données sous PostgreSQL : première approche</a></li>
 <li class="chapter" data-level="4.5.2" data-path="lire-des-données.html"><a href="lire-des-données.html#lire-des-données-sous-postgresql-seconde-approche"><i class="fa fa-check"></i><b>4.5.2</b> Lire des données sous PostgreSQL : seconde approche</a></li>
 </ul></li>
-<li class="chapter" data-level="4.6" data-path="lire-des-données.html"><a href="lire-des-données.html#lire-des-données-du-webservice-insee"><i class="fa fa-check"></i><b>4.6</b> Lire des données du webservice Insee</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html"><i class="fa fa-check"></i><b>5</b> Manipuler des données</a>
 <ul>
@@ -203,11 +217,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.5.4" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#manipuler-des-chaînes-de-caractères"><i class="fa fa-check"></i><b>5.5.4</b> Manipuler des chaînes de caractères</a></li>
 <li class="chapter" data-level="5.5.5" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#manipuler-des-variables-factorielles-qualitatives-ou-catégorielles"><i class="fa fa-check"></i><b>5.5.5</b> Manipuler des variables factorielles ( = qualitatives ou catégorielles)</a></li>
 </ul></li>
-<li class="chapter" data-level="5.6" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#aggréger-des-données-summarise"><i class="fa fa-check"></i><b>5.6</b> Aggréger des données : <code>summarise()</code></a>
+<li class="chapter" data-level="5.6" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#agréger-des-données-summarise"><i class="fa fa-check"></i><b>5.6</b> Agréger des données : <code>summarise()</code></a>
 <ul>
-<li class="chapter" data-level="5.6.1" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#quelques-fonctions-daggrégations-utiles"><i class="fa fa-check"></i><b>5.6.1</b> Quelques fonctions d’aggrégations utiles</a></li>
+<li class="chapter" data-level="5.6.1" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#quelques-fonctions-dagrégations-utiles"><i class="fa fa-check"></i><b>5.6.1</b> Quelques fonctions d’agrégations utiles</a></li>
 </ul></li>
-<li class="chapter" data-level="5.7" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#aggréger-des-données-par-dimension-group_by"><i class="fa fa-check"></i><b>5.7</b> Aggréger des données par dimension : <code>group_by()</code></a></li>
+<li class="chapter" data-level="5.7" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#agréger-des-données-par-dimension-group_by"><i class="fa fa-check"></i><b>5.7</b> Agréger des données par dimension : <code>group_by()</code></a></li>
 <li class="chapter" data-level="5.8" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#le-pipe"><i class="fa fa-check"></i><b>5.8</b> Le pipe</a></li>
 <li class="chapter" data-level="5.9" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#la-magie-des-opérations-groupées"><i class="fa fa-check"></i><b>5.9</b> La magie des opérations groupées</a>
 <ul>
@@ -230,8 +244,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.1" data-path="structurer-ses-tables.html"><a href="structurer-ses-tables.html#pourquoi-se-pencher-sur-la-structuration-des-tables"><i class="fa fa-check"></i><b>7.1</b> Pourquoi se pencher sur la structuration des tables ?</a></li>
 <li class="chapter" data-level="7.2" data-path="structurer-ses-tables.html"><a href="structurer-ses-tables.html#les-deux-fonctions-clefs-de-tidyr"><i class="fa fa-check"></i><b>7.2</b> Les deux fonctions clefs de <code>{tidyr}</code></a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="exercice-6-les-données-majic.html"><a href="exercice-6-les-données-majic.html"><i class="fa fa-check"></i><b>8</b> Exercice 6 : les données majic</a></li>
-<li class="chapter" data-level="9" data-path="aller-plus-loin.html"><a href="aller-plus-loin.html"><i class="fa fa-check"></i><b>9</b> Aller plus loin</a></li>
+<li class="chapter" data-level="8" data-path="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html"><i class="fa fa-check"></i><b>8</b> Nettoyer des données territoriales : gérer les évolutions du COG (code officiel géographique)</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#mettre-à-jour-une-table-comportant-une-colonne-de-code-commune"><i class="fa fa-check"></i><b>8.1</b> Mettre à jour une table comportant une colonne de code commune</a></li>
+<li class="chapter" data-level="8.2" data-path="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#mettre-à-jour-le-cog-et-agréger-aux-différentes-échelles"><i class="fa fa-check"></i><b>8.2</b> Mettre à jour le COG et agréger aux différentes échelles</a></li>
+<li class="chapter" data-level="8.3" data-path="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#sélectionner-les-territoires-de-ma-zone-de-travail"><i class="fa fa-check"></i><b>8.3</b> Sélectionner les territoires de ma zone de travail</a></li>
+<li class="chapter" data-level="8.4" data-path="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#pour-en-savoir-plus-utiliser-les-fonds-de-carte-mis-à-disposition-dans-cogiter"><i class="fa fa-check"></i><b>8.4</b> Pour en savoir plus : utiliser les fonds de carte mis à disposition dans COGiter</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="exercice-6-les-données-majic.html"><a href="exercice-6-les-données-majic.html"><i class="fa fa-check"></i><b>9</b> Exercice 6 : les données majic</a></li>
+<li class="chapter" data-level="10" data-path="aller-plus-loin.html"><a href="aller-plus-loin.html"><i class="fa fa-check"></i><b>10</b> Aller plus loin</a></li>
 <li class="divider"></li>
 <li><a href="https://mtes-mct.github.io/parcours-r/">Liste des formations R</a></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -253,21 +274,36 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="exercice-6-les-données-majic" class="section level1" number="8">
-<h1><span class="header-section-number">Chapitre 8</span> Exercice 6 : les données majic</h1>
-<p>A partir des tables fournies dans le fichier <em>majic.RData</em> issues des <a href="http://piece-jointe-carto.developpement-durable.gouv.fr/NAT004/DTerNP/html3/_ff_descriptif_tables_image.html#pnb10">fichiers fonciers</a> et du recensement de la population, calculer un indicateur d’étalement urbain entre 2009 et 2014 à la commune et à l’epci sur la région Pays de la Loire. La méthode utilisée sera celle du CEREMA. On peut consulter le rapport <a href="https://www.cerema.fr/system/files/documents/2017/07/Rapport_final_SOeS_phase_2_v8_cle01f492.pdf">ici</a>.</p>
-<p>Le référentiel des communes a changé sur la période, dans un seul sens : il y a eu des fusions.</p>
-<p>La table <code>com2017</code> permet de rattacher toute commune ayant existé sur la région à sa commune de rattachement dans la carte communale 2017.</p>
-<p>Les surfaces artificialisées se calculent comme cela à partir de la typologie d’occupation du sol de majic :</p>
-<p><span class="math inline">\(SA=dcnt07+dcnt09+ dcnt10+dcnt11+dcnt12+dcnt13\)</span></p>
-<p>Deux indices à calculer :</p>
+<div id="exercice-6-les-données-majic" class="section level1 hasAnchor" number="9">
+<h1><span class="header-section-number">Chapitre 9</span> Exercice 6 : les données majic<a href="exercice-6-les-données-majic.html#exercice-6-les-données-majic" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Calculer à partir des tables fournies dans le fichier <code>majic.RData</code> issues des fichiers fonciers (cf. <a href="http://piece-jointe-carto.developpement-durable.gouv.fr/NAT004/DTerNP/html3/_ff_descriptif_tables_image.html#pnb10" class="uri">http://piece-jointe-carto.developpement-durable.gouv.fr/NAT004/DTerNP/html3/_ff_descriptif_tables_image.html#pnb10</a>) un indicateur d’étalement urbain entre 2009 et 2014 à la commune et à l’EPCI sur la région Pays de la Loire (départements 44, 49, 53, 72 et 85), et catégoriser chaque territoire.</p>
+<p>Définitions :</p>
 <ul>
-<li><p>un indice d’étalement urbain simple <span class="math inline">\(I_e = \dfrac{Evolution\;de\;la\;surface\;artificialisée} {Evolution\;de\;la\;population}\)</span></p></li>
-<li><p>un indice d’étalement urbain avancé en classes :</p></li>
+<li>artificialisation = dcnt07 + dcnt09 + dcnt10 + dcnt11 + dcnt12 + dcnt13<br />
+</li>
+<li>indicateur_etalement_simple = évolution de l’artificialisation / évolution de la population<br />
+</li>
+<li>indicateur_etalement_avance, indicateur catégoriel qui vaut :
+<ul>
+<li>1 si la population progresse ou reste stable alors que l’artificialisation recule ;<br />
+</li>
+<li>2a si la population et l’artificialisation progressent ou sont stables et l’étalement urbain est inférieur ou égal à 1 (ou pop stable) ;<br />
+</li>
+<li>2b si la population et l’artificialisation reculent et l’indicateur d’étalement urbain est supéreur à 1 ;<br />
+</li>
+<li>2c si la population recule et l’indicateur d’étalement est compris entre 0 et 1 (inclus) ;<br />
+</li>
+<li>3 si la population progresse, l’artificialisation progresse plus vite que la population, tout en restant inférieure ou égale à 4,9 m² ;<br />
+</li>
+<li>4 si la population progresse, l’artificialisation est supérieure à 4,9 m², elle progresse plus vite que la population mais au plus 2 fois plus vite ;<br />
+</li>
+<li>5 si la population progresse, l’artificialisation progresse plus de 2 fois plus vite que la population et est supérieure à 4,9 m² ;<br />
+</li>
+<li>6 si la population recule et l’indicateur d’étalement urbain est négatif.</li>
+</ul></li>
 </ul>
-<center>
-<img src="images/etalementurbain.png" />
-</center>
+<p>Résultat attendu :</p>
+<p><img src="Preparer-ses-donnees-avec-R-et-le-Tidyverse_files/figure-html/mod2_exo6_solution-1.png" width="576" /><img src="Preparer-ses-donnees-avec-R-et-le-Tidyverse_files/figure-html/mod2_exo6_solution-2.png" width="576" /></p>
 
 </div>
             </section>
@@ -275,12 +311,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="structurer-ses-tables.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="aller-plus-loin.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -299,6 +334,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
@@ -319,6 +355,10 @@ gitbook.start({
 "text": null
 },
 "download": ["Preparer-ses-donnees-avec-R-et-le-Tidyverse.pdf", "Preparer-ses-donnees-avec-R-et-le-Tidyverse.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "subsection"
 }
@@ -326,20 +366,6 @@ gitbook.start({
 });
 </script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:")
-      if (/^https?:/.test(src))
-        src = src.replace(/^https?:/, '');
-    script.src = src;
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
 </body>
 
 </html>

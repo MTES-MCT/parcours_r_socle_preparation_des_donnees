@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapitre 8 Nettoyer des données territoriales : gérer les évolutions du COG (code officiel géographique) | Préparer ses données avec R et le Tidyverse</title>
+  <meta name="description" content="Préparation des données avec R et le Tidyverse (module 2)" />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapitre 8 Nettoyer des données territoriales : gérer les évolutions du COG (code officiel géographique) | Préparer ses données avec R et le Tidyverse" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Préparation des données avec R et le Tidyverse (module 2)" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapitre 8 Nettoyer des données territoriales : gérer les évolutions du COG (code officiel géographique) | Préparer ses données avec R et le Tidyverse" />
+  
+  <meta name="twitter:description" content="Préparation des données avec R et le Tidyverse (module 2)" />
+  
+
+<meta name="author" content="Maël Theulière &amp; Bruno Terseur" />
+
+
+<meta name="date" content="2022-09-22" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="structurer-ses-tables.html"/>
+<link rel="next" href="exercice-6-les-données-majic.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.24/datatables.js"></script>
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><p style="text-align:center;"><img src="https://mtes-mct.github.io/parcours-r/assets/images/logo_marianne_fond_blanc.png" style="width:100px;"/></p></li>
+<li><a href="./">Préparer ses données avec R et le Tidyverse</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#le-parcours-de-formation"><i class="fa fa-check"></i><b>1.1</b> Le parcours de formation</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#le-groupe-de-référents-r-du-pôle-ministériel"><i class="fa fa-check"></i><b>1.2</b> Le groupe de référents R du pôle ministériel</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#objectifs-du-module-2"><i class="fa fa-check"></i><b>1.3</b> Objectifs du module 2</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="le-tidyverse.html"><a href="le-tidyverse.html"><i class="fa fa-check"></i><b>2</b> Le tidyverse</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="le-tidyverse.html"><a href="le-tidyverse.html#présentation-des-packages"><i class="fa fa-check"></i><b>2.1</b> Présentation des packages</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="le-tidyverse.html"><a href="le-tidyverse.html#des-packages-pour-lire-des-données"><i class="fa fa-check"></i><b>2.1.1</b> Des packages pour lire des données</a></li>
+<li class="chapter" data-level="2.1.2" data-path="le-tidyverse.html"><a href="le-tidyverse.html#des-packages-pour-manipuler-des-données"><i class="fa fa-check"></i><b>2.1.2</b> Des packages pour manipuler des données</a></li>
+<li class="chapter" data-level="2.1.3" data-path="le-tidyverse.html"><a href="le-tidyverse.html#des-packages-pour-nettoyer-des-données"><i class="fa fa-check"></i><b>2.1.3</b> Des packages pour nettoyer des données</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="le-tidyverse.html"><a href="le-tidyverse.html#les-spécificités-du-tidyverse"><i class="fa fa-check"></i><b>2.2</b> Les spécificités du tidyverse</a></li>
+<li class="chapter" data-level="2.3" data-path="le-tidyverse.html"><a href="le-tidyverse.html#dautres-approches-possibles"><i class="fa fa-check"></i><b>2.3</b> D’autres approches possibles</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="bien-commencer.html"><a href="bien-commencer.html"><i class="fa fa-check"></i><b>3</b> Bien commencer</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="bien-commencer.html"><a href="bien-commencer.html#créer-un-projet-sous-rstudio-pour-vous-permettre-de-recencer-vos-travaux."><i class="fa fa-check"></i><b>3.1</b> Créer un projet sous Rstudio pour vous permettre de recencer vos travaux.</a></li>
+<li class="chapter" data-level="3.2" data-path="bien-commencer.html"><a href="bien-commencer.html#intégrer-vos-données"><i class="fa fa-check"></i><b>3.2</b> Intégrer vos données</a></li>
+<li class="chapter" data-level="3.3" data-path="bien-commencer.html"><a href="bien-commencer.html#créer-votre-arborescence-de-projet"><i class="fa fa-check"></i><b>3.3</b> Créer votre arborescence de projet</a></li>
+<li class="chapter" data-level="3.4" data-path="bien-commencer.html"><a href="bien-commencer.html#utilisation-du-package-savoirfr"><i class="fa fa-check"></i><b>3.4</b> Utilisation du package savoirfR</a></li>
+<li class="chapter" data-level="3.5" data-path="bien-commencer.html"><a href="bien-commencer.html#activer-les-packages-nécessaires"><i class="fa fa-check"></i><b>3.5</b> Activer les packages nécessaires</a></li>
+<li class="chapter" data-level="3.6" data-path="bien-commencer.html"><a href="bien-commencer.html#bien-structurer-ses-projets-data"><i class="fa fa-check"></i><b>3.6</b> Bien structurer ses projets data</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="lire-des-données.html"><a href="lire-des-données.html"><i class="fa fa-check"></i><b>4</b> Lire des données</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="lire-des-données.html"><a href="lire-des-données.html#lire-des-fichiers-locaux"><i class="fa fa-check"></i><b>4.1</b> Lire des fichiers locaux</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="lire-des-données.html"><a href="lire-des-données.html#readxl-lire-des-données-excel"><i class="fa fa-check"></i><b>4.1.1</b> {readxl} : lire des données Excel</a></li>
+<li class="chapter" data-level="4.1.2" data-path="lire-des-données.html"><a href="lire-des-données.html#read_delim-lire-des-fichiers-plats"><i class="fa fa-check"></i><b>4.1.2</b> read_delim() : lire des fichiers plats</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="lire-des-données.html"><a href="lire-des-données.html#lire-des-données-disponibles-sur-le-web-téléchargement-de-fichiers"><i class="fa fa-check"></i><b>4.2</b> Lire des données disponibles sur le web : téléchargement de fichiers</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="lire-des-données.html"><a href="lire-des-données.html#exemple-site-de-linsee-avec-dezippage"><i class="fa fa-check"></i><b>4.2.1</b> Exemple site de l’INSEE, avec dezippage</a></li>
+<li class="chapter" data-level="4.2.2" data-path="lire-des-données.html"><a href="lire-des-données.html#exemple-données-sur-les-logements-vacants-depuis-data.gouv.fr"><i class="fa fa-check"></i><b>4.2.2</b> Exemple données sur les logements vacants depuis data.gouv.fr</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="lire-des-données.html"><a href="lire-des-données.html#lire-des-données-disponibles-sur-le-web-via-api"><i class="fa fa-check"></i><b>4.3</b> Lire des données disponibles sur le web via API</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="lire-des-données.html"><a href="lire-des-données.html#exemple-de-recours-à-lapi-opendatasoft-en-utilisant-lapi-de-lurssaf-ou-de-lodre"><i class="fa fa-check"></i><b>4.3.1</b> Exemple de recours à l’API opendatasoft en utilisant l’API de l’URSSAF ou de l’ODRE</a></li>
+<li class="chapter" data-level="4.3.2" data-path="lire-des-données.html"><a href="lire-des-données.html#packages-r-dinterrogation-dapi"><i class="fa fa-check"></i><b>4.3.2</b> Packages R d’interrogation d’API</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="lire-des-données.html"><a href="lire-des-données.html#lire-des-fichiers-avec-une-dimension-spatiale"><i class="fa fa-check"></i><b>4.4</b> Lire des fichiers avec une dimension spatiale</a></li>
+<li class="chapter" data-level="4.5" data-path="lire-des-données.html"><a href="lire-des-données.html#lire-des-données-sous-postgresql"><i class="fa fa-check"></i><b>4.5</b> Lire des données sous PostgreSQL</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="lire-des-données.html"><a href="lire-des-données.html#lire-des-données-sous-postgresql-première-approche"><i class="fa fa-check"></i><b>4.5.1</b> Lire des données sous PostgreSQL : première approche</a></li>
+<li class="chapter" data-level="4.5.2" data-path="lire-des-données.html"><a href="lire-des-données.html#lire-des-données-sous-postgresql-seconde-approche"><i class="fa fa-check"></i><b>4.5.2</b> Lire des données sous PostgreSQL : seconde approche</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html"><i class="fa fa-check"></i><b>5</b> Manipuler des données</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#les-principes-des-fonctions-de-dplyr"><i class="fa fa-check"></i><b>5.1</b> Les principes des fonctions de <code>{dplyr}</code></a></li>
+<li class="chapter" data-level="5.2" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#présentation-des-données"><i class="fa fa-check"></i><b>5.2</b> Présentation des données</a></li>
+<li class="chapter" data-level="5.3" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#chargement-des-données"><i class="fa fa-check"></i><b>5.3</b> Chargement des données</a></li>
+<li class="chapter" data-level="5.4" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#les-verbes-clefs-de-dplyr-pour-manipuler-une-table"><i class="fa fa-check"></i><b>5.4</b> Les verbes clefs de <code>{dplyr}</code> pour manipuler une table</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#sélectionner-des-variables-select"><i class="fa fa-check"></i><b>5.4.1</b> Sélectionner des variables : <code>select()</code></a></li>
+<li class="chapter" data-level="5.4.2" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#trier-une-table-arrange"><i class="fa fa-check"></i><b>5.4.2</b> Trier une table : <code>arrange()</code></a></li>
+<li class="chapter" data-level="5.4.3" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#renommer-une-variable-rename"><i class="fa fa-check"></i><b>5.4.3</b> Renommer une variable : <code>rename()</code></a></li>
+<li class="chapter" data-level="5.4.4" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#filtrer-une-table-filter"><i class="fa fa-check"></i><b>5.4.4</b> Filtrer une table : <code>filter()</code></a></li>
+<li class="chapter" data-level="5.4.5" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#modifierajouter-une-variable-mutate"><i class="fa fa-check"></i><b>5.4.5</b> Modifier/ajouter une variable : <code>mutate()</code></a></li>
+<li class="chapter" data-level="5.4.6" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#extraire-un-vecteur-pull"><i class="fa fa-check"></i><b>5.4.6</b> Extraire un vecteur : <code>pull()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#la-boîte-à-outils-pour-créer-et-modifier-des-variables-avec-r"><i class="fa fa-check"></i><b>5.5</b> La boîte à outils pour créer et modifier des variables avec R</a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#manipuler-des-variables-numériques"><i class="fa fa-check"></i><b>5.5.1</b> Manipuler des variables numériques</a></li>
+<li class="chapter" data-level="5.5.2" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#exercice-1-les-données-mensuelles-sitadel"><i class="fa fa-check"></i><b>5.5.2</b> Exercice 1 : Les données mensuelles sitadel</a></li>
+<li class="chapter" data-level="5.5.3" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#manipuler-des-dates"><i class="fa fa-check"></i><b>5.5.3</b> Manipuler des dates</a></li>
+<li class="chapter" data-level="5.5.4" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#manipuler-des-chaînes-de-caractères"><i class="fa fa-check"></i><b>5.5.4</b> Manipuler des chaînes de caractères</a></li>
+<li class="chapter" data-level="5.5.5" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#manipuler-des-variables-factorielles-qualitatives-ou-catégorielles"><i class="fa fa-check"></i><b>5.5.5</b> Manipuler des variables factorielles ( = qualitatives ou catégorielles)</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#agréger-des-données-summarise"><i class="fa fa-check"></i><b>5.6</b> Agréger des données : <code>summarise()</code></a>
+<ul>
+<li class="chapter" data-level="5.6.1" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#quelques-fonctions-dagrégations-utiles"><i class="fa fa-check"></i><b>5.6.1</b> Quelques fonctions d’agrégations utiles</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#agréger-des-données-par-dimension-group_by"><i class="fa fa-check"></i><b>5.7</b> Agréger des données par dimension : <code>group_by()</code></a></li>
+<li class="chapter" data-level="5.8" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#le-pipe"><i class="fa fa-check"></i><b>5.8</b> Le pipe</a></li>
+<li class="chapter" data-level="5.9" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#la-magie-des-opérations-groupées"><i class="fa fa-check"></i><b>5.9</b> La magie des opérations groupées</a>
+<ul>
+<li class="chapter" data-level="5.9.1" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#exercice-3"><i class="fa fa-check"></i><b>5.9.1</b> Exercice 3</a></li>
+<li class="chapter" data-level="5.9.2" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#exercice-4"><i class="fa fa-check"></i><b>5.9.2</b> Exercice 4</a></li>
+</ul></li>
+<li class="chapter" data-level="5.10" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#les-armes-non-conventionnelles-de-la-préparation-des-donnéees"><i class="fa fa-check"></i><b>5.10</b> Les armes non conventionnelles de la préparation des donnéees</a>
+<ul>
+<li class="chapter" data-level="5.10.1" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#les-select-helpers"><i class="fa fa-check"></i><b>5.10.1</b> Les select helpers</a></li>
+<li class="chapter" data-level="5.10.2" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#utiliser-les-select-helpers-avec-les-autres-verbes-du-tidyverse"><i class="fa fa-check"></i><b>5.10.2</b> Utiliser les select helpers avec les autres verbes du tidyverse</a></li>
+<li class="chapter" data-level="5.10.3" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html#filter-mutate-group_by-summarise-arrange-transmute"><i class="fa fa-check"></i><b>5.10.3</b> filter(), mutate(), group_by(), summarise(), arrange(), transmute()…</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="manipuler-plusieurs-tables.html"><a href="manipuler-plusieurs-tables.html"><i class="fa fa-check"></i><b>6</b> Manipuler plusieurs tables</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="manipuler-plusieurs-tables.html"><a href="manipuler-plusieurs-tables.html#exercice-5"><i class="fa fa-check"></i><b>6.1</b> Exercice 5</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="structurer-ses-tables.html"><a href="structurer-ses-tables.html"><i class="fa fa-check"></i><b>7</b> Structurer ses tables</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="structurer-ses-tables.html"><a href="structurer-ses-tables.html#pourquoi-se-pencher-sur-la-structuration-des-tables"><i class="fa fa-check"></i><b>7.1</b> Pourquoi se pencher sur la structuration des tables ?</a></li>
+<li class="chapter" data-level="7.2" data-path="structurer-ses-tables.html"><a href="structurer-ses-tables.html#les-deux-fonctions-clefs-de-tidyr"><i class="fa fa-check"></i><b>7.2</b> Les deux fonctions clefs de <code>{tidyr}</code></a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html"><i class="fa fa-check"></i><b>8</b> Nettoyer des données territoriales : gérer les évolutions du COG (code officiel géographique)</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#mettre-à-jour-une-table-comportant-une-colonne-de-code-commune"><i class="fa fa-check"></i><b>8.1</b> Mettre à jour une table comportant une colonne de code commune</a></li>
+<li class="chapter" data-level="8.2" data-path="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#mettre-à-jour-le-cog-et-agréger-aux-différentes-échelles"><i class="fa fa-check"></i><b>8.2</b> Mettre à jour le COG et agréger aux différentes échelles</a></li>
+<li class="chapter" data-level="8.3" data-path="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#sélectionner-les-territoires-de-ma-zone-de-travail"><i class="fa fa-check"></i><b>8.3</b> Sélectionner les territoires de ma zone de travail</a></li>
+<li class="chapter" data-level="8.4" data-path="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#pour-en-savoir-plus-utiliser-les-fonds-de-carte-mis-à-disposition-dans-cogiter"><i class="fa fa-check"></i><b>8.4</b> Pour en savoir plus : utiliser les fonds de carte mis à disposition dans COGiter</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="exercice-6-les-données-majic.html"><a href="exercice-6-les-données-majic.html"><i class="fa fa-check"></i><b>9</b> Exercice 6 : les données majic</a></li>
+<li class="chapter" data-level="10" data-path="aller-plus-loin.html"><a href="aller-plus-loin.html"><i class="fa fa-check"></i><b>10</b> Aller plus loin</a></li>
+<li class="divider"></li>
+<li><a href="https://mtes-mct.github.io/parcours-r/">Liste des formations R</a></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Préparer ses données avec R et le Tidyverse</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique" class="section level1 hasAnchor" number="8">
+<h1><span class="header-section-number">Chapitre 8</span> Nettoyer des données territoriales : gérer les évolutions du COG (code officiel géographique)<a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Lorsque qu’on démarre en analyse de données territoriales, on est parfois surpris de constater que ce qui nous semblent être immuable, comme les contours des régions, départements, communes, ne l’est pas !
+Chaque année des communes fusionnent (voire se séparent !), les régions ont bougé avec beaucoup de bruit début 2016, on a même vu récemment une <a href="https://fr.wikipedia.org/wiki/Freign%C3%A9">commune changer de département</a>.
+Bref toute chaîne de traitement de données qui a vocation a être pérennisée doit prendre en compte cette variabilité des contours territoriaux.</p>
+<p>Le COG ou Code officiel géographique des territoires est <a href="https://www.insee.fr/fr/information/2560452">administré par l’INSEE</a>, qui publie chaque année la nouvelle liste des communes, départements, regions, et une table de passage annuelle entre anciennes et nouvelles communes.</p>
+<p>Comme souvent avec R, des utilisateurs soucieux de partager leurs astuces ont conçu des packages pour faciliter les traitement de mise à jour du COG, on peut citer <a href="https://antuki.github.io/COGugaison/">{COGugaison} de Kim Antunez</a>, qui est très précis (conversion d’un millésime à un autre, contrôle des années de conversion, retour en arrière possible) mais seulement adapté pour les tables de données France entière, et le package DREAL Pays de la Loire, initié par <a href="https://maeltheuliere.github.io/COGiter/">Maël Theulière {COGiter}</a>, qui est plus simple (un seul sens : la mise à jour), ce package comprend par ailleurs des services d’agrégation à différentes échelles, de gestion des noms, des contours géo, mais ne gère pas très bien les scission de communes.</p>
+<p>La mise à jour du COG d’une source avec ces packages n’est possible que si cette dernière est disponible au moins à la maille communale sans secrétisation.
+Dans ce chapitre sont présentés les usages les plus fréquents de <code>{COGiter}</code>.</p>
+<div id="mettre-à-jour-une-table-comportant-une-colonne-de-code-commune" class="section level2 hasAnchor" number="8.1">
+<h2><span class="header-section-number">8.1</span> Mettre à jour une table comportant une colonne de code commune<a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#mettre-à-jour-une-table-comportant-une-colonne-de-code-commune" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Dans nos données relatives aux pesticides, la table des stations comprend le code commune de rattachement de chaque station.
+<code>{COGiter}</code> permet de tenir à jour cette information d’une fonction :</p>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb155-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(COGiter)</span>
+<span id="cb155-2"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb155-2" aria-hidden="true" tabindex="-1"></a>stations_cog_ok <span class="ot">&lt;-</span> <span class="fu">passer_au_cog_a_jour</span>(<span class="at">.data =</span> station, <span class="at">code_commune =</span> code_commune, <span class="at">aggrege =</span> <span class="cn">FALSE</span>, <span class="at">garder_info_supra =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p>Le paramètre “aggrege” sert à indiquer si on souhaite obtenir en sortie une table avec une ligne par commune à jour, en sommant les valeurs numériques de la table.
+Le paramètre “garder_info_supra” sert à indiquer si on souhaite obtenir en sortie une table comportant en plus les territoires supra-communaux (EPCI, DEP, REG, …) de rattachement.</p>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb156-1" aria-hidden="true" tabindex="-1"></a>stations_cog_ok  <span class="sc">%&gt;%</span> <span class="fu">names</span>()</span></code></pre></div>
+<pre><code>##  [1] &quot;code_station&quot;           &quot;libelle_station&quot;        &quot;date_creation&quot;         
+##  [4] &quot;source&quot;                 &quot;code_masse_eau&quot;         &quot;code_entite_hydro&quot;     
+##  [7] &quot;code_troncon_hydro&quot;     &quot;DEPCOM&quot;                 &quot;NOM_DEPCOM&quot;            
+## [10] &quot;EPCI&quot;                   &quot;NOM_EPCI&quot;               &quot;DEP&quot;                   
+## [13] &quot;NOM_DEP&quot;                &quot;REG&quot;                    &quot;NOM_REG&quot;               
+## [16] &quot;DEPARTEMENTS_DE_L_EPCI&quot; &quot;REGIONS_DE_L_EPCI&quot;</code></pre>
+</div>
+<div id="mettre-à-jour-le-cog-et-agréger-aux-différentes-échelles" class="section level2 hasAnchor" number="8.2">
+<h2><span class="header-section-number">8.2</span> Mettre à jour le COG et agréger aux différentes échelles<a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#mettre-à-jour-le-cog-et-agréger-aux-différentes-échelles" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Dans nos données de l’enquête tourisme, l’INSEE nous indique que les communes utilisées pour diffuser les résultats sont de celles 2019. Elles on donc bougé depuis.
+Imaginions, que nous voudrions avoir les résultats de cette enquête non pas par commune, mais par EPCI et département : la fonction <code>cogifier()</code> nous aide à faire tout ça en un tour de main.</p>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb158-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(enq_tourisme)</span></code></pre></div>
+<pre><code>## Rows: 34,953
+## Columns: 55
+## $ CODGEO    &lt;chr&gt; &quot;01001&quot;, &quot;01002&quot;, &quot;01004&quot;, &quot;01005&quot;, &quot;01006&quot;, &quot;01007&quot;, &quot;01008…
+## $ LIBGEO    &lt;chr&gt; &quot;L&#39;Abergement-Clémenciat&quot;, &quot;L&#39;Abergement-de-Varey&quot;, &quot;Ambérie…
+## $ REG       &lt;chr&gt; &quot;84&quot;, &quot;84&quot;, &quot;84&quot;, &quot;84&quot;, &quot;84&quot;, &quot;84&quot;, &quot;84&quot;, &quot;84&quot;, &quot;84&quot;, &quot;84&quot;, …
+## $ DEP       &lt;chr&gt; &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, &quot;01&quot;, …
+## $ HT19      &lt;dbl&gt; 0, 0, 1, 2, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, …
+## $ HT019     &lt;dbl&gt; 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ HT119     &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ HT219     &lt;dbl&gt; 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, …
+## $ HT319     &lt;dbl&gt; 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, …
+## $ HT419     &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ HT519     &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ HTCH19    &lt;dbl&gt; 0, 0, 35, 17, 0, 0, 0, 0, 15, 0, 9, 0, 10, 0, 19, 0, 0, 43, …
+## $ HTCH019   &lt;dbl&gt; 0, 0, 0, 8, 0, 0, 0, 0, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…
+## $ HTCH119   &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ HTCH219   &lt;dbl&gt; 0, 0, 35, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 0, 0, 43, 23,…
+## $ HTCH319   &lt;dbl&gt; 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 19, 0, 0, 0, 0, 0,…
+## $ HTCH419   &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ HTCH519   &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ CPG19     &lt;dbl&gt; 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, …
+## $ CPG019    &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ CPG119    &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ CPG219    &lt;dbl&gt; 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, …
+## $ CPG319    &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, …
+## $ CPG419    &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ CPG519    &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ CPGE19    &lt;dbl&gt; 0, 0, 0, 72, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 121, 56,…
+## $ CPGE019   &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ CPGE119   &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ CPGE219   &lt;dbl&gt; 0, 0, 0, 72, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 121, 0, …
+## $ CPGE319   &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 56, 0,…
+## $ CPGE419   &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ CPGE519   &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ CPGEL19   &lt;dbl&gt; 0, 0, 0, 38, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20, 0, 0…
+## $ CPGEL019  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ CPGEL119  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ CPGEL219  &lt;dbl&gt; 0, 0, 0, 38, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20, 0, 0…
+## $ CPGEL319  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ CPGEL419  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ CPGEL519  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ CPGEO19   &lt;dbl&gt; 0, 0, 0, 34, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 101, 56,…
+## $ CPGEO019  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ CPGEO119  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ CPGEO219  &lt;dbl&gt; 0, 0, 0, 34, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 101, 0, …
+## $ CPGEO319  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 56, 0,…
+## $ CPGEO419  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ CPGEO519  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ VV19      &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ VVUH19    &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ VVLIT19   &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ RT19      &lt;dbl&gt; 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ RTUH19    &lt;dbl&gt; 0, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…
+## $ RTLIT19   &lt;dbl&gt; 0, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…
+## $ AJCS19    &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ AJCSUH19  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ AJCSLIT19 &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …</code></pre>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb160-1" aria-hidden="true" tabindex="-1"></a>enq_tourisme_epci_dep <span class="ot">&lt;-</span> enq_tourisme <span class="sc">%&gt;%</span> </span>
+<span id="cb160-2"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb160-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># on enlève les colonnes textes à mettre à jour</span></span>
+<span id="cb160-3"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb160-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>LIBGEO, <span class="sc">-</span>REG, <span class="sc">-</span>DEP) <span class="sc">%&gt;%</span> </span>
+<span id="cb160-4"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb160-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cogifier</span>(<span class="at">code_commune =</span> CODGEO, <span class="at">communes =</span> <span class="cn">FALSE</span>, <span class="at">epci =</span> <span class="cn">TRUE</span>, <span class="at">departements =</span> <span class="cn">TRUE</span>, <span class="at">regions =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb160-5"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb160-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">metro =</span> <span class="cn">TRUE</span>, <span class="at">franceprovince =</span> <span class="cn">FALSE</span>, <span class="at">metrodrom =</span> <span class="cn">FALSE</span>, <span class="at">drom =</span> <span class="cn">TRUE</span>, <span class="at">na.rm =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb160-6"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb160-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb160-7"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb160-7" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(enq_tourisme_epci_dep)</span></code></pre></div>
+<pre><code>## Rows: 1,352
+## Columns: 54
+## $ TypeZone  &lt;fct&gt; Epci, Epci, Epci, Epci, Epci, Epci, Epci, Epci, Epci, Epci, …
+## $ Zone      &lt;fct&gt; &quot;CC Faucigny-Glières&quot;, &quot;CC du Pays de Pontchâteau St-Gildas-…
+## $ CodeZone  &lt;fct&gt; 200000172, 200000438, 200000545, 200000628, 200000800, 20000…
+## $ HT19      &lt;dbl&gt; 6, 5, 3, 11, 8, 1, 6, 9, 5, 2, 76, 6, 6, 4, 2, 1, 15, 15, 20…
+## $ HT019     &lt;dbl&gt; 2, 2, 0, 2, 4, 1, 3, 2, 0, 1, 14, 4, 4, 0, 1, 1, 7, 5, 5, 2,…
+## $ HT119     &lt;dbl&gt; 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 3, 0, 0, 0, 0, 0, 1, 0, 0, 0, …
+## $ HT219     &lt;dbl&gt; 4, 1, 2, 6, 2, 0, 2, 2, 1, 0, 14, 0, 1, 2, 1, 0, 1, 10, 3, 0…
+## $ HT319     &lt;dbl&gt; 0, 1, 1, 2, 1, 0, 1, 4, 0, 1, 27, 2, 1, 2, 0, 0, 6, 0, 9, 0,…
+## $ HT419     &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 15, 0, 0, 0, 0, 0, 0, 0, 3, 0,…
+## $ HT519     &lt;dbl&gt; 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ HTCH19    &lt;dbl&gt; 77, 92, 121, 330, 138, 8, 68, 219, 184, 24, 2414, 102, 89, 1…
+## $ HTCH019   &lt;dbl&gt; 16, 29, 0, 60, 46, 8, 21, 17, 0, 6, 250, 50, 47, 0, 7, 10, 1…
+## $ HTCH119   &lt;dbl&gt; 0, 0, 0, 61, 17, 0, 0, 0, 7, 0, 84, 0, 0, 0, 0, 0, 59, 0, 0,…
+## $ HTCH219   &lt;dbl&gt; 61, 11, 98, 146, 60, 0, 28, 28, 15, 0, 417, 0, 14, 32, 6, 0,…
+## $ HTCH319   &lt;dbl&gt; 0, 16, 23, 63, 15, 0, 19, 59, 0, 18, 994, 52, 28, 82, 0, 0, …
+## $ HTCH419   &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 162, 0, 538, 0, 0, 0, 0, 0, 0, 0, 11…
+## $ HTCH519   &lt;dbl&gt; 0, 36, 0, 0, 0, 0, 0, 115, 0, 0, 131, 0, 0, 0, 0, 0, 0, 0, 0…
+## $ CPG19     &lt;dbl&gt; 2, 7, 1, 5, 1, 0, 6, 11, 3, 1, 9, 2, 10, 4, 2, 0, 2, 5, 0, 1…
+## $ CPG019    &lt;dbl&gt; 1, 3, 0, 1, 0, 0, 3, 2, 1, 1, 2, 1, 2, 3, 0, 0, 0, 3, 0, 0, …
+## $ CPG119    &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, …
+## $ CPG219    &lt;dbl&gt; 1, 1, 0, 0, 0, 0, 2, 2, 2, 0, 1, 1, 3, 0, 1, 0, 0, 0, 0, 0, …
+## $ CPG319    &lt;dbl&gt; 0, 2, 0, 2, 1, 0, 0, 5, 0, 0, 5, 0, 5, 1, 1, 0, 2, 0, 0, 1, …
+## $ CPG419    &lt;dbl&gt; 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, …
+## $ CPG519    &lt;dbl&gt; 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ CPGE19    &lt;dbl&gt; 103, 419, 220, 603, 166, 0, 264, 922, 132, 35, 746, 142, 657…
+## $ CPGE019   &lt;dbl&gt; 34, 101, 0, 30, 0, 0, 77, 145, 40, 35, 71, 100, 37, 106, 0, …
+## $ CPGE119   &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 54, 0, 0, 0, 0, 0, 0, 0, 0, 0, 45, 0, 0…
+## $ CPGE219   &lt;dbl&gt; 69, 6, 0, 0, 0, 0, 87, 135, 92, 0, 54, 42, 79, 0, 17, 0, 0, …
+## $ CPGE319   &lt;dbl&gt; 0, 142, 0, 222, 166, 0, 0, 478, 0, 0, 505, 0, 541, 65, 224, …
+## $ CPGE419   &lt;dbl&gt; 0, 170, 220, 276, 0, 0, 100, 110, 0, 0, 116, 0, 0, 0, 0, 0, …
+## $ CPGE519   &lt;dbl&gt; 0, 0, 0, 75, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…
+## $ CPGEL19   &lt;dbl&gt; 2, 76, 114, 116, 1, 0, 3, 254, 23, 0, 7, 27, 108, 73, 63, 0,…
+## $ CPGEL019  &lt;dbl&gt; 2, 32, 0, 30, 0, 0, 2, 30, 23, 0, 7, 27, 28, 33, 0, 0, 0, 40…
+## $ CPGEL119  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…
+## $ CPGEL219  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 1, 12, 0, 0, 0, 0, 22, 0, 0, 0, 0, 0, 0, 0…
+## $ CPGEL319  &lt;dbl&gt; 0, 18, 0, 8, 1, 0, 0, 158, 0, 0, 0, 0, 58, 40, 63, 0, 32, 0,…
+## $ CPGEL419  &lt;dbl&gt; 0, 26, 114, 23, 0, 0, 0, 39, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+## $ CPGEL519  &lt;dbl&gt; 0, 0, 0, 55, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…
+## $ CPGEO19   &lt;dbl&gt; 101, 343, 106, 487, 165, 0, 261, 668, 109, 35, 739, 115, 549…
+## $ CPGEO019  &lt;dbl&gt; 32, 69, 0, 0, 0, 0, 75, 115, 17, 35, 64, 73, 9, 73, 0, 0, 0,…
+## $ CPGEO119  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 39, 0, 0, 0, 0, 0, 0, 0, 0, 0, 45, 0, 0…
+## $ CPGEO219  &lt;dbl&gt; 69, 6, 0, 0, 0, 0, 86, 123, 92, 0, 54, 42, 57, 0, 17, 0, 0, …
+## $ CPGEO319  &lt;dbl&gt; 0, 124, 0, 214, 165, 0, 0, 320, 0, 0, 505, 0, 483, 25, 161, …
+## $ CPGEO419  &lt;dbl&gt; 0, 144, 106, 253, 0, 0, 100, 71, 0, 0, 116, 0, 0, 0, 0, 0, 0…
+## $ CPGEO519  &lt;dbl&gt; 0, 0, 0, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…
+## $ VV19      &lt;dbl&gt; 0, 1, 0, 0, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ VVUH19    &lt;dbl&gt; 0, 20, 0, 0, 205, 0, 68, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…
+## $ VVLIT19   &lt;dbl&gt; 0, 76, 0, 0, 686, 0, 146, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+## $ RT19      &lt;dbl&gt; 0, 0, 0, 0, 1, 0, 0, 6, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 4, 0, …
+## $ RTUH19    &lt;dbl&gt; 0, 0, 0, 0, 746, 0, 0, 440, 0, 0, 70, 0, 0, 0, 0, 0, 0, 0, 3…
+## $ RTLIT19   &lt;dbl&gt; 0, 0, 0, 0, 4056, 0, 0, 2233, 0, 0, 360, 0, 0, 0, 0, 0, 0, 0…
+## $ AJCS19    &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, …
+## $ AJCSUH19  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 23,…
+## $ AJCSLIT19 &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 65,…</code></pre>
+</div>
+<div id="sélectionner-les-territoires-de-ma-zone-de-travail" class="section level2 hasAnchor" number="8.3">
+<h2><span class="header-section-number">8.3</span> Sélectionner les territoires de ma zone de travail<a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#sélectionner-les-territoires-de-ma-zone-de-travail" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Et si je ne souhaite que les territoires de ma région ou de mon département ?</p>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb162-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Département du Nord</span></span>
+<span id="cb162-2"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb162-2" aria-hidden="true" tabindex="-1"></a>enq_tourisme_epci_dep <span class="sc">%&gt;%</span> </span>
+<span id="cb162-3"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb162-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filtrer_cog</span>(<span class="at">dep =</span> <span class="st">&quot;59&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 18 × 54
+##    TypeZone     Zone    CodeZ…¹  HT19 HT019 HT119 HT219 HT319 HT419 HT519 HTCH19
+##    &lt;fct&gt;        &lt;fct&gt;   &lt;fct&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+##  1 Epci         CA du … 200030…     2     0     1     0     1     0     0     61
+##  2 Epci         CC de … 200040…     9     4     0     0     4     1     0    130
+##  3 Epci         CC des… 200040…     3     0     0     0     3     0     0    107
+##  4 Epci         CC Pév… 200041…     2     0     0     0     2     0     0     49
+##  5 Epci         CA de … 200042…     5     1     0     1     2     1     0    204
+##  6 Epci         CC Coe… 200043…     2     1     0     0     1     0     0     35
+##  7 Epci         CC du … 200043…     2     2     0     0     0     0     0     29
+##  8 Epci         CA Mau… 200043…    10     2     0     2     6     0     0    420
+##  9 Epci         CC du … 200043…     4     2     0     0     2     0     0     65
+## 10 Epci         CA Dou… 200044…    10     2     0     1     6     1     0    527
+## 11 Epci         CA de … 200068…    11     6     0     0     5     0     0    445
+## 12 Epci         Métrop… 200093…   113    29     4    15    45    17     3   7407
+## 13 Epci         CU de … 245900…    32    18     2     7     4     1     0   1371
+## 14 Epci         CC Fla… 245900…     1     1     0     0     0     0     0     52
+## 15 Epci         CC du … 245901…     0     0     0     0     0     0     0      0
+## 16 Epci         CC Coe… 245901…     0     0     0     0     0     0     0      0
+## 17 Epci         CA Val… 245901…    20     9     0     5     4     2     0   1123
+## 18 Départements Nord    59        226    77     7    31    85    23     3  12025
+## # … with 43 more variables: HTCH019 &lt;dbl&gt;, HTCH119 &lt;dbl&gt;, HTCH219 &lt;dbl&gt;,
+## #   HTCH319 &lt;dbl&gt;, HTCH419 &lt;dbl&gt;, HTCH519 &lt;dbl&gt;, CPG19 &lt;dbl&gt;, CPG019 &lt;dbl&gt;,
+## #   CPG119 &lt;dbl&gt;, CPG219 &lt;dbl&gt;, CPG319 &lt;dbl&gt;, CPG419 &lt;dbl&gt;, CPG519 &lt;dbl&gt;,
+## #   CPGE19 &lt;dbl&gt;, CPGE019 &lt;dbl&gt;, CPGE119 &lt;dbl&gt;, CPGE219 &lt;dbl&gt;, CPGE319 &lt;dbl&gt;,
+## #   CPGE419 &lt;dbl&gt;, CPGE519 &lt;dbl&gt;, CPGEL19 &lt;dbl&gt;, CPGEL019 &lt;dbl&gt;,
+## #   CPGEL119 &lt;dbl&gt;, CPGEL219 &lt;dbl&gt;, CPGEL319 &lt;dbl&gt;, CPGEL419 &lt;dbl&gt;,
+## #   CPGEL519 &lt;dbl&gt;, CPGEO19 &lt;dbl&gt;, CPGEO019 &lt;dbl&gt;, CPGEO119 &lt;dbl&gt;, …</code></pre>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb164-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Région Bretagne</span></span>
+<span id="cb164-2"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb164-2" aria-hidden="true" tabindex="-1"></a>enq_tourisme_epci_dep <span class="sc">%&gt;%</span> </span>
+<span id="cb164-3"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb164-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filtrer_cog</span>(<span class="at">reg =</span> <span class="st">&quot;53&quot;</span>, <span class="at">garder_supra =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb164-4"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb164-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(TypeZone))</span></code></pre></div>
+<pre><code>## # A tibble: 1,352 × 54
+##    TypeZone Zone        CodeZ…¹  HT19 HT019 HT119 HT219 HT319 HT419 HT519 HTCH19
+##    &lt;fct&gt;    &lt;fct&gt;       &lt;fct&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+##  1 France   France mét… FRMETRO 17720  4690   405  4363  5957  1936   369 642779
+##  2 France   Départemen… DROM      229   102     2    29    64    27     5  11440
+##  3 Epci     CC Faucign… 200000…     6     2     0     4     0     0     0     77
+##  4 Epci     CC du Pays… 200000…     5     2     0     1     1     0     1     92
+##  5 Epci     CC des Por… 200000…     3     0     0     2     1     0     0    121
+##  6 Epci     CC Rhône L… 200000…    11     2     1     6     2     0     0    330
+##  7 Epci     CC Coeur d… 200000…     8     4     1     2     1     0     0    138
+##  8 Epci     CC de la P… 200000…     1     1     0     0     0     0     0      8
+##  9 Epci     CC Sauldre… 200000…     6     3     0     2     1     0     0     68
+## 10 Epci     CC du Pays… 200004…     9     2     0     2     4     0     1    219
+## # … with 1,342 more rows, 43 more variables: HTCH019 &lt;dbl&gt;, HTCH119 &lt;dbl&gt;,
+## #   HTCH219 &lt;dbl&gt;, HTCH319 &lt;dbl&gt;, HTCH419 &lt;dbl&gt;, HTCH519 &lt;dbl&gt;, CPG19 &lt;dbl&gt;,
+## #   CPG019 &lt;dbl&gt;, CPG119 &lt;dbl&gt;, CPG219 &lt;dbl&gt;, CPG319 &lt;dbl&gt;, CPG419 &lt;dbl&gt;,
+## #   CPG519 &lt;dbl&gt;, CPGE19 &lt;dbl&gt;, CPGE019 &lt;dbl&gt;, CPGE119 &lt;dbl&gt;, CPGE219 &lt;dbl&gt;,
+## #   CPGE319 &lt;dbl&gt;, CPGE419 &lt;dbl&gt;, CPGE519 &lt;dbl&gt;, CPGEL19 &lt;dbl&gt;, CPGEL019 &lt;dbl&gt;,
+## #   CPGEL119 &lt;dbl&gt;, CPGEL219 &lt;dbl&gt;, CPGEL319 &lt;dbl&gt;, CPGEL419 &lt;dbl&gt;,
+## #   CPGEL519 &lt;dbl&gt;, CPGEO19 &lt;dbl&gt;, CPGEO019 &lt;dbl&gt;, CPGEO119 &lt;dbl&gt;, …</code></pre>
+</div>
+<div id="pour-en-savoir-plus-utiliser-les-fonds-de-carte-mis-à-disposition-dans-cogiter" class="section level2 hasAnchor" number="8.4">
+<h2><span class="header-section-number">8.4</span> Pour en savoir plus : utiliser les fonds de carte mis à disposition dans COGiter<a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#pour-en-savoir-plus-utiliser-les-fonds-de-carte-mis-à-disposition-dans-cogiter" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>COGiter contient des fonds de cartes des contours administratifs, conçus à partir des couches admin-express de l’IGN et dont la géométrie a été encore simplifiée pour répondre aux besoins de visualisation statistique.</p>
+<p>Voici un exemple d’usage très sommaire :</p>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb166-1" aria-hidden="true" tabindex="-1"></a>departements_geo <span class="sc">%&gt;%</span> </span>
+<span id="cb166-2"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb166-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(enq_tourisme_epci_dep, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;DEP&quot;</span> <span class="ot">=</span> <span class="st">&quot;CodeZone&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb166-3"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb166-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(HT19) <span class="sc">%&gt;%</span> </span>
+<span id="cb166-4"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb166-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>()</span></code></pre></div>
+<p><img src="Preparer-ses-donnees-avec-R-et-le-Tidyverse_files/figure-html/unnamed-chunk-32-1.png" width="576" /></p>
+<p>Obtenir la liste des fonds de cartes et des fonctionnalités géo : <a href="https://maeltheuliere.github.io/COGiter/articles/filtre_geo.html" class="uri">https://maeltheuliere.github.io/COGiter/articles/filtre_geo.html</a></p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="structurer-ses-tables.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="exercice-6-les-données-majic.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["Preparer-ses-donnees-avec-R-et-le-Tidyverse.pdf", "Preparer-ses-donnees-avec-R-et-le-Tidyverse.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
