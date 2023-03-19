@@ -31,10 +31,12 @@ Imports:
     rmarkdown,
     RPostgreSQL,
     rsdmx,
+    savoirfR,
     sf,
     stringi,
     stringr
 Remotes:
     MaelTheuliere/COGiter,
+    MTES-MCT/savoirfR,
     spyrales/gouvdown,
     spyrales/gouvdown.fonts
