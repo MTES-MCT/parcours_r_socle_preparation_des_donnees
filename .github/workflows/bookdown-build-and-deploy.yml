@@ -6,9 +6,11 @@ on:
       - main
       - master
 
+  workflow_dispatch:
+
 jobs:
   build-and-deploy-bookdown:
     name: Build and bookdown
-    uses: MTES-MCT/parcours-r/.github/workflows/bookdown-build-and-deploy.yml@master
+    uses: MTES-MCT/parcours-r/.github/workflows/bookdown-build-from-desc-and-deploy.yml@master
     with:
-      r_version: '4.0.4'
+      r_version: '4.2.1'
