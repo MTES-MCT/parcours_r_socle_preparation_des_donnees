@@ -1,22 +1,40 @@
-Package: parcours_r_socle_preparation_des_donnees
 Type: Book
+Package: parcours_r_socle_preparation_des_donnees
 Title: Parcours-R M2 Socle Preparation des Donnees
 Version: 0.1.0
+Authors@R: c(
+    person("Juliette", "Engelaere-Lefebvre", , "juliette.engelaere@developpement-durable.gouv.fr", role = "aut"),
+    person("Bruno", "Terseur", , "bruno.terseur@developpement-durable.gouv.fr", role = "aut"),
+    person("Mael", "Theuliere", , "mael.theuliere@gmail.com", role = "aut")
+  )
+Description: Valise pedagogique pour la formation a R, 2e module sur la
+    preparation des donnees
 License: LICENCE OUVERTE/ OPEN LICENCE Version 2.0
-Description: Valise pedagogique pour la formation a R, 2e module sur la preparation des donnees
 URL: https://github.com/MTES-MCT/parcours_r_socle_preparation_des_donnees
-Imports: bookdown, dbplyr, DT, lubridate, RcppRoll, readxl, rmarkdown, RPostgreSQL, rsdmx, sf, tidyverse
-Authors@R: 
-    c(person(given = "Juliette",
-             family = "Engelaere-Lefebvre",
-             role = "aut",
-             email = "juliette.engelaere@developpement-durable.gouv.fr"),
-      person(given = "Bruno",
-             family = "Terseur",
-             role = "aut",
-             email = "bruno.terseur@developpement-durable.gouv.fr"),
-      person(given = "Mael",
-             family = "Theuliere",
-             role = "aut",
-             email = "mael.theuliere@gmail.com")
-             )
+RoxygenNote: 7.2.2
+Imports: 
+    COGiter,
+    dbplyr,
+    dplyr,
+    DT,
+    forcats,
+    ggplot2,
+    glue,
+    gouvdown,
+    gouvdown.fonts,
+    jsonlite,
+    knitr,
+    lifecycle,
+    lubridate,
+    RcppRoll,
+    readxl,
+    rmarkdown,
+    RPostgreSQL,
+    rsdmx,
+    sf,
+    stringi,
+    stringr
+Remotes:
+    MaelTheuliere/COGiter,
+    spyrales/gouvdown,
+    spyrales/gouvdown.fonts
