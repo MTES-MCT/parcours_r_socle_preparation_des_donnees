@@ -1,5 +1,9 @@
 # Manipuler plusieurs tables
 
+
+## Concepts généraux
+
+
 Le package `{dplyr}` possède également plusieurs fonctions permettant de travailler sur deux tables.
 On va pouvoir regrouper ces fonctions en plusieurs catégories de manipulations : 
 
@@ -9,6 +13,59 @@ On va pouvoir regrouper ces fonctions en plusieurs catégories de manipulations 
 - des manipulations visant à additionner deux tables ensembles : **assemblages**.
 
 <center>![](images/cheatsheetv2.png)</center>
+
+## Principaux exemples de jointure
+
+Dans la capture ci-dessus, les opérations de jointures supposent que la colonne `x1` est présente dans `a` et `b`.
+
+Voici quelques exemples détaillant les principaux cas rencontrés :
+
+```{r eval=FALSE, include=TRUE}
+# jointure avec des noms de colonnes différentes pour la clé
+# `c` est une colonne dans a et `d` est une colonne de b
+left_join(a, b, by = c("c" = "d"))
+
+# jointure sur deux colonnes
+# `e` et `f` sont des colonnes de a et de b
+left_join(a, b, by = c("e", "f"))
+
+# jointure sur deux colonnes avec noms différents
+# `g`et `i` sont des colonnes de a, `h` et `j` sont des colonnes de b
+left_join(a, b, by = c("g" = "h", "i" = "j"))
+
+```
+
+## Paramétrage du suffixe pour des colonnes présentes dans les deux tables
+
+Dans le cas où des colonnes (hors jointure) sont présentes dans `a` et `b`, ces colonnes seront suffixées par : 
+
+- `.x` pour les colonnes provenant de `a` 
+- `.y` pour les colonnes provenant de `b`
+
+Il est possible de modifier ces suffixes en passant le paramètre `suffix = c("_a", "_b")` au moment de la jointure.
+
+```{r eval=FALSE, include=TRUE}
+left_join(a, b, by = c("c" = "d"), suffix = c("_a", "_b"))
+```
+
+## Animations de Garrick Abenduie
+
+Les animations proviennent de : https://www.garrickadenbuie.com/project/tidyexplain/
+
+### Inner join
+
+![](https://raw.githubusercontent.com/gadenbuie/tidyexplain/main/images/inner-join.gif)
+
+
+### Left join
+
+![](https://raw.githubusercontent.com/gadenbuie/tidyexplain/main/images/left-join-extra.gif)
+
+
+### Pivot longuer / Pivot wider
+
+![](https://raw.githubusercontent.com/gadenbuie/tidyexplain/main/images/tidyr-pivoting.gif)
+
 
 ## Exercice 5
 
