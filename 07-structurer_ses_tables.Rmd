@@ -46,12 +46,12 @@ Comment passer facilement d'un format **non tidy** à un format **tidy** ? C'est
 ## Les deux fonctions clefs de `{tidyr}`
 
 
-- `pivot.longer()` permet d'empiler plusieurs colonnes (correspondant à des variables quantitatives). Elles sont repérées par création d'une variable qualitative, à partir de leurs noms. Le résultat est une table au **format long**.
+- `pivot_longer()` permet d'empiler plusieurs colonnes (correspondant à des variables quantitatives). Elles sont repérées par création d'une variable qualitative, à partir de leurs noms. Le résultat est une table au **format long**.
 
 <center>![](images/gather.png)</center>
 
 
-- `pivot.wider()` fait l'inverse. Cette fonction crée autant de colonnes qu'il y a de modalités d'une variable qualitative, en remplissant chacune par le contenu d'une variable numérique. Le résultat est une table au **format large**.
+- `pivot_wider()` fait l'inverse. Cette fonction crée autant de colonnes qu'il y a de modalités d'une variable qualitative, en remplissant chacune par le contenu d'une variable numérique. Le résultat est une table au **format large**.
 
 <center>![](images/spread.png)</center>
 
