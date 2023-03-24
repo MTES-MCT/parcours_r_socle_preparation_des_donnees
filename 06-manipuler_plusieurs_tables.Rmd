@@ -16,7 +16,7 @@ On va pouvoir regrouper ces fonctions en plusieurs catégories de manipulations 
 
 ## Principaux exemples de jointure
 
-Dans la capture ci-dessus, les opérations de jointures supposent que la colonne `x1` est présente dans `a` et `b`.
+Dans la capture ci-dessus, les opérations de jointure supposent que la colonne `x1` est présente dans `a` et `b`.
 
 Voici quelques exemples détaillant les principaux cas rencontrés :
 
