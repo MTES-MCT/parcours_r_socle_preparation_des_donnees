@@ -668,7 +668,7 @@ L'opération `group_by()` que nous venons de voir est très utile pour les agré
 
 ## Les armes non conventionnelles de la préparation des donnéees
 
-Nous venons de voir les principaux verbes de manipulation d'une table de dplyr. Ces verbes acquièrent encore plus de puissance quand ils sont appelés avec les fonctions `accross()` et/ou `where()`.
+Nous venons de voir les principaux verbes de manipulation d'une table de dplyr. Ces verbes acquièrent encore plus de puissance quand ils sont appelés avec les fonctions `across()` et/ou `where()`.
 
 ### Les select helpers
 
