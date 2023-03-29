@@ -23,7 +23,7 @@
 <meta name="author" content="Maël Theulière &amp; Bruno Terseur" />
 
 
-<meta name="date" content="2023-03-23" />
+<meta name="date" content="2023-03-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -237,7 +237,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="6" data-path="manipuler-plusieurs-tables.html"><a href="manipuler-plusieurs-tables.html"><i class="fa fa-check"></i><b>6</b> Manipuler plusieurs tables</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="manipuler-plusieurs-tables.html"><a href="manipuler-plusieurs-tables.html#exercice-5"><i class="fa fa-check"></i><b>6.1</b> Exercice 5</a></li>
+<li class="chapter" data-level="6.1" data-path="manipuler-plusieurs-tables.html"><a href="manipuler-plusieurs-tables.html#concepts-généraux"><i class="fa fa-check"></i><b>6.1</b> Concepts généraux</a></li>
+<li class="chapter" data-level="6.2" data-path="manipuler-plusieurs-tables.html"><a href="manipuler-plusieurs-tables.html#principaux-exemples-de-jointure"><i class="fa fa-check"></i><b>6.2</b> Principaux exemples de jointure</a></li>
+<li class="chapter" data-level="6.3" data-path="manipuler-plusieurs-tables.html"><a href="manipuler-plusieurs-tables.html#paramétrage-du-suffixe-pour-des-colonnes-présentes-dans-les-deux-tables"><i class="fa fa-check"></i><b>6.3</b> Paramétrage du suffixe pour des colonnes présentes dans les deux tables</a></li>
+<li class="chapter" data-level="6.4" data-path="manipuler-plusieurs-tables.html"><a href="manipuler-plusieurs-tables.html#animations-de-garrick-abenduie"><i class="fa fa-check"></i><b>6.4</b> Animations de Garrick Abenduie</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="manipuler-plusieurs-tables.html"><a href="manipuler-plusieurs-tables.html#inner-join"><i class="fa fa-check"></i><b>6.4.1</b> Inner join</a></li>
+<li class="chapter" data-level="6.4.2" data-path="manipuler-plusieurs-tables.html"><a href="manipuler-plusieurs-tables.html#left-join"><i class="fa fa-check"></i><b>6.4.2</b> Left join</a></li>
+<li class="chapter" data-level="6.4.3" data-path="manipuler-plusieurs-tables.html"><a href="manipuler-plusieurs-tables.html#pivot-longuer-pivot-wider"><i class="fa fa-check"></i><b>6.4.3</b> Pivot longuer / Pivot wider</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="manipuler-plusieurs-tables.html"><a href="manipuler-plusieurs-tables.html#exercice-5"><i class="fa fa-check"></i><b>6.5</b> Exercice 5</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="structurer-ses-tables.html"><a href="structurer-ses-tables.html"><i class="fa fa-check"></i><b>7</b> Structurer ses tables</a>
 <ul>
@@ -276,6 +285,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="manipuler-plusieurs-tables" class="section level1 hasAnchor" number="6">
 <h1><span class="header-section-number">Chapitre 6</span> Manipuler plusieurs tables<a href="manipuler-plusieurs-tables.html#manipuler-plusieurs-tables" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="concepts-généraux" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> Concepts généraux<a href="manipuler-plusieurs-tables.html#concepts-généraux" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Le package <code>{dplyr}</code> possède également plusieurs fonctions permettant de travailler sur deux tables.
 On va pouvoir regrouper ces fonctions en plusieurs catégories de manipulations :</p>
 <ul>
@@ -290,8 +301,51 @@ On va pouvoir regrouper ces fonctions en plusieurs catégories de manipulations 
 <center>
 <img src="images/cheatsheetv2.png" />
 </center>
-<div id="exercice-5" class="section level2 hasAnchor" number="6.1">
-<h2><span class="header-section-number">6.1</span> Exercice 5<a href="manipuler-plusieurs-tables.html#exercice-5" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+</div>
+<div id="principaux-exemples-de-jointure" class="section level2 hasAnchor" number="6.2">
+<h2><span class="header-section-number">6.2</span> Principaux exemples de jointure<a href="manipuler-plusieurs-tables.html#principaux-exemples-de-jointure" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Dans la capture ci-dessus, les opérations de jointure supposent que la colonne <code>x1</code> est présente dans <code>a</code> et <code>b</code>.</p>
+<p>Voici quelques exemples détaillant les principaux cas rencontrés :</p>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="manipuler-plusieurs-tables.html#cb152-1" aria-hidden="true" tabindex="-1"></a><span class="co"># jointure avec des noms de colonnes différentes pour la clé</span></span>
+<span id="cb152-2"><a href="manipuler-plusieurs-tables.html#cb152-2" aria-hidden="true" tabindex="-1"></a><span class="co"># `colonne_c` est une colonne de data_a et `colonne_d` est une colonne de data_b</span></span>
+<span id="cb152-3"><a href="manipuler-plusieurs-tables.html#cb152-3" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(data_a, data_b, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;colonne_c&quot;</span> <span class="ot">=</span> <span class="st">&quot;colonne_d&quot;</span>))</span>
+<span id="cb152-4"><a href="manipuler-plusieurs-tables.html#cb152-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb152-5"><a href="manipuler-plusieurs-tables.html#cb152-5" aria-hidden="true" tabindex="-1"></a><span class="co"># jointure sur deux colonnes</span></span>
+<span id="cb152-6"><a href="manipuler-plusieurs-tables.html#cb152-6" aria-hidden="true" tabindex="-1"></a><span class="co"># `colonne_e` et `colonne_f` sont des colonnes de data_a et de data_b</span></span>
+<span id="cb152-7"><a href="manipuler-plusieurs-tables.html#cb152-7" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(data_a, data_b, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;colonne_e&quot;</span>, <span class="st">&quot;colonne_f&quot;</span>))</span>
+<span id="cb152-8"><a href="manipuler-plusieurs-tables.html#cb152-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb152-9"><a href="manipuler-plusieurs-tables.html#cb152-9" aria-hidden="true" tabindex="-1"></a><span class="co"># jointure sur deux colonnes avec noms différents</span></span>
+<span id="cb152-10"><a href="manipuler-plusieurs-tables.html#cb152-10" aria-hidden="true" tabindex="-1"></a><span class="co"># `colonne_g`et `colonne_i` sont des colonnes de data_a, `colonne_h` et `colonne_j` sont des colonnes de data_b</span></span>
+<span id="cb152-11"><a href="manipuler-plusieurs-tables.html#cb152-11" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(data_a, data_b, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;colonne_g&quot;</span> <span class="ot">=</span> <span class="st">&quot;colonne_h&quot;</span>, <span class="st">&quot;colonne_i&quot;</span> <span class="ot">=</span> <span class="st">&quot;colonne_j&quot;</span>))</span></code></pre></div>
+</div>
+<div id="paramétrage-du-suffixe-pour-des-colonnes-présentes-dans-les-deux-tables" class="section level2 hasAnchor" number="6.3">
+<h2><span class="header-section-number">6.3</span> Paramétrage du suffixe pour des colonnes présentes dans les deux tables<a href="manipuler-plusieurs-tables.html#paramétrage-du-suffixe-pour-des-colonnes-présentes-dans-les-deux-tables" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Dans le cas où des colonnes (hors jointure) sont présentes dans <code>data_a</code> et <code>data_b</code>, ces colonnes seront suffixées par :</p>
+<ul>
+<li><code>.x</code> pour les colonnes provenant de <code>data_a</code></li>
+<li><code>.y</code> pour les colonnes provenant de <code>data_b</code></li>
+</ul>
+<p>Il est possible de modifier ces suffixes en passant le paramètre <code>suffix = c("_a", "_b")</code> au moment de la jointure.</p>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="manipuler-plusieurs-tables.html#cb153-1" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(data_a, data_b, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;colonne_c&quot;</span> <span class="ot">=</span> <span class="st">&quot;colonne_d&quot;</span>), <span class="at">suffix =</span> <span class="fu">c</span>(<span class="st">&quot;_a&quot;</span>, <span class="st">&quot;_b&quot;</span>))</span></code></pre></div>
+</div>
+<div id="animations-de-garrick-abenduie" class="section level2 hasAnchor" number="6.4">
+<h2><span class="header-section-number">6.4</span> Animations de Garrick Abenduie<a href="manipuler-plusieurs-tables.html#animations-de-garrick-abenduie" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Les animations proviennent de : <a href="https://www.garrickadenbuie.com/project/tidyexplain/" class="uri">https://www.garrickadenbuie.com/project/tidyexplain/</a></p>
+<div id="inner-join" class="section level3 hasAnchor" number="6.4.1">
+<h3><span class="header-section-number">6.4.1</span> Inner join<a href="manipuler-plusieurs-tables.html#inner-join" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><img src="https://raw.githubusercontent.com/gadenbuie/tidyexplain/main/images/inner-join.gif" /></p>
+</div>
+<div id="left-join" class="section level3 hasAnchor" number="6.4.2">
+<h3><span class="header-section-number">6.4.2</span> Left join<a href="manipuler-plusieurs-tables.html#left-join" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><img src="https://raw.githubusercontent.com/gadenbuie/tidyexplain/main/images/left-join-extra.gif" /></p>
+</div>
+<div id="pivot-longuer-pivot-wider" class="section level3 hasAnchor" number="6.4.3">
+<h3><span class="header-section-number">6.4.3</span> Pivot longuer / Pivot wider<a href="manipuler-plusieurs-tables.html#pivot-longuer-pivot-wider" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><img src="https://raw.githubusercontent.com/gadenbuie/tidyexplain/main/images/tidyr-pivoting.gif" /></p>
+</div>
+</div>
+<div id="exercice-5" class="section level2 hasAnchor" number="6.5">
+<h2><span class="header-section-number">6.5</span> Exercice 5<a href="manipuler-plusieurs-tables.html#exercice-5" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><img src="images/MCD_pesticides.png" /></p>
 <p>Dans les données <code>FormationPreparationDesDonnees.RData</code>, chaque analyse est effectuée à partir d’un prélèvement, lui-même réalisé au niveau d’une station.</p>
 <ul>

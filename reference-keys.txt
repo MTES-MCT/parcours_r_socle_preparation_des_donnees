@@ -71,6 +71,13 @@ utiliser-les-select-helpers-avec-les-autres-verbes-du-tidyverse
 rename-et-rename_with
 filter-mutate-group_by-summarise-arrange-transmute
 manipuler-plusieurs-tables
+concepts-généraux
+principaux-exemples-de-jointure
+paramétrage-du-suffixe-pour-des-colonnes-présentes-dans-les-deux-tables
+animations-de-garrick-abenduie
+inner-join
+left-join
+pivot-longuer-pivot-wider
 exercice-5
 structurer-ses-tables
 pourquoi-se-pencher-sur-la-structuration-des-tables

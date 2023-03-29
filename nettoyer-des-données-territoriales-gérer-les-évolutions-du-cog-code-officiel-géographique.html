@@ -23,7 +23,7 @@
 <meta name="author" content="Maël Theulière &amp; Bruno Terseur" />
 
 
-<meta name="date" content="2023-03-23" />
+<meta name="date" content="2023-03-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -237,7 +237,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="6" data-path="manipuler-plusieurs-tables.html"><a href="manipuler-plusieurs-tables.html"><i class="fa fa-check"></i><b>6</b> Manipuler plusieurs tables</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="manipuler-plusieurs-tables.html"><a href="manipuler-plusieurs-tables.html#exercice-5"><i class="fa fa-check"></i><b>6.1</b> Exercice 5</a></li>
+<li class="chapter" data-level="6.1" data-path="manipuler-plusieurs-tables.html"><a href="manipuler-plusieurs-tables.html#concepts-généraux"><i class="fa fa-check"></i><b>6.1</b> Concepts généraux</a></li>
+<li class="chapter" data-level="6.2" data-path="manipuler-plusieurs-tables.html"><a href="manipuler-plusieurs-tables.html#principaux-exemples-de-jointure"><i class="fa fa-check"></i><b>6.2</b> Principaux exemples de jointure</a></li>
+<li class="chapter" data-level="6.3" data-path="manipuler-plusieurs-tables.html"><a href="manipuler-plusieurs-tables.html#paramétrage-du-suffixe-pour-des-colonnes-présentes-dans-les-deux-tables"><i class="fa fa-check"></i><b>6.3</b> Paramétrage du suffixe pour des colonnes présentes dans les deux tables</a></li>
+<li class="chapter" data-level="6.4" data-path="manipuler-plusieurs-tables.html"><a href="manipuler-plusieurs-tables.html#animations-de-garrick-abenduie"><i class="fa fa-check"></i><b>6.4</b> Animations de Garrick Abenduie</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="manipuler-plusieurs-tables.html"><a href="manipuler-plusieurs-tables.html#inner-join"><i class="fa fa-check"></i><b>6.4.1</b> Inner join</a></li>
+<li class="chapter" data-level="6.4.2" data-path="manipuler-plusieurs-tables.html"><a href="manipuler-plusieurs-tables.html#left-join"><i class="fa fa-check"></i><b>6.4.2</b> Left join</a></li>
+<li class="chapter" data-level="6.4.3" data-path="manipuler-plusieurs-tables.html"><a href="manipuler-plusieurs-tables.html#pivot-longuer-pivot-wider"><i class="fa fa-check"></i><b>6.4.3</b> Pivot longuer / Pivot wider</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="manipuler-plusieurs-tables.html"><a href="manipuler-plusieurs-tables.html#exercice-5"><i class="fa fa-check"></i><b>6.5</b> Exercice 5</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="structurer-ses-tables.html"><a href="structurer-ses-tables.html"><i class="fa fa-check"></i><b>7</b> Structurer ses tables</a>
 <ul>
@@ -287,11 +296,11 @@ Dans ce chapitre sont présentés les usages les plus fréquents de <code>{COGit
 <h2><span class="header-section-number">8.1</span> Mettre à jour une table comportant une colonne de code commune<a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#mettre-à-jour-une-table-comportant-une-colonne-de-code-commune" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Dans nos données relatives aux pesticides, la table des stations comprend le code commune de rattachement de chaque station.
 <code>{COGiter}</code> permet de tenir à jour cette information d’une fonction :</p>
-<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb164-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(COGiter)</span>
-<span id="cb164-2"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb164-2" aria-hidden="true" tabindex="-1"></a>stations_cog_ok <span class="ot">&lt;-</span> <span class="fu">passer_au_cog_a_jour</span>(<span class="at">.data =</span> station, <span class="at">code_commune =</span> code_commune, <span class="at">aggrege =</span> <span class="cn">FALSE</span>, <span class="at">garder_info_supra =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb166-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(COGiter)</span>
+<span id="cb166-2"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb166-2" aria-hidden="true" tabindex="-1"></a>stations_cog_ok <span class="ot">&lt;-</span> <span class="fu">passer_au_cog_a_jour</span>(<span class="at">.data =</span> station, <span class="at">code_commune =</span> code_commune, <span class="at">aggrege =</span> <span class="cn">FALSE</span>, <span class="at">garder_info_supra =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>Le paramètre “aggrege” sert à indiquer si on souhaite obtenir en sortie une table avec une ligne par commune à jour, en sommant les valeurs numériques de la table.
 Le paramètre “garder_info_supra” sert à indiquer si on souhaite obtenir en sortie une table comportant en plus les territoires supra-communaux (EPCI, DEP, REG, …) de rattachement.</p>
-<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb165-1" aria-hidden="true" tabindex="-1"></a>stations_cog_ok  <span class="sc">%&gt;%</span> <span class="fu">names</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb167-1" aria-hidden="true" tabindex="-1"></a>stations_cog_ok  <span class="sc">%&gt;%</span> <span class="fu">names</span>()</span></code></pre></div>
 <pre><code>##  [1] &quot;code_station&quot;           &quot;libelle_station&quot;        &quot;date_creation&quot;         
 ##  [4] &quot;source&quot;                 &quot;code_masse_eau&quot;         &quot;code_entite_hydro&quot;     
 ##  [7] &quot;code_troncon_hydro&quot;     &quot;DEPCOM&quot;                 &quot;NOM_DEPCOM&quot;            
@@ -303,7 +312,7 @@ Le paramètre “garder_info_supra” sert à indiquer si on souhaite obtenir en
 <h2><span class="header-section-number">8.2</span> Mettre à jour le COG et agréger aux différentes échelles<a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#mettre-à-jour-le-cog-et-agréger-aux-différentes-échelles" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Dans nos données de l’enquête tourisme, l’INSEE nous indique que les communes utilisées pour diffuser les résultats sont de celles 2019. Elles on donc bougé depuis.
 Imaginions, que nous voudrions avoir les résultats de cette enquête non pas par commune, mais par EPCI et département : la fonction <code>cogifier()</code> nous aide à faire tout ça en un tour de main.</p>
-<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb167-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(enq_tourisme)</span></code></pre></div>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb169-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(enq_tourisme)</span></code></pre></div>
 <pre><code>## Rows: 34,953
 ## Columns: 55
 ## $ CODGEO    &lt;chr&gt; &quot;01001&quot;, &quot;01002&quot;, &quot;01004&quot;, &quot;01005&quot;, &quot;01006&quot;, &quot;01007&quot;, &quot;01008…
@@ -361,13 +370,13 @@ Imaginions, que nous voudrions avoir les résultats de cette enquête non pas pa
 ## $ AJCS19    &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
 ## $ AJCSUH19  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
 ## $ AJCSLIT19 &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …</code></pre>
-<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb169-1" aria-hidden="true" tabindex="-1"></a>enq_tourisme_epci_dep <span class="ot">&lt;-</span> enq_tourisme <span class="sc">%&gt;%</span> </span>
-<span id="cb169-2"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb169-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># on enlève les colonnes textes à mettre à jour</span></span>
-<span id="cb169-3"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb169-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>LIBGEO, <span class="sc">-</span>REG, <span class="sc">-</span>DEP) <span class="sc">%&gt;%</span> </span>
-<span id="cb169-4"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb169-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cogifier</span>(<span class="at">code_commune =</span> CODGEO, <span class="at">communes =</span> <span class="cn">FALSE</span>, <span class="at">epci =</span> <span class="cn">TRUE</span>, <span class="at">departements =</span> <span class="cn">TRUE</span>, <span class="at">regions =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb169-5"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb169-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">metro =</span> <span class="cn">TRUE</span>, <span class="at">franceprovince =</span> <span class="cn">FALSE</span>, <span class="at">metrodrom =</span> <span class="cn">FALSE</span>, <span class="at">drom =</span> <span class="cn">TRUE</span>, <span class="at">na.rm =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb169-6"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb169-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb169-7"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb169-7" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(enq_tourisme_epci_dep)</span></code></pre></div>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb171-1" aria-hidden="true" tabindex="-1"></a>enq_tourisme_epci_dep <span class="ot">&lt;-</span> enq_tourisme <span class="sc">%&gt;%</span> </span>
+<span id="cb171-2"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb171-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># on enlève les colonnes textes à mettre à jour</span></span>
+<span id="cb171-3"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb171-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>LIBGEO, <span class="sc">-</span>REG, <span class="sc">-</span>DEP) <span class="sc">%&gt;%</span> </span>
+<span id="cb171-4"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb171-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cogifier</span>(<span class="at">code_commune =</span> CODGEO, <span class="at">communes =</span> <span class="cn">FALSE</span>, <span class="at">epci =</span> <span class="cn">TRUE</span>, <span class="at">departements =</span> <span class="cn">TRUE</span>, <span class="at">regions =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb171-5"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb171-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">metro =</span> <span class="cn">TRUE</span>, <span class="at">franceprovince =</span> <span class="cn">FALSE</span>, <span class="at">metrodrom =</span> <span class="cn">FALSE</span>, <span class="at">drom =</span> <span class="cn">TRUE</span>, <span class="at">na.rm =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb171-6"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb171-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb171-7"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb171-7" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(enq_tourisme_epci_dep)</span></code></pre></div>
 <pre><code>## Rows: 1,352
 ## Columns: 54
 ## $ TypeZone  &lt;fct&gt; Epci, Epci, Epci, Epci, Epci, Epci, Epci, Epci, Epci, Epci, …
@@ -428,9 +437,9 @@ Imaginions, que nous voudrions avoir les résultats de cette enquête non pas pa
 <div id="sélectionner-les-territoires-de-ma-zone-de-travail" class="section level2 hasAnchor" number="8.3">
 <h2><span class="header-section-number">8.3</span> Sélectionner les territoires de ma zone de travail<a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#sélectionner-les-territoires-de-ma-zone-de-travail" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Et si je ne souhaite que les territoires de ma région ou de mon département ?</p>
-<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb171-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Département du Nord</span></span>
-<span id="cb171-2"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb171-2" aria-hidden="true" tabindex="-1"></a>enq_tourisme_epci_dep <span class="sc">%&gt;%</span> </span>
-<span id="cb171-3"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb171-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filtrer_cog</span>(<span class="at">dep =</span> <span class="st">&quot;59&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb173-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Département du Nord</span></span>
+<span id="cb173-2"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb173-2" aria-hidden="true" tabindex="-1"></a>enq_tourisme_epci_dep <span class="sc">%&gt;%</span> </span>
+<span id="cb173-3"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb173-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filtrer_cog</span>(<span class="at">dep =</span> <span class="st">&quot;59&quot;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 18 × 54
 ##    TypeZone     Zone   CodeZone  HT19 HT019 HT119 HT219 HT319 HT419 HT519 HTCH19
 ##    &lt;fct&gt;        &lt;fct&gt;  &lt;fct&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
@@ -459,10 +468,10 @@ Imaginions, que nous voudrions avoir les résultats de cette enquête non pas pa
 ## #   CPGE419 &lt;dbl&gt;, CPGE519 &lt;dbl&gt;, CPGEL19 &lt;dbl&gt;, CPGEL019 &lt;dbl&gt;,
 ## #   CPGEL119 &lt;dbl&gt;, CPGEL219 &lt;dbl&gt;, CPGEL319 &lt;dbl&gt;, CPGEL419 &lt;dbl&gt;,
 ## #   CPGEL519 &lt;dbl&gt;, CPGEO19 &lt;dbl&gt;, CPGEO019 &lt;dbl&gt;, CPGEO119 &lt;dbl&gt;, …</code></pre>
-<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb173-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Région Bretagne</span></span>
-<span id="cb173-2"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb173-2" aria-hidden="true" tabindex="-1"></a>enq_tourisme_epci_dep <span class="sc">%&gt;%</span> </span>
-<span id="cb173-3"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb173-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filtrer_cog</span>(<span class="at">reg =</span> <span class="st">&quot;53&quot;</span>, <span class="at">garder_supra =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb173-4"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb173-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(TypeZone))</span></code></pre></div>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb175-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Région Bretagne</span></span>
+<span id="cb175-2"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb175-2" aria-hidden="true" tabindex="-1"></a>enq_tourisme_epci_dep <span class="sc">%&gt;%</span> </span>
+<span id="cb175-3"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb175-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filtrer_cog</span>(<span class="at">reg =</span> <span class="st">&quot;53&quot;</span>, <span class="at">garder_supra =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb175-4"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb175-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(TypeZone))</span></code></pre></div>
 <pre><code>## # A tibble: 1,352 × 54
 ##    TypeZone Zone       CodeZone  HT19 HT019 HT119 HT219 HT319 HT419 HT519 HTCH19
 ##    &lt;fct&gt;    &lt;fct&gt;      &lt;fct&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
@@ -488,11 +497,11 @@ Imaginions, que nous voudrions avoir les résultats de cette enquête non pas pa
 <h2><span class="header-section-number">8.4</span> Pour en savoir plus : utiliser les fonds de carte mis à disposition dans COGiter<a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#pour-en-savoir-plus-utiliser-les-fonds-de-carte-mis-à-disposition-dans-cogiter" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>COGiter contient des fonds de cartes des contours administratifs, conçus à partir des couches admin-express de l’IGN et dont la géométrie a été encore simplifiée pour répondre aux besoins de visualisation statistique.</p>
 <p>Voici un exemple d’usage très sommaire :</p>
-<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb175-1" aria-hidden="true" tabindex="-1"></a>departements_geo <span class="sc">%&gt;%</span> </span>
-<span id="cb175-2"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb175-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(enq_tourisme_epci_dep, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;DEP&quot;</span> <span class="ot">=</span> <span class="st">&quot;CodeZone&quot;</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb175-3"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb175-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(HT19) <span class="sc">%&gt;%</span> </span>
-<span id="cb175-4"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb175-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>()</span></code></pre></div>
-<p><img src="Preparer-ses-donnees-avec-R-et-le-Tidyverse_files/figure-html/unnamed-chunk-32-1.png" width="576" /></p>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb177-1" aria-hidden="true" tabindex="-1"></a>departements_geo <span class="sc">%&gt;%</span> </span>
+<span id="cb177-2"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb177-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(enq_tourisme_epci_dep, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;DEP&quot;</span> <span class="ot">=</span> <span class="st">&quot;CodeZone&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb177-3"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb177-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(HT19) <span class="sc">%&gt;%</span> </span>
+<span id="cb177-4"><a href="nettoyer-des-données-territoriales-gérer-les-évolutions-du-cog-code-officiel-géographique.html#cb177-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>()</span></code></pre></div>
+<p><img src="Preparer-ses-donnees-avec-R-et-le-Tidyverse_files/figure-html/unnamed-chunk-34-1.png" width="576" /></p>
 <p>Obtenir la liste des fonds de cartes et des fonctionnalités géo : <a href="https://maeltheuliere.github.io/COGiter/articles/filtre_geo.html" class="uri">https://maeltheuliere.github.io/COGiter/articles/filtre_geo.html</a></p>
 
 </div>
