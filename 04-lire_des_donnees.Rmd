@@ -66,10 +66,10 @@ datatable(head(enq_tourisme), options = list(dom = 't'))
 ### Exemple données sur les logements vacants depuis data.gouv.fr
 ```{r}
 # présentation des données sur https://www.data.gouv.fr/fr/datasets/logements-vacants-du-parc-prive-par-anciennete-de-vacance-par-commune-et-par-epci/
-url <- "https://static.data.gouv.fr/resources/logements-vacants-du-parc-prive-par-anciennete-de-vacance-par-commune-et-par-epci/20220513-194528/logements-vacants-du-parc-prive-par-epci-au-01012020-lovac-.xlsx"
+url <- "https://www.data.gouv.fr/fr/datasets/r/ed0aa123-6afa-49fe-8e35-797a30a44c43" 
 
-download.file(url, destfile = "extdata/logements-vacants-du-parc-prive-par-epci-au-01012020-lovac-.xlsx", mode = "wb")
-lgt_vac_prv <- read_xlsx("extdata/logements-vacants-du-parc-prive-par-epci-au-01012020-lovac-.xlsx", sheet = 1)
+download.file(url, destfile = "extdata/logements-vacants-du-parc-prive-au-01012021-lovac-.xlsx", mode = "wb")
+lgt_vac_prv <- read_xlsx("extdata/logements-vacants-du-parc-prive-par-epci-au-01012021-lovac-.xlsx", sheet = 1)
 
 datatable(head(lgt_vac_prv), options = list(dom = 't'))
 
