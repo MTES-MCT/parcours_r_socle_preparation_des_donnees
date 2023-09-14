@@ -63,7 +63,8 @@ enq_tourisme <- read_excel("extdata/base-cc-tourisme-2019-geo2019.xls",
                            sheet = "COM", skip = 5)
 datatable(head(enq_tourisme), options = list(dom = 't'))
 ```
-### Exemple données sur les logements vacants depuis data.gouv.fr
+
+### Exemple données sur les logements vacants depuis data.gouv.fr (fichier locvac produit par le CEREMA)  
 ```{r}
 # présentation des données sur https://www.data.gouv.fr/fr/datasets/logements-vacants-du-parc-prive-par-anciennete-de-vacance-par-commune-et-par-epci/
 url <- "https://www.data.gouv.fr/fr/datasets/r/ed0aa123-6afa-49fe-8e35-797a30a44c43" 
@@ -131,6 +132,7 @@ data_url <-"https://opendata.reseaux-energies.fr/api/records/1.0/search/?dataset
 prod_annuelle_enr <- jsonlite::fromJSON(data_url)$records$fields
 
 ```
+
 ### Packages R d'interrogation d'API
 
 Pour faciliter l'utilisation de leur API par les utilisateurs de R, certains fournisseurs propose un package R pour se brancher à leur données. 
@@ -321,4 +323,37 @@ analyse_db <- collect(analyse_db)
 ```
 
 Cette approche est à conseiller sur d'importantes bases de données, et sans dimension spatiale, car `{dbplyr}` ne sait pas encore [lire facilement ce type de variable](https://github.com/tidyverse/dbplyr/issues/788).
+
+## Lire des fichiers au format parquet 
+
+Apache Parquet est un choix de plus en plus populaire pour le stockage et l'analyse de données. 
+C'est un format binaire optimisé pour réduire la taille des fichiers et offrir une excellente vitesse de lecture, surtout si on accéde à un jeu de données en ne lisant que quelques colonnes. 
+
+Egalement, il est lisible dans de nombreux langage et permet, un peu comme avec une base de données PostgreSQL, d'exprimer une requête pour limiter la montée des données en RAM au minimum nécessaire.
+
+Enfin on peut grouper les lignes lors un export parquet et réaliser une partition du fichier, par exemple par département ou par région, dans l'idée que certains utilisateurs n'ont pas besoin d'accéder à tout, pour encore accélérer la lecture. 
+
+Bref, cela va devenir un must dans la diffusion de données millésimée.
+
+La manière la plus courante de lire et d'écrire des données au format Parquet avec R est d'utiliser le package [{Arrow}](https://arrow.apache.org/docs/r/articles/read_write.html), et ses les fonctions `read_parquet()` et `write_parquet()`.
+
+Le package [parquetize](https://github.com/ddotta/parquetize) permet de convertir en masse des jeux de données depuis SAS, Stata, sqlite ou JSON  vers parquet.
+
+```{r parquet}
+library(arrow)
+datatable(head(iris))
+tf <- tempfile()
+write_parquet(iris, tf)
+df <- read_parquet(tf, col_select = starts_with("Se"))
+datatable(head(df))
+```
+
+
+
+S'il est très efficace pour l'analyse de données, Parquet est en revanche peu adapté à l’ajout de données en continu ou à la modification fréquente de données existantes. 
+Pour cette utilisation, il faut privilégier un système de gestion de base de données comme par exemple PostgreSQL.
+
+Pour en savoir plus sur ce format promis à un bel avenir au ministère : nous vous recommandons la [fiche utilitR de l'INSEE dédiée à la question]( https://www.book.utilitr.org/03_fiches_thematiques/fiche_import_fichiers_parquet). 
+
+
 
