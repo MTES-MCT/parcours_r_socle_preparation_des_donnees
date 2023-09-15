@@ -39,7 +39,7 @@ Imports:
     stringr
 Remotes:
     MaelTheuliere/COGiter,
-    git::https://gitlab-forge.din.developpement-durable.gouv.fr/dreal-pdl/csd/propre.datalibaba.git,
+    git::https://gitlab-forge.din.developpement-durable.gouv.fr/dreal-pdl/csd/datalibaba.git,
     MTES-MCT/savoirfR,
     spyrales/gouvdown,
     spyrales/gouvdown.fonts
