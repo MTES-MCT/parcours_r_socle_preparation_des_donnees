@@ -13,7 +13,9 @@ License: LICENCE OUVERTE/ OPEN LICENCE Version 2.0
 URL: https://github.com/MTES-MCT/parcours_r_socle_preparation_des_donnees
 RoxygenNote: 7.2.2
 Imports: 
+    arrow,
     COGiter,
+    datalibaba, 
     dbplyr,
     dplyr,
     DT,
@@ -37,6 +39,7 @@ Imports:
     stringr
 Remotes:
     MaelTheuliere/COGiter,
+    git::https://gitlab-forge.din.developpement-durable.gouv.fr/dreal-pdl/csd/propre.datalibaba.git,
     MTES-MCT/savoirfR,
     spyrales/gouvdown,
     spyrales/gouvdown.fonts
