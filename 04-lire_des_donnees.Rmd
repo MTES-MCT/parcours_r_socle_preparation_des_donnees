@@ -349,7 +349,7 @@ df <- read_parquet(tf, col_select = starts_with("Se"))
 datatable(head(df))
 ```
 
-
+Pour les données spatiales, le format geoparquet est désormais opérationnel (v1 en décembre 2022). Deux packages ont été développés pour l'utilisation de geoparquet avec R : [{sfarrow}](https://wcjochem.github.io/sfarrow/index.html) sur le CRAN et [{geoparquet}](https://paleolimbot.github.io/geoarrow/) en phase de développement actif sur github. 
 
 S'il est très efficace pour l'analyse de données, Parquet est en revanche peu adapté à l’ajout de données en continu ou à la modification fréquente de données existantes. 
 Pour cette utilisation, il faut privilégier un système de gestion de base de données comme par exemple PostgreSQL.

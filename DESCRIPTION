@@ -15,6 +15,7 @@ RoxygenNote: 7.2.2
 Imports: 
     arrow,
     COGiter,
+    datalibaba, 
     dbplyr,
     dplyr,
     DT,
@@ -38,6 +39,7 @@ Imports:
     stringr
 Remotes:
     MaelTheuliere/COGiter,
+    git::https://gitlab-forge.din.developpement-durable.gouv.fr/dreal-pdl/csd/propre.datalibaba.git,
     MTES-MCT/savoirfR,
     spyrales/gouvdown,
     spyrales/gouvdown.fonts

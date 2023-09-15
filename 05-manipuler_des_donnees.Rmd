@@ -27,7 +27,7 @@ On va travailler sur ce module principalement à partir des données sitadel en 
 
 ```{r manip_1, echo = FALSE, warning = FALSE, error = FALSE, eval = FALSE}
 Dans un environnement SSPCloud, les données peuvent être chargée ainsi :
-Sys.setenv("server" = "postgresql-304103.user-juliette",
+Sys.setenv("server" = "postgresql-366862.user-juliette",
            "user_does" = "stagiaire",
            "pwd_does" = "xxx")
 
