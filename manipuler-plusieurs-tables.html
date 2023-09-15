@@ -23,7 +23,7 @@
 <meta name="author" content="Maël Theulière &amp; Bruno Terseur" />
 
 
-<meta name="date" content="2023-09-12" />
+<meta name="date" content="2023-09-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -164,7 +164,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3" data-path="bien-commencer.html"><a href="bien-commencer.html"><i class="fa fa-check"></i><b>3</b> Bien commencer</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="bien-commencer.html"><a href="bien-commencer.html#créer-un-projet-sous-rstudio-pour-vous-permettre-de-recencer-vos-travaux."><i class="fa fa-check"></i><b>3.1</b> Créer un projet sous Rstudio pour vous permettre de recencer vos travaux.</a></li>
+<li class="chapter" data-level="3.1" data-path="bien-commencer.html"><a href="bien-commencer.html#créer-un-projet-sous-rstudio-pour-vous-permettre-de-recenser-vos-travaux."><i class="fa fa-check"></i><b>3.1</b> Créer un projet sous Rstudio pour vous permettre de recenser vos travaux.</a></li>
 <li class="chapter" data-level="3.2" data-path="bien-commencer.html"><a href="bien-commencer.html#intégrer-vos-données"><i class="fa fa-check"></i><b>3.2</b> Intégrer vos données</a></li>
 <li class="chapter" data-level="3.3" data-path="bien-commencer.html"><a href="bien-commencer.html#créer-votre-arborescence-de-projet"><i class="fa fa-check"></i><b>3.3</b> Créer votre arborescence de projet</a></li>
 <li class="chapter" data-level="3.4" data-path="bien-commencer.html"><a href="bien-commencer.html#utilisation-du-package-savoirfr"><i class="fa fa-check"></i><b>3.4</b> Utilisation du package savoirfR</a></li>
@@ -181,7 +181,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.2" data-path="lire-des-données.html"><a href="lire-des-données.html#lire-des-données-disponibles-sur-le-web-téléchargement-de-fichiers"><i class="fa fa-check"></i><b>4.2</b> Lire des données disponibles sur le web : téléchargement de fichiers</a>
 <ul>
 <li class="chapter" data-level="4.2.1" data-path="lire-des-données.html"><a href="lire-des-données.html#exemple-site-de-linsee-avec-dezippage"><i class="fa fa-check"></i><b>4.2.1</b> Exemple site de l’INSEE, avec dezippage</a></li>
-<li class="chapter" data-level="4.2.2" data-path="lire-des-données.html"><a href="lire-des-données.html#exemple-données-sur-les-logements-vacants-depuis-data.gouv.fr"><i class="fa fa-check"></i><b>4.2.2</b> Exemple données sur les logements vacants depuis data.gouv.fr</a></li>
+<li class="chapter" data-level="4.2.2" data-path="lire-des-données.html"><a href="lire-des-données.html#exemple-données-sur-les-logements-vacants-depuis-data.gouv.fr-fichier-locvac-produit-par-le-cerema"><i class="fa fa-check"></i><b>4.2.2</b> Exemple données sur les logements vacants depuis data.gouv.fr (fichier locvac produit par le CEREMA)</a></li>
 </ul></li>
 <li class="chapter" data-level="4.3" data-path="lire-des-données.html"><a href="lire-des-données.html#lire-des-données-disponibles-sur-le-web-via-api"><i class="fa fa-check"></i><b>4.3</b> Lire des données disponibles sur le web via API</a>
 <ul>
@@ -194,6 +194,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.5.1" data-path="lire-des-données.html"><a href="lire-des-données.html#lire-des-données-sous-postgresql-première-approche"><i class="fa fa-check"></i><b>4.5.1</b> Lire des données sous PostgreSQL : première approche</a></li>
 <li class="chapter" data-level="4.5.2" data-path="lire-des-données.html"><a href="lire-des-données.html#lire-des-données-sous-postgresql-seconde-approche"><i class="fa fa-check"></i><b>4.5.2</b> Lire des données sous PostgreSQL : seconde approche</a></li>
 </ul></li>
+<li class="chapter" data-level="4.6" data-path="lire-des-données.html"><a href="lire-des-données.html#lire-des-fichiers-au-format-parquet"><i class="fa fa-check"></i><b>4.6</b> Lire des fichiers au format parquet</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="manipuler-des-données.html"><a href="manipuler-des-données.html"><i class="fa fa-check"></i><b>5</b> Manipuler des données</a>
 <ul>
@@ -306,17 +307,17 @@ On va pouvoir regrouper ces fonctions en plusieurs catégories de manipulations 
 <h2><span class="header-section-number">6.2</span> Principaux exemples de jointure<a href="manipuler-plusieurs-tables.html#principaux-exemples-de-jointure" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Dans la capture ci-dessus, les opérations de jointure supposent que la colonne <code>x1</code> est présente dans <code>a</code> et <code>b</code>.</p>
 <p>Voici quelques exemples détaillant les principaux cas rencontrés :</p>
-<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="manipuler-plusieurs-tables.html#cb152-1" aria-hidden="true" tabindex="-1"></a><span class="co"># jointure avec des noms de colonnes différentes pour la clé</span></span>
-<span id="cb152-2"><a href="manipuler-plusieurs-tables.html#cb152-2" aria-hidden="true" tabindex="-1"></a><span class="co"># `colonne_c` est une colonne de data_a et `colonne_d` est une colonne de data_b</span></span>
-<span id="cb152-3"><a href="manipuler-plusieurs-tables.html#cb152-3" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(data_a, data_b, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;colonne_c&quot;</span> <span class="ot">=</span> <span class="st">&quot;colonne_d&quot;</span>))</span>
-<span id="cb152-4"><a href="manipuler-plusieurs-tables.html#cb152-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb152-5"><a href="manipuler-plusieurs-tables.html#cb152-5" aria-hidden="true" tabindex="-1"></a><span class="co"># jointure sur deux colonnes</span></span>
-<span id="cb152-6"><a href="manipuler-plusieurs-tables.html#cb152-6" aria-hidden="true" tabindex="-1"></a><span class="co"># `colonne_e` et `colonne_f` sont des colonnes de data_a et de data_b</span></span>
-<span id="cb152-7"><a href="manipuler-plusieurs-tables.html#cb152-7" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(data_a, data_b, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;colonne_e&quot;</span>, <span class="st">&quot;colonne_f&quot;</span>))</span>
-<span id="cb152-8"><a href="manipuler-plusieurs-tables.html#cb152-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb152-9"><a href="manipuler-plusieurs-tables.html#cb152-9" aria-hidden="true" tabindex="-1"></a><span class="co"># jointure sur deux colonnes avec noms différents</span></span>
-<span id="cb152-10"><a href="manipuler-plusieurs-tables.html#cb152-10" aria-hidden="true" tabindex="-1"></a><span class="co"># `colonne_g`et `colonne_i` sont des colonnes de data_a, `colonne_h` et `colonne_j` sont des colonnes de data_b</span></span>
-<span id="cb152-11"><a href="manipuler-plusieurs-tables.html#cb152-11" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(data_a, data_b, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;colonne_g&quot;</span> <span class="ot">=</span> <span class="st">&quot;colonne_h&quot;</span>, <span class="st">&quot;colonne_i&quot;</span> <span class="ot">=</span> <span class="st">&quot;colonne_j&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="manipuler-plusieurs-tables.html#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="co"># jointure avec des noms de colonnes différentes pour la clé</span></span>
+<span id="cb154-2"><a href="manipuler-plusieurs-tables.html#cb154-2" aria-hidden="true" tabindex="-1"></a><span class="co"># `colonne_c` est une colonne de data_a et `colonne_d` est une colonne de data_b</span></span>
+<span id="cb154-3"><a href="manipuler-plusieurs-tables.html#cb154-3" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(data_a, data_b, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;colonne_c&quot;</span> <span class="ot">=</span> <span class="st">&quot;colonne_d&quot;</span>))</span>
+<span id="cb154-4"><a href="manipuler-plusieurs-tables.html#cb154-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb154-5"><a href="manipuler-plusieurs-tables.html#cb154-5" aria-hidden="true" tabindex="-1"></a><span class="co"># jointure sur deux colonnes</span></span>
+<span id="cb154-6"><a href="manipuler-plusieurs-tables.html#cb154-6" aria-hidden="true" tabindex="-1"></a><span class="co"># `colonne_e` et `colonne_f` sont des colonnes de data_a et de data_b</span></span>
+<span id="cb154-7"><a href="manipuler-plusieurs-tables.html#cb154-7" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(data_a, data_b, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;colonne_e&quot;</span>, <span class="st">&quot;colonne_f&quot;</span>))</span>
+<span id="cb154-8"><a href="manipuler-plusieurs-tables.html#cb154-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb154-9"><a href="manipuler-plusieurs-tables.html#cb154-9" aria-hidden="true" tabindex="-1"></a><span class="co"># jointure sur deux colonnes avec noms différents</span></span>
+<span id="cb154-10"><a href="manipuler-plusieurs-tables.html#cb154-10" aria-hidden="true" tabindex="-1"></a><span class="co"># `colonne_g`et `colonne_i` sont des colonnes de data_a, `colonne_h` et `colonne_j` sont des colonnes de data_b</span></span>
+<span id="cb154-11"><a href="manipuler-plusieurs-tables.html#cb154-11" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(data_a, data_b, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;colonne_g&quot;</span> <span class="ot">=</span> <span class="st">&quot;colonne_h&quot;</span>, <span class="st">&quot;colonne_i&quot;</span> <span class="ot">=</span> <span class="st">&quot;colonne_j&quot;</span>))</span></code></pre></div>
 </div>
 <div id="paramétrage-du-suffixe-pour-des-colonnes-présentes-dans-les-deux-tables" class="section level2 hasAnchor" number="6.3">
 <h2><span class="header-section-number">6.3</span> Paramétrage du suffixe pour des colonnes présentes dans les deux tables<a href="manipuler-plusieurs-tables.html#paramétrage-du-suffixe-pour-des-colonnes-présentes-dans-les-deux-tables" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -326,7 +327,7 @@ On va pouvoir regrouper ces fonctions en plusieurs catégories de manipulations 
 <li><code>.y</code> pour les colonnes provenant de <code>data_b</code></li>
 </ul>
 <p>Il est possible de modifier ces suffixes en passant le paramètre <code>suffix = c("_a", "_b")</code> au moment de la jointure.</p>
-<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="manipuler-plusieurs-tables.html#cb153-1" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(data_a, data_b, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;colonne_c&quot;</span> <span class="ot">=</span> <span class="st">&quot;colonne_d&quot;</span>), <span class="at">suffix =</span> <span class="fu">c</span>(<span class="st">&quot;_a&quot;</span>, <span class="st">&quot;_b&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="manipuler-plusieurs-tables.html#cb155-1" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(data_a, data_b, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;colonne_c&quot;</span> <span class="ot">=</span> <span class="st">&quot;colonne_d&quot;</span>), <span class="at">suffix =</span> <span class="fu">c</span>(<span class="st">&quot;_a&quot;</span>, <span class="st">&quot;_b&quot;</span>))</span></code></pre></div>
 </div>
 <div id="animations-de-garrick-abenduie" class="section level2 hasAnchor" number="6.4">
 <h2><span class="header-section-number">6.4</span> Animations de Garrick Abenduie<a href="manipuler-plusieurs-tables.html#animations-de-garrick-abenduie" class="anchor-section" aria-label="Anchor link to header"></a></h2>

@@ -15,7 +15,7 @@ hors-tidyverse-1
 les-spécificités-du-tidyverse
 dautres-approches-possibles
 bien-commencer
-créer-un-projet-sous-rstudio-pour-vous-permettre-de-recencer-vos-travaux.
+créer-un-projet-sous-rstudio-pour-vous-permettre-de-recenser-vos-travaux.
 intégrer-vos-données
 créer-votre-arborescence-de-projet
 utilisation-du-package-savoirfr
@@ -27,7 +27,7 @@ readxl-lire-des-données-excel
 read_delim-lire-des-fichiers-plats
 lire-des-données-disponibles-sur-le-web-téléchargement-de-fichiers
 exemple-site-de-linsee-avec-dezippage
-exemple-données-sur-les-logements-vacants-depuis-data.gouv.fr
+exemple-données-sur-les-logements-vacants-depuis-data.gouv.fr-fichier-locvac-produit-par-le-cerema
 lire-des-données-disponibles-sur-le-web-via-api
 exemple-de-recours-à-lapi-opendatasoft-en-utilisant-lapi-de-lurssaf-ou-de-lodre
 packages-r-dinterrogation-dapi
@@ -37,6 +37,7 @@ lire-des-fichiers-avec-une-dimension-spatiale
 lire-des-données-sous-postgresql
 lire-des-données-sous-postgresql-première-approche
 lire-des-données-sous-postgresql-seconde-approche
+lire-des-fichiers-au-format-parquet
 manipuler-des-données
 les-principes-des-fonctions-de-dplyr
 présentation-des-données
