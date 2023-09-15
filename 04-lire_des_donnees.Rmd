@@ -193,6 +193,7 @@ knitr::kable(head(result))
 Tutoriel complet : https://mtes-mct.github.io/didor/articles/premiers_pas.html
 
 
+
 ## Lire des fichiers avec une dimension spatiale
 
 Le package `{sf}` (pour simple feature) permet d'importer dans R un fichier ayant une dimension spatiale. Après importation, le fichier est un dataframe avec une variable d'un type nouveau : la géométrie. Deux exemples ici pour lire des données au format shape et geojson.
@@ -327,13 +328,13 @@ Cette approche est à conseiller sur d'importantes bases de données, et sans di
 ## Lire des fichiers au format parquet 
 
 Apache Parquet est un choix de plus en plus populaire pour le stockage et l'analyse de données. 
-C'est un format binaire optimisé pour réduire la taille des fichiers et offrir une excellente vitesse de lecture, surtout si on accéde à un jeu de données en ne lisant que quelques colonnes. 
+C'est un format binaire optimisé pour réduire la taille des fichiers et offrir une excellente vitesse de lecture, surtout si on souhaite accéder à un jeu de données en ne lisant que quelques colonnes. 
 
-Egalement, il est lisible dans de nombreux langage et permet, un peu comme avec une base de données PostgreSQL, d'exprimer une requête pour limiter la montée des données en RAM au minimum nécessaire.
+Egalement, il est lisible dans de nombreux langages et prévoit, un peu comme avec une base de données PostgreSQL, qu'on exprime une requête de lecture pour limiter la montée des données en RAM au minimum nécessaire.
 
 Enfin on peut grouper les lignes lors un export parquet et réaliser une partition du fichier, par exemple par département ou par région, dans l'idée que certains utilisateurs n'ont pas besoin d'accéder à tout, pour encore accélérer la lecture. 
 
-Bref, cela va devenir un must dans la diffusion de données millésimée.
+Bref, cela va devenir un must dans la diffusion de données millésimées.
 
 La manière la plus courante de lire et d'écrire des données au format Parquet avec R est d'utiliser le package [{Arrow}](https://arrow.apache.org/docs/r/articles/read_write.html), et ses les fonctions `read_parquet()` et `write_parquet()`.
 
