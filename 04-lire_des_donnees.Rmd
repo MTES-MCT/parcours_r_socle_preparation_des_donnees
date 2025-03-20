@@ -273,12 +273,12 @@ station = st_read(dsn = con, layer = c(schema = 'pesticides', table = 'station')
 On voit que pour importer notre table analyse, on a simplement lancé une requête SQL.
 Pour obtenir un résultat qui préserve le caractère spatial de notre jeu de données, il faut changer de fonction de lecture.
 
-Un package, encore expérimental, de la DREAL Pays de la Loire, [{datalibaba}](https://dreal-datalab.gitlab.io/datalibaba/index.html) simplifie l'écriture des instructions de lecture/écriture de données vers ou depuis un SGBD Postgresql/postgis. 
+Un package, encore expérimental, de la DREAL Pays de la Loire, [{datalibaba}](https://dreal-pdl.gitlab-pages.din.developpement-durable.gouv.fr/csd/datalibaba) simplifie l'écriture des instructions de lecture/écriture de données vers ou depuis un SGBD Postgresql/postgis. 
 Il propose de stocker vos identifiants de connexion dans vos variable d'environnement afin d'en préserver la confidentialité et de vous éviter de les réécrire dans chaque script. 
 L'utilisateur n'a plus à se préoccuper du driver de connexion ni de la fonction de lecture.
 Les instruction précédentes deviennent : 
 ```{r lire_4b, eval=FALSE}
-remotes::install_gitlab('dreal-datalab/datalibaba')
+remotes::install_gitlab('dreal-pdl/csd/datalibaba', host = "gitlab-forge.din.developpement-durable.gouv.fr")
 library(datalibaba)
 parametre <- importer_data(table = "parametre", schema = "pesticides")
 station <- importer_data(table = "station", schema = "pesticides")
