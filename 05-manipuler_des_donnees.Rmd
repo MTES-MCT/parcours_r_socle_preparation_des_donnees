@@ -750,9 +750,6 @@ monverbe(.data, across(mesvariables, malistedefonctions),
 
 ```{r scoped variants}
 
-filter(parametre, across(starts_with("date"), ~ .x > "2015-01-01")) %>%
-  select(1:7)
-
 mutate(exercice, across(starts_with("code") & where(is.numeric), as.factor),
                  across(starts_with("date"), as.Date)) %>%
   head() %>%
@@ -779,6 +776,12 @@ sitadel <- read_excel("extdata/ROES_201702.xls", "AUT_REG") %>%
 datatable(sitadel)
 ```
 
+Dans une opération de filtre, on n'utilise pas (plus !) `across()` mais, `if_all` ou `if_any` pour préciser si l'on souhaite que le critère de filtre s'applique à toutes les colonnes qui remplissent la condition de sélection de colonnes, ou si seulement une colonne suffit : 
 
+```{r}
+filter(parametre, if_any(.cols = starts_with("date"), .fns = ~ .x > "2015-01-01")) %>%
+  select(1:7)
+```
 
+référence : <https://dplyr.tidyverse.org/reference/across.html>
 
