@@ -1,4 +1,6 @@
 ARG R_VERSION=4.6.0
+ARG GITHUB_PAT
+ENV GITHUB_PAT=${GITHUB_PAT}
 
 FROM inseefrlab/onyxia-rstudio:r${R_VERSION}
 RUN apt-get update && apt-get install -y cargo
